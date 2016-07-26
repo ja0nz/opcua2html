@@ -12,6 +12,13 @@ const endpointUrl = 'opc.tcp://' + hostname +':26543/UA/SampleServer';
 var userIdentity  = null;
 //xx var  userIdentity = { userName: "opcuauser", password: "opcuauser" };
 
+// Starter function
+connect(endpointUrl)
+  .then(client => createSession(client)
+  .then(session => subscribe(session)
+  .then(subscription => startHTTPServer(subscription)
+  )))
+  .catch(err => console.log( 'Error: ' + err));
 
 function connect(endpointUrl) {
   return new Promise((resolve, reject) =>
@@ -107,10 +114,3 @@ function startHTTPServer(subscription) {
 
 }
 
-
-connect(endpointUrl)
-  .then(client => createSession(client)
-  .then(session => subscribe(session)
-  .then(subscription => startHTTPServer(subscription)
-  )))
-  .catch(err => console.log( 'Error: ' + err));
