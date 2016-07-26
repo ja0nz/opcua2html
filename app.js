@@ -2,7 +2,6 @@ const opcua = require('node-opcua');
 
 const express = require("express");
 const port = 3700;
-const color = require("colors");
 
 const client = new opcua.OPCUAClient();
 const hostname = require('os').hostname().toLowerCase();
