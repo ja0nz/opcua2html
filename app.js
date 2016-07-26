@@ -1,22 +1,20 @@
 const opcua = require('node-opcua');
 
-const express = require("express");
-const port = 3700;
+const express = require('express');
 
 const client = new opcua.OPCUAClient();
 const hostname = require('os').hostname().toLowerCase();
 const endpointUrl = 'opc.tcp://' + hostname +':26543/UA/SampleServer';
 
-// TODO: security username password
+// TODO: 
 var userIdentity  = null;
-//xx var  userIdentity = { userName: "opcuauser", password: "opcuauser" };
+//xx var  userIdentity = { userName: 'opcuauser', password: 'opcuauser' };
 
-// Starter function
+// Starter chain
 connect(endpointUrl)
-  .then(client => createSession(client)
-  .then(session => subscribe(session)
-  .then(subscription => startHTTPServer(subscription)
-  )))
+  .then(client => createSession(client))
+  .then(session => subscribe(session))
+  .then(subscription => startHTTPServer(subscription))
   .catch(err => console.log( 'Error: ' + err));
 
 function connect(endpointUrl) {
@@ -56,31 +54,29 @@ function subscribe(session) {
             console.log('subscription started' );
             resolve(the_subscription);
           })
-          .on("keepalive",() => console.log("keepalive"))
-          .on('terminated',() => reject(Error(err)));
+          .on('keepalive',() => console.log('keepalive'))
+          .on('terminated',() => reject(Error('terminated')));
       });
 }
 
 function startHTTPServer(subscription) {
 
-  const nodeIdToMonitor = "ns=1;s=Temperature";
+  const port = 3700;
+  const nodeIdToMonitor = 'ns=1;s=Temperature';
+  let app, io, monitoredItem;
 
-  var app = express();
-  app.get("/", function(req, res){
-    res.send("It works!");
-  });
-
+  app = express();
+  app.get('/', (req, res) => res.send('It works!'));
   app.use(express.static(__dirname + '/'));
 
-  var io = require('socket.io').listen(app.listen(port));
-
-  io.sockets.on('connection', function (socket) {
+  io = require('socket.io').listen(app.listen(port));
+  io.sockets.on('connection', socket => {
     //        socket.on('send', function (data) {
     //            io.sockets.emit('message', data);
     //        });
   });
 
-  var monitoredItem = subscription.monitor(
+  monitoredItem = subscription.monitor(
     {
       nodeId: nodeIdToMonitor,
       attributeId: 13
@@ -89,27 +85,25 @@ function startHTTPServer(subscription) {
       samplingInterval: 100,
       discardOldest: true,
       queueSize: 100
-    },opcua.read_service.TimestampsToReturn.Both,function(err) {
+    },opcua.read_service.TimestampsToReturn.Both, err => {
       if (err) {
-        console.log("Monitor  "+ nodeIdToMonitor.toString() +  " failed");
-        console.loo("ERr = ",err.message);
+        console.log('Monitor  '+ nodeIdToMonitor.toString() +  ' failed');
+        console.loo('ERr = ',err.message);
       }
-
     });
 
-  monitoredItem.on("changed", function(dataValue){
+  monitoredItem.on('changed', dataValue => {
 
-    //xx console.log(" value has changed " +  dataValue.toString());
+    //xx console.log(' value has changed ' +  dataValue.toString());
 
     io.sockets.emit('message', {
       value: dataValue.value.value,
       timestamp: dataValue.serverTimestamp,
       nodeId: nodeIdToMonitor.toString(),
-      browseName: "Temperature"
+      browseName: 'Temperature'
     });
   });
 
-  console.log("Listening on port " + port);
-
+  console.log('Listening on port ' + port);
 }
 
