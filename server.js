@@ -18,7 +18,7 @@ connect(endpointUrl)
   .then(client => createSession(client))
   .then(session => subscribe(session))
   .then(subscription => monitor(subscription))
-  .then(monitoredItem => startHTTPServer(monitoredItem))
+  .then(monitor => startHTTPServer(monitor))
   .catch(err => console.log( 'Error: ' + err));
 
 function connect(endpointUrl) {
@@ -45,7 +45,7 @@ function subscribe(session) {
   return new Promise((resolve, reject) =>
       {
         const the_subscription = new opcua.ClientSubscription(session,{
-          requestedPublishingInterval: 2000,
+          //requestedPublishingInterval: 3000, -> not useful
           requestedMaxKeepAliveCount:  2000,
           requestedLifetimeCount:      6000,
           maxNotificationsPerPublish:  1000,
@@ -74,7 +74,7 @@ function monitor(subscription) {
           attributeId: opcua.AttributeIds.Value
         },
         {
-          samplingInterval: 100,
+          samplingInterval: 3000, // how often the monitor event triggers
           discardOldest: true,
           queueSize: 100
         },opcua.read_service.TimestampsToReturn.Both, err => {
@@ -93,40 +93,26 @@ function startHTTPServer(monitoredItem) {
   const port = 3700;
   let cachedData;
   let connected = 0;
-  let interval = setInterval(getData, 2000);
-
-  app.get('/', (req, res) => res.send('It works!'));
   app.use(express.static(__dirname + '/'));
 
-  io.on('connection', function (socket) {
+  io.on('connection', socket => {
     connected++;
-    io.sockets.emit('data', cachedData);
-    socket.on('disconnect', function () {
-      connected--;
-    });
+    socket.on('disconnect', () => connected--);
   });
 
-  getData();
-
-  function getData() {
-
-    monitoredItem.on('changed', dataValue => {
-
-      let data = [
-        {
-          value: dataValue.value.value,
-          timestamp: dataValue.serverTimestamp,
-          nodeId: 'ns=1;s=Temperature',
-          browseName: 'Temperature'
-        }
-      ]
-
-      cachedData = data;
-      io.sockets.emit('data', data);
-    });
-  }
-
-  http.listen(port, function() {
-    console.log('Listening on port ' + port);
+  monitoredItem.on('changed', dataValue => {
+    cachedData = [
+      {
+        value: dataValue.value.value,
+        timestamp: dataValue.serverTimestamp,
+        nodeId: 'ns=1;s=Temperature',
+        browseName: 'Temperature'
+      }
+    ];
+    io.sockets.emit('data', cachedData); //push the data
   });
+
+  http.listen(port, () =>
+    console.log('Listening on port ' + port)
+  );
 }
