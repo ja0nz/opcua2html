@@ -109,7 +109,7 @@ function startHTTPServer(monitoredItem) {
         browseName: 'Temperature'
       }
     ];
-    io.sockets.emit('data', cachedData); //push the data
+    if (connected) { io.sockets.emit('data', cachedData) }; //push the data
   });
 
   http.listen(port, () =>
