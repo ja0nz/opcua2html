@@ -28,7 +28,7 @@ function connect(endpointUrl) {
         if (!err) resolve(client); else reject(Error(err));
       }
     )
-  )
+  );
 }
 
 function createSession(client) {
@@ -38,7 +38,7 @@ function createSession(client) {
         if (!err) resolve(session); else reject(Error(err));
       }
     )
-  )
+  );
 }
 
 function subscribe(session) {
@@ -81,7 +81,7 @@ function monitor(subscription) {
           if (err) {
             console.log('Monitor ' + nodeId.toString() +  ' failed');
             reject(Error(err));
-          };
+          }
         });
         resolve(monitoredItem);
       }
@@ -109,7 +109,7 @@ function startHTTPServer(monitoredItem) {
         browseName: 'Temperature'
       }
     ];
-    if (connected) { io.sockets.emit('data', cachedData) }; //push the data
+    if (connected) { io.sockets.emit('data', cachedData) } //push the data
   });
 
   http.listen(port, () =>
