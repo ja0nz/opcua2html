@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const request = require('request');
 
 const client = new opcua.OPCUAClient();
 const hostname = require('os').hostname().toLowerCase();
