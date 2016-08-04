@@ -17,7 +17,7 @@ connect(endpointUrl)
   .then(client => createSession(client))
   .then(session => subscribe(session))
   .then(subscription => monitor(subscription))
-  .then(monitor => startHTTPServer(monitor))
+  .then(items => getData(items))
   .catch(err => console.log( 'Error: ' + err));
 
 function connect(endpointUrl) {
@@ -66,10 +66,10 @@ function subscribe(session) {
 function monitor(subscription) {
   return new Promise((resolve, reject) =>
       {
-        const nodeId = 'ns=1;s=Temperature';
+        const nodes =['ns=1;s=Temperature', 'ns=1;s=FanSpeed'];
 
-        const monitoredItem = subscription.monitor({
-          nodeId: nodeId,
+        const Temperature = subscription.monitor({
+          nodeId: nodes[0],
           attributeId: opcua.AttributeIds.Value
         },
         {
@@ -78,19 +78,34 @@ function monitor(subscription) {
           queueSize: 100
         },opcua.read_service.TimestampsToReturn.Both, err => {
           if (err) {
-            console.log('Monitor ' + nodeId.toString() +  ' failed');
+            console.log('Monitor ' + nodes[0].toString() +  ' failed');
             reject(Error(err));
           }
         });
-        resolve(monitoredItem);
+
+        const FanSpeed = subscription.monitor({
+          nodeId: nodes[1],
+          attributeId: opcua.AttributeIds.Value
+        },
+        {
+          samplingInterval: 3000, // how often the monitor event triggers
+          discardOldest: true,
+          queueSize: 100
+        },opcua.read_service.TimestampsToReturn.Both, err => {
+          if (err) {
+            console.log('Monitor ' + nodes[1].toString() +  ' failed');
+            reject(Error(err));
+          }
+        });
+
+        resolve([Temperature, FanSpeed]);
       }
   );
 }
 
-function startHTTPServer(monitoredItem) {
+function getData(monitoredItems) {
 
   const port = 3700;
-  let cachedData;
   let connected = 0;
   app.use(express.static(__dirname + '/'));
 
@@ -99,17 +114,18 @@ function startHTTPServer(monitoredItem) {
     socket.on('disconnect', () => connected--);
   });
 
-  monitoredItem.on('changed', dataValue => {
-    cachedData = [
-      {
-        value: dataValue.value.value,
-        timestamp: dataValue.serverTimestamp,
-        nodeId: 'ns=1;s=Temperature',
-        browseName: 'Temperature'
-      }
-    ];
-    if (connected) { io.sockets.emit('data', cachedData) } //push the data
-  });
+  for (let i of monitoredItems) {
+    i.on('changed', dataValue => {
+      let cachedData =
+        {
+          value: dataValue.value.value,
+          timestamp: dataValue.serverTimestamp,
+          nodeId: i.itemToMonitor.nodeId
+          //browseName: 'InsertBrowseName' -> dont know where to pull, not super necessary
+        };
+      if (connected) { io.sockets.emit('data', cachedData) } //push the data
+    });
+  }
 
   http.listen(port, () =>
     console.log('Listening on port ' + port)
