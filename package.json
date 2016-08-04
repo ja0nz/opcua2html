@@ -1,21 +1,16 @@
 {
   "name": "opcua2html",
-  "version": "0.0.19",
-  "description": "Small HTML panel to display a OPCUA monitored variable based on node, express, socket.io  and node-opcua",
-  "main": "app.js",
-  "bin": {},
-  "directories": {
-    "test": "test"
+  "version": "1.0.0",
+  "description": "React OPCUA",
+  "scripts": {
   },
-  "scripts": {},
-  "repository": {},
   "keywords": [],
-  "author": "Etienne Rossignon",
-  "license": "MIT",
+  "author": "",
+  "license": "ISC",
   "devDependencies": {},
   "dependencies": {
     "express": "~4.13.4",
-    "socket.io": "~1.4.5",
-    "node-opcua": "~0.0.55"
+    "node-opcua": "~0.0.55",
+    "socket.io": "~1.4.5"
   }
 }
