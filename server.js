@@ -17,26 +17,22 @@ connect(endpointUrl)
   .then(client => createSession(client))
   .then(session => subscribe(session))
   .then(subscription => monitor(subscription))
-  .then(items => getData(items))
+  .then(monitor => getData(monitor))
   .catch(err => console.log( 'Error: ' + err));
 
 function connect(endpointUrl) {
   return new Promise((resolve, reject) =>
-    client.connect(endpointUrl, err =>
-      {
-        if (!err) resolve(client); else reject(Error(err));
-      }
-    )
+    client.connect(endpointUrl, (err) => {
+      if (!err) resolve(client); else reject(Error(err));
+    })
   );
 }
 
 function createSession(client) {
   return new Promise((resolve, reject) =>
-    client.createSession(userIdentity, (err, session) =>
-      {
-        if (!err) resolve(session); else reject(Error(err));
-      }
-    )
+    client.createSession(userIdentity, (err, session) => {
+      if (!err) resolve(session); else reject(Error(err));
+    })
   );
 }
 
@@ -66,39 +62,29 @@ function subscribe(session) {
 function monitor(subscription) {
   return new Promise((resolve, reject) =>
       {
-        const nodes =['ns=1;s=Temperature', 'ns=1;s=FanSpeed'];
+        const nodes =['Temperature', 'FanSpeed'];
+        const exportItems = [];
 
-        const Temperature = subscription.monitor({
-          nodeId: nodes[0],
-          attributeId: opcua.AttributeIds.Value
-        },
-        {
-          samplingInterval: 3000, // how often the monitor event triggers
-          discardOldest: true,
-          queueSize: 100
-        },opcua.read_service.TimestampsToReturn.Both, err => {
-          if (err) {
-            console.log('Monitor ' + nodes[0].toString() +  ' failed');
-            reject(Error(err));
-          }
-        });
+        for (let node of nodes) {
+          const item = subscription.monitor({
+            nodeId: 'ns=1;s=' + node,
+            attributeId: opcua.AttributeIds.Value
+          },
+          {
+            samplingInterval: 3000, // number of packages send to browser
+            discardOldest: true,
+            queueSize: 100
+          },
+          opcua.read_service.TimestampsToReturn.Both, (err) => {
+            if (err) {
+              console.log('Monitor ' + 'ns=1;s=' + node +  ' failed');
+              reject(Error(err));
+            }
+          });
+          exportItems.push(item);
+        }
 
-        const FanSpeed = subscription.monitor({
-          nodeId: nodes[1],
-          attributeId: opcua.AttributeIds.Value
-        },
-        {
-          samplingInterval: 3000, // how often the monitor event triggers
-          discardOldest: true,
-          queueSize: 100
-        },opcua.read_service.TimestampsToReturn.Both, err => {
-          if (err) {
-            console.log('Monitor ' + nodes[1].toString() +  ' failed');
-            reject(Error(err));
-          }
-        });
-
-        resolve([Temperature, FanSpeed]);
+        resolve(exportItems);
       }
   );
 }
@@ -109,20 +95,20 @@ function getData(monitoredItems) {
   let connected = 0;
   app.use(express.static(__dirname + '/'));
 
-  io.on('connection', socket => {
+  io.on('connection', (socket) => {
     connected++;
     socket.on('disconnect', () => connected--);
   });
 
-  for (let i of monitoredItems) {
-    i.on('changed', dataValue => {
+  for (let item of monitoredItems) {
+    item.on('changed', (dataValue) => {
       let cachedData =
-        {
-          value: dataValue.value.value,
-          timestamp: dataValue.serverTimestamp,
-          nodeId: i.itemToMonitor.nodeId
-          //browseName: 'InsertBrowseName' -> dont know where to pull, not super necessary
-        };
+      {
+        value: dataValue.value.value,
+        timestamp: dataValue.serverTimestamp,
+        nodeId: item.itemToMonitor.nodeId
+      //browseName: 'InsertBrowseName' -> dont know where to pull, not super necessary
+      };
       if (connected) { io.sockets.emit('data', cachedData) } //push the data
     });
   }
