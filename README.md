@@ -13,7 +13,5 @@ opcua2html
     $ # start OPC to HTML converting server
     $ node server.js
     $
-    $ # open browser -> inspector
-    $ http://localhost:3700/index.html
-    $
-    $ # watch the browserconsole for the objects to arrive :D
+    $ # start the dev engine
+    $ npm start
