@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import Nodes from './components/Nodes';
+import Nodes from './components/Nodes';
 import io from 'socket.io-client';
 import './App.css';
 
@@ -20,11 +20,7 @@ export default class App extends Component {
   render() {
     const {opcData} = this.state;
     return (
-      <div>
-        <ul>{opcData.map(nodes => 
-          <li key={nodes.nodeId}>{nodes.value}</li>
-        )}</ul>
-      </div>
+        <Nodes nodes={opcData} />
     );
   }
 }
