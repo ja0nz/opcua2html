@@ -17,7 +17,7 @@ connect(endpointUrl)
   .then(client => createSession(client))
   .then(session => subscribe(session))
   .then(subscription => monitor(subscription))
-  .then(monitor => getData(monitor))
+  .then(monitoring => getData(monitoring))
   .catch(err => console.log( 'Error: ' + err));
 
 function connect(endpointUrl) {
@@ -39,7 +39,7 @@ function createSession(client) {
 function subscribe(session) {
   return new Promise((resolve, reject) =>
       {
-        const the_subscription = new opcua.ClientSubscription(session,{
+        const subscription = new opcua.ClientSubscription(session,{
           //requestedPublishingInterval: 3000, -> not useful
           requestedMaxKeepAliveCount:  2000,
           requestedLifetimeCount:      6000,
@@ -48,10 +48,10 @@ function subscribe(session) {
           priority: 10
         });
 
-        the_subscription
+        subscription
           .on('started',() => {
             console.log('subscription started' );
-            resolve(the_subscription);
+            resolve(subscription);
           })
           .on('keepalive',() => console.log('keepalive'))
           .on('terminated',() => reject(Error('terminated')));
@@ -63,7 +63,7 @@ function monitor(subscription) {
   return new Promise((resolve, reject) =>
       {
         const nodes =['Temperature', 'FanSpeed'];
-        const exportItems = [];
+        const monitoring = [];
 
         for (let node of nodes) {
           const item = subscription.monitor({
@@ -81,15 +81,15 @@ function monitor(subscription) {
               reject(Error(err));
             }
           });
-          exportItems.push(item);
+          monitoring.push(item);
         }
 
-        resolve(exportItems);
+        resolve(monitoring);
       }
   );
 }
 
-function getData(monitoredItems) {
+function getData(monitoring) {
 
   const port = 3700;
   let connected = 0;
@@ -101,7 +101,7 @@ function getData(monitoredItems) {
     socket.on('disconnect', () => connected--);
   });
 
-  monitoredItems.forEach((item, i) => {
+  monitoring.forEach((item, i) => {
     item.on('changed', (dataValue) => {
       cachedData[i] =
       {
@@ -110,7 +110,7 @@ function getData(monitoredItems) {
         nodeId: item.itemToMonitor.nodeId.value
         //browseName: 'InsertBrowseName' -> dont know where to pull, not super necessary
       };
-      if (connected==1 && i==monitoredItems.length-1) { io.sockets.emit('data', cachedData); } //push the data as vector
+      if (connected==1 && i==monitoring.length-1) { io.sockets.emit('data', cachedData); } //push the data as vector
     });
   });
 

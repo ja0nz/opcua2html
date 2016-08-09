@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Nodes from './components/Nodes';
+import Nodes from './Nodes';
 import io from 'socket.io-client';
 import './App.css';
 
