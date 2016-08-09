@@ -77,7 +77,7 @@ function monitor(subscription) {
           },
           opcua.read_service.TimestampsToReturn.Both, (err) => {
             if (err) {
-              console.log('Monitor ' + 'ns=1;s=' + node +  ' failed');
+              console.log('Monitor ns=1;s= ' + node +  ' failed');
               reject(Error(err));
             }
           });
@@ -93,6 +93,7 @@ function getData(monitoredItems) {
 
   const port = 3700;
   let connected = 0;
+  const cachedData = [];
   app.use(express.static(__dirname + '/'));
 
   io.on('connection', (socket) => {
@@ -100,18 +101,18 @@ function getData(monitoredItems) {
     socket.on('disconnect', () => connected--);
   });
 
-  for (let item of monitoredItems) {
+  monitoredItems.forEach((item, i) => {
     item.on('changed', (dataValue) => {
-      let cachedData =
+      cachedData[i] =
       {
         value: dataValue.value.value,
         timestamp: dataValue.serverTimestamp,
-        nodeId: item.itemToMonitor.nodeId
-      //browseName: 'InsertBrowseName' -> dont know where to pull, not super necessary
+        nodeId: item.itemToMonitor.nodeId.value
+        //browseName: 'InsertBrowseName' -> dont know where to pull, not super necessary
       };
-      if (connected) { io.sockets.emit('data', cachedData) } //push the data
+      if (connected==1 && i==monitoredItems.length-1) { io.sockets.emit('data', cachedData); } //push the data as vector
     });
-  }
+  });
 
   http.listen(port, () =>
     console.log('Listening on port ' + port)

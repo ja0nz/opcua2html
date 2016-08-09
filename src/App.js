@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+//import Nodes from './components/Nodes';
+import io from 'socket.io-client';
 import './App.css';
+
+const hostname = require('os').hostname().toLowerCase();
+const opcEndpoint = `http://${hostname}:3700`;
 
 export default class App extends Component {
 
@@ -10,18 +14,16 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    io().on('data', data => this.setState({ opcData: data }));
+    io(opcEndpoint).on('data', data => this.setState({ opcData: data }));
   }
-
 
   render() {
     const {opcData} = this.state;
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
+      <div>
+        <ul>{opcData.map(nodes => 
+          <li key={nodes.nodeId}>{nodes.value}</li>
+        )}</ul>
       </div>
     );
   }
