@@ -5,11 +5,13 @@
     "react-scripts": "0.2.1"
   },
   "dependencies": {
-    "express": "~4.13.4",
+    "d3": "^3.5.17",
+    "express": "~4.14.0",
     "node-opcua": "~0.0.55",
-    "socket.io": "~1.4.5",
-    "react": "^15.2.1",
-    "react-dom": "^15.2.1"
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0",
+    "react-faux-dom": "^2.7.1",
+    "socket.io": "~1.4.5"
   },
   "scripts": {
     "start": "react-scripts start",

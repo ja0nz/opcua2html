@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Nodes from './Nodes';
+//import Gauge from './Gauge';
 import io from 'socket.io-client';
-import './App.css';
+//import './App.css';
 
 const hostname = require('os').hostname().toLowerCase();
 const opcEndpoint = `http://${hostname}:3700`;
@@ -14,7 +15,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    io(opcEndpoint).on('data', data => this.setState({ opcData: data }));
+    io(opcEndpoint).on('data', data => this.setState({ opcData: data}));
   }
 
   render() {
