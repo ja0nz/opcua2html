@@ -110,7 +110,9 @@ function getData(monitoring) {
         nodeId: item.itemToMonitor.nodeId.value
         //browseName: 'InsertBrowseName' -> dont know where to pull, not super necessary
       };
-      if (cachedData[0] !== undefined && connected==1 && i==monitoring.length-1) { io.sockets.emit('data', cachedData); } //push the data as vector
+      if (cachedData[0]!==undefined && connected==1 && i==monitoring.length-1) {
+        io.sockets.emit('data', cachedData); //push the data as vector
+      }
     });
   });
 
