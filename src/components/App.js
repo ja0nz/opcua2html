@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Nodes from './Nodes';
-import Gauge from './Gauge';
+//import Gauge from './Gauge';
 import io from 'socket.io-client';
 //import './App.css';
 
