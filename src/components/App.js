@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Nodes from './Nodes';
-//import Gauge from './Gauge';
+import Gauge from './Gauge';
 import io from 'socket.io-client';
 //import './App.css';
 
@@ -24,6 +24,7 @@ export default class App extends Component {
       return (
         <div>
         <Nodes nodes={opcData} />
+        <Gauge value={opcData[1].value} width={400} height={320} label="This is my Gauge" />
         </div>
       );
     } else return null;  
