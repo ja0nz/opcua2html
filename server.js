@@ -50,7 +50,7 @@ function subscribe(session) {
 
         subscription
           .on('started',() => {
-            console.log('subscription started' );
+            console.log('subscription started');
             resolve(subscription);
           })
           .on('keepalive',() => console.log('keepalive'))
@@ -62,7 +62,7 @@ function subscribe(session) {
 function monitor(subscription) {
   return new Promise((resolve, reject) =>
       {
-        const nodes =['Temperature', 'FanSpeed'];
+        const nodes =['Temperature', 'FanSpeed', 'PumpSpeed'];
         const monitoring = [];
 
         for (let node of nodes) {
@@ -92,31 +92,29 @@ function monitor(subscription) {
 function getData(monitoring) {
 
   const port = 3700;
-  let connected = 0;
-  const cachedData = [];
+  let cachedData = [];
   app.use(express.static(__dirname + '/'));
 
   io.on('connection', (socket) => {
-    connected++;
-    socket.on('disconnect', () => connected--);
-  });
-
-  monitoring.forEach((item, i) => {
-    item.on('changed', (dataValue) => {
-      cachedData[i] =
-      {
-        value: dataValue.value.value,
-        timestamp: dataValue.serverTimestamp,
-        nodeId: item.itemToMonitor.nodeId.value
-        //browseName: 'InsertBrowseName' -> dont know where to pull, not super necessary
-      };
-      if (cachedData[0]!==undefined && connected==1 && i==monitoring.length-1) {
-        io.sockets.emit('data', cachedData); //push the data as vector
-      }
+    monitoring.forEach((item, i) => {
+      item.on('changed', (dataValue) => {
+        cachedData[i] = {
+          value: dataValue.value.value,
+          timestamp: dataValue.serverTimestamp,
+          nodeId: item.itemToMonitor.nodeId.value
+        };
+        if (cachedData.filter(el => el !== undefined).length == monitoring.length) {
+          io.sockets.emit('data', cachedData); // emit data
+          cachedData = []; // clean cache
+        }
+      });
     });
+
+    socket.on('disconnect', () => console.log("IO Socket disconnected"));
   });
 
   http.listen(port, () =>
     console.log('Listening on port ' + port)
   );
 }
+
