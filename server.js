@@ -92,7 +92,7 @@ function monitor(subscription) {
 function getData(monitoring) {
 
   const port = 3700;
-  let cachedData = [];
+  const cachedData = [];
   app.use(express.static(__dirname + '/'));
 
   io.on('connection', (socket) => {
@@ -105,7 +105,7 @@ function getData(monitoring) {
         };
         if (cachedData.filter(el => el !== undefined).length == monitoring.length) {
           io.sockets.emit('data', cachedData); // emit data
-          cachedData = []; // clean cache
+          cachedData.length = 0; // clean cache
         }
       });
     });
