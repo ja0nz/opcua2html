@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Node from './Node';
 
-export default({nodes}) => (
-  <div>{
-    nodes.map(({value, timestamp, nodeId}) =>
-      <span key={nodeId}>
-        <p>{nodeId}</p>
-        <p>{value}</p>
-        <p>{timestamp}</p>
-      </span>
-    )
-  }</div>
-);
+export default class Nodes extends Component {
+
+  render() {
+    const {nodeData} = this.props; 
+
+    return (
+    <Node nodes={nodeData} />
+    );
+  }
+}
