@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Nodes from './Nodes';
-import Gauge from './Gauge';
+// import Gauge from './Gauge';
 import io from 'socket.io-client';
 //import './App.css';
 
@@ -25,7 +25,7 @@ export default class App extends Component {
     if (opcData.length > 0) {
       return (
         <div>
-        <Gauge value={setInterval(() => helpercount++ ,1000)} width={400} height={320} label="Fortschritt" />
+          <Nodes nodeData={opcData} />
         </div>
       );
     } else return null;  
