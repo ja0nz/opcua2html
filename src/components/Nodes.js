@@ -26,6 +26,7 @@ export default class Nodes extends Component {
         nodesToMount.map(({id, component}) =>
           <div key={id}>
           {component}
+          <button onClick={this.deleteNode.bind(null,id)}>-</button>
           </div>
         )}</div>
       </section>
@@ -45,6 +46,14 @@ export default class Nodes extends Component {
     });
   }
 
+  deleteNode = (id, e) => {
+    // stop event bubbling
+    e.stopPropagation();
+
+    this.setState({
+      nodesToMount: this.state.nodesToMount.filter(node => node.id !== id)
+    });
+  }
 
 
 
