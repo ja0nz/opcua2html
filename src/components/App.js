@@ -24,9 +24,10 @@ export default class App extends Component {
     const {opcData} = this.state;
     if (opcData.length > 0) {
       return (
-        <div>
+        <section>
+          <h1>Arburg OPCUA App</h1>
           <Nodes nodeData={opcData} />
-        </div>
+        </section>
       );
     } else return null;  
   }
