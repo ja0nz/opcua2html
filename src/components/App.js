@@ -7,6 +7,8 @@ import io from 'socket.io-client';
 const hostname = require('os').hostname().toLowerCase();
 const opcEndpoint = `http://${hostname}:3700`;
 
+var helpercount = 0;
+
 export default class App extends Component {
 
   constructor(props) {
@@ -23,8 +25,7 @@ export default class App extends Component {
     if (opcData.length > 0) {
       return (
         <div>
-        <Nodes nodes={opcData} />
-        <Gauge value={opcData[1].value} width={400} height={320} label="This is my Gauge" />
+        <Gauge value={setInterval(() => helpercount++ ,1000)} width={400} height={320} label="Fortschritt" />
         </div>
       );
     } else return null;  
