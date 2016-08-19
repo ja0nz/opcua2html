@@ -7,8 +7,6 @@ import io from 'socket.io-client';
 const hostname = require('os').hostname().toLowerCase();
 const opcEndpoint = `http://${hostname}:3700`;
 
-var helpercount = 0;
-
 export default class App extends Component {
 
   constructor(props) {

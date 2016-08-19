@@ -62,7 +62,7 @@ function subscribe(session) {
 function monitor(subscription) {
   return new Promise((resolve, reject) =>
       {
-        const nodes =['Temperature', 'FanSpeed', 'PumpSpeed'];
+        const nodes =['Temperature'];
         const monitoring = [];
 
         for (let node of nodes) {
