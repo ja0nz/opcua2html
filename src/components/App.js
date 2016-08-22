@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Nodes from './Nodes';
+import QualityControl from './QualityControl';
 // import Gauge from './Gauge';
 import io from 'socket.io-client';
 //import './App.css';
@@ -23,8 +23,10 @@ export default class App extends Component {
     if (opcData.length > 0) {
       return (
         <section>
+          <p>insert connect bar here</p>
           <h1>Arburg OPCUA App</h1>
-          <Nodes opcData={opcData} />
+          <p>insert gauge here</p>
+          <QualityControl opcData={opcData} />
         </section>
       );
     } else return null;  

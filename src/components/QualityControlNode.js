@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function({renderNodes, opcData, onDelete}) {
 
-  let rendering = [];
+  const rendering = [];
 
   renderNodes.forEach((item, i) => {
     rendering.push( 
@@ -16,13 +16,12 @@ export default function({renderNodes, opcData, onDelete}) {
   if (renderNodes.length > 0) {
     return (
       <div>{
-        rendering
-          .map(({value, timestamp, nodeId, reactId}) =>
-            <span key={reactId}>
-          <p>{nodeId}</p>
-          <p>{value}</p>
-          <p>{timestamp}</p>
-          <button onClick={onDelete.bind(null, reactId)}>x</button>
+        rendering.map(({value, timestamp, nodeId, reactId}) =>
+          <span key={reactId}>
+            <p>{nodeId}</p>
+            <p>{value}</p>
+            <p>{timestamp}</p>
+            <button onClick={onDelete.bind(null, reactId)}>x</button>
           </span>
           )
       }</div>

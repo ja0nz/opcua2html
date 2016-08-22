@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Node from './Node';
+import QualityControlNode from './QualityControlNode';
 import uuid from 'uuid';
 
-export default class Nodes extends Component {
+export default class QualityControl extends Component {
 
   constructor(props) {
     super(props);
@@ -21,11 +21,12 @@ export default class Nodes extends Component {
     const {qualityControl} = this.state;
     return (
       <section>
-      <button onClick={this.addQualityNode}>+</button>
-      <Node
-      renderNodes={qualityControl}
-      opcData={opcData}
-      onDelete={this.deleteQualityNode}
+        <h2>Quality Control Parameters</h2>
+        <button onClick={this.addQualityNode}>+</button>
+        <QualityControlNode
+        renderNodes={qualityControl}
+        opcData={opcData}
+        onDelete={this.deleteQualityNode}
         />
       </section>
     );
