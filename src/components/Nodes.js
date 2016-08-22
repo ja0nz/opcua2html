@@ -1,48 +1,55 @@
 import React, { Component } from 'react';
 import Node from './Node';
+import uuid from 'uuid';
 
 export default class Nodes extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      nodeVisible : false
+      qualityControl: [
+        {
+          reactId: uuid.v4(),
+          nodeId: 'PumpSpeed'
+        }
+      ]
     };
   }
+
   render() {
+    const {opcData} = this.props;
+    const {qualityControl} = this.state;
     return (
       <section>
-      <button onClick={this.toggleNode}>+</button>
-      {this.state.nodeVisible ? <Node nodes={this.props.nodeData} /> : null}
+      <button onClick={this.addQualityNode}>+</button>
+      <Node
+      renderNodes={qualityControl}
+      opcData={opcData}
+      onDelete={this.deleteQualityNode}
+        />
       </section>
     );
   }
 
-  toggleNode = () => this.setState({nodeVisible: !this.state.nodeVisible})
-}
-
-/*
- addNode = () => {
- this.setState({
- mountedNotes:
- [...this.state.mountedNotes,
- {
-// change uuid to selector
-id: uuid.v4(),
-component: <Node nodes={this.componentProps || this.props.nodeData} />,
-componentProps: this.props.nodeData
-}
-]
-});
-}
+  addQualityNode = () => {
+    this.setState({
+      qualityControl:
+        [...this.state.qualityControl,
+          {
+            reactId: uuid.v4(),
+            nodeId: 'Temperature'
+          }
+        ]
+    });
+  }
 
 
-deleteNode = (id, e) => {
-// stop event bubbling
-e.stopPropagation();
+  deleteQualityNode = (id, e) => {
+    // stop event bubbling
+    e.stopPropagation();
 
-this.setState({
-mountedNotes: this.state.mountedNotes.filter(node => node.id !== id)
-});
+    this.setState({
+      qualityControl: this.state.qualityControl.filter(node => node.reactId !== id)
+    })
+  }
 }
-*/

@@ -24,7 +24,7 @@ export default class App extends Component {
       return (
         <section>
           <h1>Arburg OPCUA App</h1>
-          <Nodes nodeData={opcData} />
+          <Nodes opcData={opcData} />
         </section>
       );
     } else return null;  
