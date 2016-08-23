@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './Gauge.css';
 
 export default class Gauge extends Component {
 	static defaultProps = {
@@ -9,7 +8,7 @@ export default class Gauge extends Component {
 		value: 40,
 		width: 400,
 		height: 320,
-		color: '#fe0400',
+		color: '#283176',
 		backgroundColor: "#edebeb",
 		topLabelStyle: {textAnchor: "middle", fill:"#999999", stroke: "none", fontStyle: "normal",fontVariant: "normal", fontWeight: 'bold', fontStretch: 'normal', lineHeight: 'normal', fillOpacity: 1},
 		valueLabelStyle: {textAnchor: "middle",  fill:"#010101", stroke: "none", fontStyle: "normal", fontVariant: "normal", fontWeight: 'bold', fontStretch: 'normal', lineHeight: 'normal', fillOpacity: 1},

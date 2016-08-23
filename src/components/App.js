@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import QualityControl from './QualityControl';
-//import Gauge from './Gauge';
+import Gauge from './Gauge';
 import io from 'socket.io-client';
 import Loading from './spectre/Loading';
 
@@ -26,7 +26,7 @@ export default class App extends Component {
         <Loading />
         <p>insert connect bar here</p>
           <h1>Arburg OPCUA App</h1>
-          <p>insert gauge here</p>
+          <Gauge max={1000} value={500} />
           <QualityControl opcData={opcData} />
         </section>
       );
