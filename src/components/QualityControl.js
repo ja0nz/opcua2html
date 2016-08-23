@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import QualityControlNode from './QualityControlNode';
 import uuid from 'uuid';
+import Button from './spectre/Button';
 
 export default class QualityControl extends Component {
 
@@ -22,9 +23,9 @@ export default class QualityControl extends Component {
     return (
       <section>
         <h2>Quality Control Parameters</h2>
-        <button className="btn btn-primary" 
+        <Button primary={true} 
           onClick={this.addQualityNode}
-        >+</button>
+        >+</Button>
         <QualityControlNode
           renderNodes={qualityControl}
           opcData={opcData}

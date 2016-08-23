@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from './spectre/Button';
 
 export default function({renderNodes, opcData, onDelete}) {
 
@@ -25,7 +26,7 @@ function getRenderObjects(renderNodes, opcData) {
             <p>{nodeId}</p>
             <p>{value}</p>
             <p>{timestamp}</p>
-            <button className="btn" onClick={onDelete.bind(null, reactId)}>x</button>
+            <Button onClick={onDelete.bind(null, reactId)}>x</Button>
           </span>
           )
       }</div>
