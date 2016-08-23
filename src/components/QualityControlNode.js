@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function({renderNodes, opcData, onDelete}) {
 
+function getRenderObjects(renderNodes, opcData) {
   const rendering = [];
-
   renderNodes.forEach((item, i) => {
     rendering.push( 
       Object.assign({},
@@ -12,11 +12,15 @@ export default function({renderNodes, opcData, onDelete}) {
       )
     );
   });
+  return rendering;
+}
 
   if (renderNodes.length > 0) {
     return (
       <div>{
-        rendering.map(({value, timestamp, nodeId, reactId}) =>
+        getRenderObjects(renderNodes, opcData)
+          .filter(item => item.nodeId !== undefined)
+          .map(({value, timestamp, nodeId, reactId}) =>
           <span key={reactId}>
             <p>{nodeId}</p>
             <p>{value}</p>
