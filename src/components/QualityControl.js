@@ -22,11 +22,13 @@ export default class QualityControl extends Component {
     return (
       <section>
         <h2>Quality Control Parameters</h2>
-        <button onClick={this.addQualityNode}>+</button>
+        <button className="btn btn-primary" 
+          onClick={this.addQualityNode}
+        >+</button>
         <QualityControlNode
-        renderNodes={qualityControl}
-        opcData={opcData}
-        onDelete={this.deleteQualityNode}
+          renderNodes={qualityControl}
+          opcData={opcData}
+          onDelete={this.deleteQualityNode}
         />
       </section>
     );

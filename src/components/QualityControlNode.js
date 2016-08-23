@@ -25,7 +25,7 @@ function getRenderObjects(renderNodes, opcData) {
             <p>{nodeId}</p>
             <p>{value}</p>
             <p>{timestamp}</p>
-            <button onClick={onDelete.bind(null, reactId)}>x</button>
+            <button className="btn" onClick={onDelete.bind(null, reactId)}>x</button>
           </span>
           )
       }</div>
