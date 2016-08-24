@@ -25,8 +25,7 @@ export default class QualityControl extends Component {
       <section>
         <h3>Quality Control Parameters</h3>
         <Button primary={true} 
-          onClick={this.addQualityNode}
-        >+</Button>
+          onClick={this.addQualityNode}>Add Parameter</Button>
         <QualityControlNode
           renderNodes={qualityControl}
           opcData={opcData}

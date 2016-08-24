@@ -1,8 +1,10 @@
+import './App.css';
 import React, { Component } from 'react';
 import QualityControl from './QualityControl';
 import Auftragsfortschritt from './Auftragsfortschritt';
 import io from 'socket.io-client';
-//import Loading from './spectre/Loading';
+import Navbar from './spectre/Navbar';
+import NavbarSection from './spectre/NavbarSection';
 
 const hostname = require('os').hostname().toLowerCase();
 const opcEndpoint = `http://${hostname}:3700`;
@@ -23,7 +25,9 @@ export default class App extends Component {
     if (opcData.length > 0) {
       return (
         <section>
-        <p>insert connect bar here</p>
+        <Navbar className="bg-grey">
+          <NavbarSection>insert connect bar here</NavbarSection>
+        </Navbar>
           <h2>Arburg OPCUA App</h2>
           <Auftragsfortschritt opcData={opcData} />
           <QualityControl opcData={opcData} />

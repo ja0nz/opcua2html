@@ -39,11 +39,12 @@ export default function({opcData}) {
     return `M ${Cx - Ri}, ${Cy} L ${Cx - Ro}, ${Cy} A ${Ro}, ${Ro} 0 0 1 ${Xo}, ${Yo} L ${Xi}, ${Yi} A ${Ri}, ${Ri} 0 0 0 ${Cx - Ri}, ${Cy} Z`;
   };
 
-  const { Xo, Cy, Xi } = _getPathValues(config.max);
+ // const { Xo, Cy, Xi } = _getPathValues(config.max);
 
   return (
     <section>
-    <h3 className="badge" data-badge="999 Schlechtteile">Auftragsfortschritt</h3>
+    <h3>Produktionauftrag</h3>
+    <h4 className="badge" data-badge="999 Schlechtteile">$Programmname / $Stueckzahl</h4>
     <svg viewBox={`0 0 ${config.width} ${config.height}`} style={{maxWidth: config.width}}>
     <defs>
     <filter id="g3-inner-shadow">
@@ -61,7 +62,8 @@ export default function({opcData}) {
     <tspan x={config.width / 2} y={config.height / 1.6}>{ config.value }</tspan>
     <tspan x={config.width / 2} dy={30}>Gutteile</tspan>
     </text>
-    <text x={(Xo + Xi)/2} y={Cy + 25} style={config.minMaxLabelStyle}>{ config.max }</text>
+    {//<text x={(Xo + Xi)/2} y={Cy + 25} style={config.minMaxLabelStyle}>{ config.max }</text>
+    }
     </svg>
     </section>
   );
