@@ -25,7 +25,7 @@ export default class App extends Component {
         <section>
         <p>insert connect bar here</p>
           <h1>Arburg OPCUA App</h1>
-          <Auftragsfortschritt />
+          <Auftragsfortschritt opcData={opcData} />
           <QualityControl opcData={opcData} />
         </section>
       );
