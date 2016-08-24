@@ -23,7 +23,7 @@ export default class QualityControl extends Component {
     const {qualityControl} = this.state;
     return (
       <section>
-        <h2>Quality Control Parameters</h2>
+        <h3>Quality Control Parameters</h3>
         <Button primary={true} 
           onClick={this.addQualityNode}
         >+</Button>

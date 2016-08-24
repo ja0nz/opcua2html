@@ -3,15 +3,13 @@ import React from 'react';
 export default function({opcData}) {
 
   const config  = {
-    label: "Auftragsfortschritt",
     min: 0,
     max: 100,
     value: 40,
     width: 400,
-    height: 220,
+    height: 200,
     color: '#283176',
     backgroundColor: "#edebeb",
-    topLabelStyle: {textAnchor: "middle", fill:"#999999", stroke: "none", fontStyle: "normal",fontVariant: "normal", fontWeight: 'bold', fontStretch: 'normal', lineHeight: 'normal', fillOpacity: 1, fontSize: 30},
     valueLabelStyle: {textAnchor: "middle",  fill:"#010101", stroke: "none", fontStyle: "normal", fontVariant: "normal", fontWeight: 'bold', fontStretch: 'normal', lineHeight: 'normal', fillOpacity: 1, fontSize: 30},
     minMaxLabelStyle: {textAnchor: "middle", fill:"#999999", stroke: "none", fontStyle: "normal",fontVariant: "normal", fontWeight: 'normal', fontStretch: 'normal', fontSize: 20, lineHeight: 'normal', fillOpacity: 1}
   };
@@ -36,24 +34,16 @@ export default function({opcData}) {
   };
 
   function _getPath(value) {
-
     const { Ro, Ri, Cx, Cy, Xo, Yo, Xi, Yi } = _getPathValues(value);
 
-    const path = `M ${Cx - Ri}, ${Cy} 
-                  L ${Cx - Ro}, ${Cy} 
-                  A ${Ro}, ${Ro} 0 0 1 ${Xo}, ${Yo} 
-                  L ${Xi}, ${Yi} 
-                  A ${Ri}, ${Ri} 0 0 0 ${Cx - Ri}, ${Cy} 
-                  Z `;
-
-    return path;
+    return `M ${Cx - Ri}, ${Cy} L ${Cx - Ro}, ${Cy} A ${Ro}, ${Ro} 0 0 1 ${Xo}, ${Yo} L ${Xi}, ${Yi} A ${Ri}, ${Ri} 0 0 0 ${Cx - Ri}, ${Cy} Z`;
   };
 
   const { Xo, Cy, Xi } = _getPathValues(config.max);
 
   return (
     <section>
-    <h2 className="badge" data-badge="999 Schlechtteile">Auftragsfortschritt</h2>
+    <h3 className="badge" data-badge="999 Schlechtteile">Auftragsfortschritt</h3>
     <svg viewBox={`0 0 ${config.width} ${config.height}`} style={{maxWidth: config.width}}>
     <defs>
     <filter id="g3-inner-shadow">
@@ -74,5 +64,5 @@ export default function({opcData}) {
     <text x={(Xo + Xi)/2} y={Cy + 25} style={config.minMaxLabelStyle}>{ config.max }</text>
     </svg>
     </section>
-    );
+  );
 }
