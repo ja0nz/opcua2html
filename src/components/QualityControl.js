@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import QualityControlNode from './QualityControlNode';
-import uuid from 'uuid';
 import Button from './spectre/Button';
+//import Select from 'react-select';
+import uuid from 'uuid';
 
 export default class QualityControl extends Component {
 
