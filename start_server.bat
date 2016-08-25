@@ -1,2 +1,2 @@
 @echo off
-node server.js
+node opc_html_server.js

@@ -8,10 +8,10 @@ opcua2html
     $ npm i
     $
     $ # start test OPC server in background
-    $ node simple_server
+    $ node opc_server
     $
     $ # start middleware OPC to HTML converting server
-    $ node middleware
+    $ node opc_html_middleware
     $
     $ # start the dev engine
     $ npm start
