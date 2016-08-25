@@ -11,7 +11,7 @@ opcua2html
     $ node opc_server
     $
     $ # start middleware OPC to HTML converting server
-    $ node opc_html_middleware
+    $ node html_server
     $
     $ # start the dev engine
     $ npm start
