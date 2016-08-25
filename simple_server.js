@@ -149,7 +149,7 @@ server.on("post_initialize", function () {
     var variable0 = addressSpace.addVariable({
         organizedBy: myDevices,
         browseName: "FanSpeed",
-        nodeId: "ns=1;s=FanSpeed",
+        nodeId: "ns=2;s=FanSpeed",
         dataType: "Double",
         value: new Variant({dataType: DataType.Double, value: 1000.0})
     });
@@ -173,7 +173,7 @@ server.on("post_initialize", function () {
     addressSpace.addVariable({
         organizedBy: myDevices,
         browseName: "PumpSpeed",
-        nodeId: "ns=1;s=PumpSpeed",
+        nodeId: "ns=2;s=PumpSpeed",
         dataType: "Double",
         value: {
             /**
@@ -191,7 +191,7 @@ server.on("post_initialize", function () {
     addressSpace.addVariable({
         organizedBy: myDevices,
         browseName: "SomeDate",
-        nodeId: "ns=1;s=SomeDate",
+        nodeId: "ns=2;s=SomeDate",
         dataType: "DateTime",
         value: {
             get: function () {
@@ -222,7 +222,7 @@ server.on("post_initialize", function () {
     addressSpace.addVariable({
         organizedBy: myDevices,
         browseName: "Pressure",
-        nodeId: "ns=1;s=Pressure",
+        nodeId: "ns=2;s=Pressure",
         dataType: "Double",
         value: {
             timestamped_get: function () {
@@ -245,7 +245,7 @@ server.on("post_initialize", function () {
     addressSpace.addVariable({
         organizedBy: myDevices,
         browseName: "Temperature",
-        nodeId: "ns=1;s=Temperature",
+        nodeId: "ns=2;s=Temperature",
         dataType: "Double",
 
         value: {
@@ -269,7 +269,7 @@ server.on("post_initialize", function () {
 
         organizedBy: myDevices,
 
-        nodeId: "ns=1;s=TemperatureAnalogItem",
+        nodeId: "ns=2;s=TemperatureAnalogItem",
         browseName: "TemperatureAnalogItem",
         definition: "(tempA -25) + tempB",
         valuePrecision: 0.5,

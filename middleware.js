@@ -6,7 +6,7 @@ const io = require('socket.io')(http);
 
 const client = new opcua.OPCUAClient();
 const hostname = require('os').hostname().toLowerCase();
-const endpointUrl = 'opc.tcp://' + hostname +':26543/UA/SampleServer';
+const endpointUrl = 'opc.tcp://' + hostname +':26543';
 
 // TODO:
 var userIdentity  = null;
@@ -62,12 +62,12 @@ function subscribe(session) {
 function monitor(subscription) {
   return new Promise((resolve, reject) =>
       {
-        const nodes =['SomeDate', 'Temperature'];
+        const nodes =['PumpSpeed', 'SomeDate', 'Temperature'];
         const monitoring = [];
 
         for (let node of nodes) {
           const item = subscription.monitor({
-            nodeId: 'ns=1;s=' + node,
+            nodeId: 'ns=2;s=' + node,
             attributeId: opcua.AttributeIds.Value
           },
           {
@@ -77,7 +77,7 @@ function monitor(subscription) {
           },
           opcua.read_service.TimestampsToReturn.Both, (err) => {
             if (err) {
-              console.log('Monitor ns=1;s= ' + node +  ' failed');
+              console.log('Monitor ns=2;s= ' + node +  ' failed');
               reject(Error(err));
             }
           });
