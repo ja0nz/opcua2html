@@ -12,7 +12,9 @@
     "react-dom": "^15.3.0",
     "react-select": "^1.0.0-beta14",
     "socket.io": "~1.4.5",
-    "uuid": "^2.0.2"
+    "underscore": "^1.8.3",
+    "uuid": "^2.0.2",
+    "yargs": "^5.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

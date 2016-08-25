@@ -62,7 +62,7 @@ function subscribe(session) {
 function monitor(subscription) {
   return new Promise((resolve, reject) =>
       {
-        const nodes =['Temperature', 'PumpSpeed'];
+        const nodes =['SomeDate', 'Temperature'];
         const monitoring = [];
 
         for (let node of nodes) {
@@ -103,7 +103,7 @@ function getData(monitoring) {
           timestamp: dataValue.serverTimestamp,
           nodeId: item.itemToMonitor.nodeId.value
         };
-        if (cachedData.filter(el => el !== undefined).length == monitoring.length) {
+        if (cachedData.filter(el => el !== undefined).length === monitoring.length) {
           io.sockets.emit('data', cachedData); // emit data
           cachedData.length = 0; // clean cache
         }
