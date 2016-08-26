@@ -1,8 +1,8 @@
 const opcua = require('node-opcua');
-//const express = require('express');
-//const app = express();
-//const http = require('http').Server(app);
-//const io = require('socket.io')(http);
+const express = require('express');
+const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
 const client = new opcua.OPCUAClient();
 const hostname = require('os').hostname().toLowerCase();
@@ -96,9 +96,9 @@ function getData(monitoring) {
 
   const port = 3700;
   const cachedData = new Array(monitoring.length);
- // app.use(express.static(__dirname + '/'));
+  app.use(express.static(__dirname + '/'));
 
- // io.on('connection', (socket) => { // open a connection
+  io.on('connection', (socket) => { // open a connection
     monitoring.forEach((item, i) => { // iterate over monitored OPC nodes
       item.on('changed', (dataValue) => { // watch every OPC Node and receive the dataValue Object
         cachedData[i] = { // deconstruct the dataValue Object into the cachedData
@@ -107,18 +107,18 @@ function getData(monitoring) {
           nodeId: item.itemToMonitor.nodeId.value
         };
         if (cachedData.filter((el) => el !== undefined).length === monitoring.length) { // check if cachedData is completely filled opcValues
-          if (i === monitoring.length -1) // emit data at the end of every fill loop
-          //  io.sockets.emit('data', cachedData);
-            console.log(cachedData);
+          if (i === monitoring.length -1) { // emit data at the end of every fill loop
+            io.sockets.emit('data', cachedData);
+          }
         }
       });
-   });
+    });
 
- //   socket.on('disconnect', () => console.log("IO Socket disconnected"));
- // });
+    socket.on('disconnect', () => console.log("IO Socket disconnected"));
+  });
 
- // http.listen(port, () =>
- //   console.log('Listening on port ' + port)
- // );
+  http.listen(port, () =>
+    console.log('Listening on port ' + port)
+  );
 }
 
