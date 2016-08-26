@@ -8,7 +8,7 @@ const client = new opcua.OPCUAClient();
 const hostname = require('os').hostname().toLowerCase();
 const endpointUrl = 'opc.tcp://' + hostname +':26543';
 
-const NODES =['PumpSpeed', 'Pressure', 'Temperature'];
+const NODES =['PumpSpeed', 'Pressure', 'Temperature', 'SomeDate'];
 
 
 // TODO:
@@ -95,26 +95,27 @@ function monitor(subscription) {
 function getData(monitoring) {
 
   const port = 3700;
-  const cachedData = new Array(monitoring.length);
+  const cachedData = [];
   app.use(express.static(__dirname + '/'));
 
   io.on('connection', (socket) => { // open a connection
-    monitoring.forEach((item, i) => { // iterate over monitored OPC nodes
-      item.on('changed', (dataValue) => { // watch every OPC Node and receive the dataValue Object
-        cachedData[i] = { // deconstruct the dataValue Object into the cachedData
-          value: dataValue.value.value,
-          timestamp: dataValue.serverTimestamp,
-          nodeId: item.itemToMonitor.nodeId.value
-        };
-        if (cachedData.filter((el) => el !== undefined).length === monitoring.length) { // check if cachedData is completely filled opcValues
-          if (i === monitoring.length -1) { // emit data at the end of every fill loop
-            io.sockets.emit('data', cachedData);
-          }
-        }
-      });
-    });
-
+    console.log("connected");
     socket.on('disconnect', () => console.log("IO Socket disconnected"));
+  });
+
+  monitoring.forEach((item, i) => { // iterate over monitored OPC nodes
+    item.on('changed', function(dataValue) { // watch every OPC Node and receive the dataValue Object
+      cachedData[i] = { // deconstruct the dataValue Object into the cachedData
+        value: dataValue.value.value,
+        timestamp: dataValue.serverTimestamp,
+        nodeId: item.itemToMonitor.nodeId.value
+      };
+      // check if cachedData is filled
+      if (cachedData.filter(el => el !== undefined).length === monitoring.length) { 
+        io.sockets.emit('data', cachedData); // emit full data object
+        cachedData.pop(); // remove head from cachedData; avoid IO emit leaks
+      }
+    });
   });
 
   http.listen(port, () =>
