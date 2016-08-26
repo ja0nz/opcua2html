@@ -62,7 +62,7 @@ function subscribe(session) {
 function monitor(subscription) {
   return new Promise((resolve, reject) =>
       {
-        const nodes =['PumpSpeed', 'SomeDate', 'Temperature'];
+        const nodes =['PumpSpeed', 'Pressure', 'Temperature'];
         const monitoring = [];
 
         for (let node of nodes) {
@@ -92,7 +92,7 @@ function monitor(subscription) {
 function getData(monitoring) {
 
   const port = 3700;
-  const cachedData = [];
+  const cachedData = new Array(monitoring.length);
 // app.use(express.static(__dirname + '/'));
 
 //  io.on('connection', (socket) => {
@@ -103,10 +103,10 @@ function getData(monitoring) {
           timestamp: dataValue.serverTimestamp,
           nodeId: item.itemToMonitor.nodeId.value
         };
-        if (cachedData.filter(el => el !== undefined).length === monitoring.length) {
+        if (cachedData.filter((el) => el !== undefined).length === monitoring.length) {
+          if (i === monitoring.length -1)
           // io.sockets.emit('data', cachedData); // emit data
           console.log(cachedData);
-          cachedData.length = 0; // clean cache
         }
       });
     });
