@@ -8,6 +8,9 @@ const client = new opcua.OPCUAClient();
 const hostname = require('os').hostname().toLowerCase();
 const endpointUrl = 'opc.tcp://' + hostname +':26543';
 
+const NODES =['PumpSpeed', 'Pressure', 'Temperature'];
+
+
 // TODO:
 var userIdentity  = null;
 //xx var  userIdentity = { userName: 'opcuauser', password: 'opcuauser' };
@@ -62,8 +65,8 @@ function subscribe(session) {
 function monitor(subscription) {
   return new Promise((resolve, reject) =>
       {
-        const nodes =['PumpSpeed', 'Pressure', 'Temperature'];
         const monitoring = [];
+        const nodes = NODES; //NODES at head of this file
 
         for (let node of nodes) {
           const item = subscription.monitor({
@@ -93,29 +96,29 @@ function getData(monitoring) {
 
   const port = 3700;
   const cachedData = new Array(monitoring.length);
-// app.use(express.static(__dirname + '/'));
+ // app.use(express.static(__dirname + '/'));
 
-//  io.on('connection', (socket) => {
-    monitoring.forEach((item, i) => {
-      item.on('changed', (dataValue) => {
-        cachedData[i] = {
+ // io.on('connection', (socket) => { // open a connection
+    monitoring.forEach((item, i) => { // iterate over monitored OPC nodes
+      item.on('changed', (dataValue) => { // watch every OPC Node and receive the dataValue Object
+        cachedData[i] = { // deconstruct the dataValue Object into the cachedData
           value: dataValue.value.value,
           timestamp: dataValue.serverTimestamp,
           nodeId: item.itemToMonitor.nodeId.value
         };
-        if (cachedData.filter((el) => el !== undefined).length === monitoring.length) {
-          if (i === monitoring.length -1)
-          // io.sockets.emit('data', cachedData); // emit data
-          console.log(cachedData);
+        if (cachedData.filter((el) => el !== undefined).length === monitoring.length) { // check if cachedData is completely filled opcValues
+          if (i === monitoring.length -1) // emit data at the end of every fill loop
+          //  io.sockets.emit('data', cachedData);
+            console.log(cachedData);
         }
       });
-    });
+   });
 
-//    socket.on('disconnect', () => console.log("IO Socket disconnected"));
-//  });
+ //   socket.on('disconnect', () => console.log("IO Socket disconnected"));
+ // });
 
-//  http.listen(port, () =>
-//    console.log('Listening on port ' + port)
-//  );
+ // http.listen(port, () =>
+ //   console.log('Listening on port ' + port)
+ // );
 }
 
