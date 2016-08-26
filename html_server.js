@@ -96,11 +96,12 @@ function getData(monitoring) {
 
   const port = 3700;
   const cachedData = [];
+  let connected = 0;
   app.use(express.static(__dirname + '/'));
 
   io.on('connection', (socket) => { // open a connection
-    console.log("connected");
-    socket.on('disconnect', () => console.log("IO Socket disconnected"));
+    connected++;
+    socket.on('disconnect', () => connected--);
   });
 
   monitoring.forEach((item, i) => { // iterate over monitored OPC nodes
@@ -112,7 +113,7 @@ function getData(monitoring) {
       };
       // check if cachedData is filled
       if (cachedData.filter(el => el !== undefined).length === monitoring.length) { 
-        io.sockets.emit('data', cachedData); // emit full data object
+        if (connected) io.sockets.emit('data', cachedData); // emit full data object
         cachedData.pop(); // remove head from cachedData; avoid IO emit leaks
       }
     });
