@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from './spectre/Button';
-import Table from './spectre/Table';
+import './styles/Table.css';
+import './styles/Button.css';
 
 export default function({renderNodes, opcData, onDelete}) {
 
@@ -19,7 +19,7 @@ export default function({renderNodes, opcData, onDelete}) {
 
   if (renderNodes.length > 0) {
     return (
-      <Table striped>
+      <table className="table table-striped">
         <thead>
           <tr>
             <th>NodeId</th>
@@ -31,14 +31,14 @@ export default function({renderNodes, opcData, onDelete}) {
         getRenderObjects(renderNodes, opcData)
           .filter(item => item.nodeId !== undefined)
           .map(({value, timestamp, nodeId, reactId}) =>
-            <tr key={reactId}>
+            <tr className="selected" key={reactId}>
               <td>{nodeId}</td>
               <td>{Math.round(value)}</td>
               <td>{timestamp}</td>
-              <td><Button onClick={onDelete.bind(null, reactId)}>x</Button></td>
+              <td><button className="btn" onClick={onDelete.bind(null, reactId)}>x</button></td>
             </tr>)}
         </tbody>
-      </Table>
+      </table>
     );
   } else return null;
 }

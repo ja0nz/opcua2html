@@ -1,0 +1,34 @@
+.gauge {
+  max-width: 500px;
+}
+
+.gauge-bg {
+  fill: #edebeb;
+  stroke: none;
+}
+
+.gauge-val {
+  fill: #283176;
+  stroke: none;
+}
+
+.gutteile {
+  text-anchor: middle;
+  color: #010101;
+  font-weight: bold;
+  font-Size: 30px;
+}
+/*
+.stueckzahl {
+text-anchor: middle;
+fill: #999999;
+stroke: none;
+font-style: normal;
+font-variant: normal;
+font-weight: normal;
+font-stretch: normal;
+line-height: normal;
+fill-opacity: 1;
+font-Size: 20;
+}
+ */

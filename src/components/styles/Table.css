@@ -1,0 +1,23 @@
+.table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+.table.table-striped tbody tr:nth-of-type(odd) {
+  background: #fcfcfc;
+}
+.table.table-hover tbody tr:hover {
+  background: #f4f4f4;
+}
+.table.table-hover tbody tr.selected {
+  background: #f2f2f2;
+}
+.table th,
+.table td {
+  border-bottom: .1rem solid #efefef;
+  padding: 1.5rem 1rem;
+  text-align: left;
+}
+.table th {
+  border-color: #c9c9c9;
+}

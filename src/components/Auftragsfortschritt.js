@@ -1,4 +1,5 @@
 import React from 'react';
+import Gauge from './Gauge';
 
 export default function({opcData}) {
 
@@ -7,11 +8,7 @@ export default function({opcData}) {
     max: 100,
     value: 40,
     width: 400,
-    height: 200,
-    color: '#283176',
-    backgroundColor: "#edebeb",
-    valueLabelStyle: {textAnchor: "middle",  fill:"#010101", stroke: "none", fontStyle: "normal", fontVariant: "normal", fontWeight: 'bold', fontStretch: 'normal', lineHeight: 'normal', fillOpacity: 1, fontSize: 30},
-    minMaxLabelStyle: {textAnchor: "middle", fill:"#999999", stroke: "none", fontStyle: "normal",fontVariant: "normal", fontWeight: 'normal', fontStretch: 'normal', fontSize: 20, lineHeight: 'normal', fillOpacity: 1}
+    height: 220,
   };
 
   function _getPathValues(value) {
@@ -45,26 +42,11 @@ export default function({opcData}) {
     <section>
     <h3>Produktionauftrag</h3>
     <h4 className="badge" data-badge="999 Schlechtteile">$Programmname / $Stueckzahl</h4>
-    <svg viewBox={`0 0 ${config.width} ${config.height}`} style={{maxWidth: config.width}}>
-    <defs>
-    <filter id="g3-inner-shadow">
-    <feOffset dx="0" dy="3" />
-    <feGaussianBlur result="offset-blur" stdDeviation="5" />
-    <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse" />
-    <feFlood floodColor="black" floodOpacity="0.2" result="color" />
-    <feComposite operator="in" in="color" in2="inverse" result="shadow" />
-    <feComposite operator="over" in="shadow" in2="SourceGraphic" />
-    </filter>
-    </defs>
-    <path fill={config.backgroundColor} stroke="none" d={_getPath(config.max)} filter="url(#g3-inner-shadow)" />
-    <path fill={config.color} stroke="none" d={_getPath(config.value)} filter="url(#g3-inner-shadow)" />
-    <text style={config.valueLabelStyle}>
-    <tspan x={config.width / 2} y={config.height / 1.6}>{ config.value }</tspan>
-    <tspan x={config.width / 2} dy={30}>Gutteile</tspan>
-    </text>
-    {//<text x={(Xo + Xi)/2} y={Cy + 25} style={config.minMaxLabelStyle}>{ config.max }</text>
-    }
-    </svg>
+    <Gauge
+      config={config}
+      pathbg={_getPath(config.max)}
+      pathval={_getPath(config.value)}
+    />
     </section>
   );
 }
