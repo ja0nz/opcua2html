@@ -1,14 +1,14 @@
 const opcua = require('node-opcua');
-const express = require('express');
-const app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+//const express = require('express');
+//const app = express();
+//const http = require('http').Server(app);
+//const io = require('socket.io')(http);
 
 const client = new opcua.OPCUAClient();
 const hostname = require('os').hostname().toLowerCase();
 const endpointUrl = 'opc.tcp://' + hostname +':26543';
 
-const NODES =['PumpSpeed', 'Pressure', 'Temperature', 'SomeDate'];
+const NODES =['f076', 'f077', 'f087', 't4011', 't4012', 't4013', 'p4071', 'p4073', 'p4072'];
 
 
 // TODO:
@@ -94,15 +94,15 @@ function monitor(subscription) {
 
 function getData(monitoring) {
 
-  const port = 3700;
   const cachedData = [];
-  let connected = 0;
-  app.use(express.static(__dirname + '/'));
+  //const port = 3700;
+  //let connected = 0;
+  //app.use(express.static(__dirname + '/'));
 
-  io.on('connection', (socket) => { // open a connection
-    connected++;
-    socket.on('disconnect', () => connected--);
-  });
+  //io.on('connection', (socket) => { // open a connection
+  //  connected++;
+  //  socket.on('disconnect', () => connected--);
+  //});
 
   monitoring.forEach((item, i) => { // iterate over monitored OPC nodes
     item.on('changed', function(dataValue) { // watch every OPC Node and receive the dataValue Object
@@ -113,14 +113,14 @@ function getData(monitoring) {
       };
       // check if cachedData is filled
       if (cachedData.filter(el => el !== undefined).length === monitoring.length) { 
-        if (connected) io.sockets.emit('data', cachedData); // emit full data object
+        console.log(cachedData);
         cachedData.pop(); // remove head from cachedData; avoid IO emit leaks
       }
     });
   });
 
-  http.listen(port, () =>
-    console.log('Listening on port ' + port)
-  );
+  //http.listen(port, () =>
+  //  console.log('Listening on port ' + port)
+  //);
 }
 
