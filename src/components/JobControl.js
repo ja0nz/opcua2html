@@ -1,5 +1,5 @@
 import React from 'react';
-import Gauge from './Gauge';
+import JobGauge from './JobGauge';
 
 export default function({opcData}) {
 
@@ -42,7 +42,7 @@ export default function({opcData}) {
     <section>
     <h3>Produktionauftrag</h3>
     <h4 className="badge" data-badge="999 Schlechtteile">$Programmname / $Stueckzahl</h4>
-    <Gauge
+    <JobGauge
       config={config}
       pathbg={_getPath(config.max)}
       pathval={_getPath(config.value)}
