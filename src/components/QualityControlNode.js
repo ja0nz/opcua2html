@@ -2,7 +2,7 @@ import React from 'react';
 import './styles/Table.css';
 import './styles/Button.css';
 
-export default function({renderNodes, opcData, onDelete}) {
+export default function({ renderNodes, opcData, onDelete }) {
 
   function getRenderObjects(renderNodes, opcData) {
     const rendering = [];
