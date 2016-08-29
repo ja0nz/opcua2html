@@ -13,18 +13,18 @@ var argv = require('yargs')
     .number("port")
     .describe("port")
     .alias('p', 'port')
-    .defaults("port",26543)
+    .defaults("port", 26543)
 
     .number("maxAllowedSessionNumber")
     .describe("maxAllowedSessionNumber")
     .alias('m', 'maxAllowedSessionNumber')
-    .defaults("maxAllowedSessionNumber",500)
+    .defaults("maxAllowedSessionNumber", 500)
 
     .boolean("silent")
-    .describe("slient","no trace")
+    .describe("slient", "no trace")
 
     .help("help")
-    .alias("h","help")
+    .alias("h", "help")
     .argv;
 
 var opcua = require("node-opcua");
@@ -40,42 +40,42 @@ var get_fully_qualified_domain_name = opcua.get_fully_qualified_domain_name;
 var makeApplicationUrn = opcua.makeApplicationUrn;
 
 var port = argv.port;
-var maxAllowedSessionNumber   = argv.maxAllowedSessionNumber;
+var maxAllowedSessionNumber = argv.maxAllowedSessionNumber;
 var maxConnectionsPerEndpoint = maxAllowedSessionNumber;
 
 
 /*
-var address_space_for_conformance_testing = require("lib/simulation/address_space_for_conformance_testing");
-var build_address_space_for_conformance_testing = address_space_for_conformance_testing.build_address_space_for_conformance_testing;
+ var address_space_for_conformance_testing = require("lib/simulation/address_space_for_conformance_testing");
+ var build_address_space_for_conformance_testing = address_space_for_conformance_testing.build_address_space_for_conformance_testing;
 
-var install_optional_cpu_and_memory_usage_node = require("lib/server/vendor_diagnostic_nodes").install_optional_cpu_and_memory_usage_node;
+ var install_optional_cpu_and_memory_usage_node = require("lib/server/vendor_diagnostic_nodes").install_optional_cpu_and_memory_usage_node;
 
-var standard_nodeset_file = opcua.standard_nodeset_file;
-
-
-var userManager = {
-    isValidUser: function (userName, password) {
-
-        if (userName === "user1" && password === "password1") {
-            return true;
-        }
-        if (userName === "user2" && password === "password2") {
-            return true;
-        }
-        return false;
-    }
-};
+ var standard_nodeset_file = opcua.standard_nodeset_file;
 
 
-var server_certificate_file            = path.join(__dirname, "../certificates/server_selfsigned_cert_2048.pem");
-var server_certificate_file            = path.join(__dirname, "../certificates/server_selfsigned_cert_1024.pem");
-var server_certificate_file            = path.join(__dirname, "../certificates/server_cert_2048_outofdate.pem");
-var server_certificate_privatekey_file = path.join(__dirname, "../certificates/server_key_2048.pem");
-*/
+ var userManager = {
+ isValidUser: function (userName, password) {
+
+ if (userName === "user1" && password === "password1") {
+ return true;
+ }
+ if (userName === "user2" && password === "password2") {
+ return true;
+ }
+ return false;
+ }
+ };
+
+
+ var server_certificate_file            = path.join(__dirname, "../certificates/server_selfsigned_cert_2048.pem");
+ var server_certificate_file            = path.join(__dirname, "../certificates/server_selfsigned_cert_1024.pem");
+ var server_certificate_file            = path.join(__dirname, "../certificates/server_cert_2048_outofdate.pem");
+ var server_certificate_privatekey_file = path.join(__dirname, "../certificates/server_key_2048.pem");
+ */
 var server_options = {
 
-   // certificateFile: server_certificate_file,
-   // privateKeyFile: server_certificate_privatekey_file,
+    // certificateFile: server_certificate_file,
+    // privateKeyFile: server_certificate_privatekey_file,
 
     port: port,
     //xx (not used: causes UAExpert to get confused) resourcePath: "UA/Server",
@@ -83,15 +83,15 @@ var server_options = {
     maxAllowedSessionNumber: maxAllowedSessionNumber,
     maxConnectionsPerEndpoint: maxConnectionsPerEndpoint,
 
-  //  nodeset_filename: [
-  //      standard_nodeset_file,
-  //      path.join(__dirname,"../nodesets/Opc.Ua.Di.NodeSet2.xml")
-  //  ],
+    //  nodeset_filename: [
+    //      standard_nodeset_file,
+    //      path.join(__dirname,"../nodesets/Opc.Ua.Di.NodeSet2.xml")
+    //  ],
 
     serverInfo: {
         applicationUri: makeApplicationUrn(get_fully_qualified_domain_name(), "NodeOPCUA-Server"),
         productUri: "NodeOPCUA-Server",
-        applicationName: {text: "NodeOPCUA" ,locale:"en"},
+        applicationName: {text: "NodeOPCUA", locale: "en"},
         gatewayServerUri: null,
         discoveryProfileUri: null,
         discoveryUrls: []
@@ -106,7 +106,7 @@ var server_options = {
         }
     },
 //    userManager: userManager,
-    
+
     isAuditing: false
 };
 
@@ -135,133 +135,344 @@ server.on("post_initialize", function () {
     //var myDevices = addressSpace.addFolder(rootFolder.objects, {browseName: "MyDevices"});
 
     var myDevices = addressSpace.addObject({
-      organizedBy: addressSpace.rootFolder.objects,
-      browseName: "MyDevice"
+        organizedBy: addressSpace.rootFolder.objects,
+        browseName: "MyDevice"
     });
 
-    /**
-     * variation 0:
-     * ------------
-     *
-     * Add a variable in folder using a raw Variant.
-     * Use this variation when the variable has to be read or written by the OPCUA clients
-     */
-    var variable0 = addressSpace.addVariable({
-        organizedBy: myDevices,
-        browseName: "FanSpeed",
-        nodeId: "ns=2;s=FanSpeed",
-        dataType: "Double",
-        value: new Variant({dataType: DataType.Double, value: 1000.0})
-    });
-
-    setInterval(function () {
-        var fluctuation = Math.random() * 100 - 50;
-        variable0.setValueFromSource(new Variant({dataType: DataType.Double, value: 1000.0 + fluctuation}));
-    }, 10);
 
 
-    /**
-     * variation 1:
-     * ------------
-     *
-     * Add a variable in folder using a single get function which returns the up to date variable value in Variant.
-     * The server will set the timestamps automatically for us.
-     * Use this variation when the variable value is controlled by the getter function
-     * Avoid using this variation if the variable has to be made writable, as the server will call the getter
-     * function prior to returning its value upon client read requests.
-     */
-    addressSpace.addVariable({
-        organizedBy: myDevices,
-        browseName: "PumpSpeed",
-        nodeId: "ns=2;s=PumpSpeed",
-        dataType: "Double",
-        value: {
-            /**
-             * returns the  current value as a Variant
-             * @method get
-             * @return {Variant}
-             */
-            get: function () {
-                var pump_speed = 200;
-                return new Variant({dataType: DataType.Double, value: pump_speed});
-            }
+    ///START ARBURG VARIABLES
+
+
+    let auftrag = {
+        'auftragsstueckzahl': 1000,
+        'gutteile': 0,
+        'schlechtteile': 0
+    }
+
+    let zyklus = {
+        'referenzWert': 6,
+        'toleranzWert': 20,
+        'istWert': 0,
+    }
+
+    var zyklusCounter = setInterval(function () {
+
+        if(auftrag.gutteile == auftrag.auftragsstueckzahl) {
+            auftrag.gutteile=0;
+            auftrag.schlechtteile=0;
         }
-    });
 
-    addressSpace.addVariable({
-        organizedBy: myDevices,
-        browseName: "SomeDate",
-        nodeId: "ns=2;s=SomeDate",
-        dataType: "DateTime",
-        value: {
-            get: function () {
-                return new Variant({dataType: DataType.DateTime, value: new Date(Date.UTC(2016, 9, 13, 8, 40, 0))});
-            }
+        //some are  schlechtteil but not more than 4
+        var schlechtteil = false;
+        if(Math.floor(Math.random()*10) == 5 && auftrag.schlechtteile<=3) {
+            schlechtteil = true;
         }
-    });
 
 
-    /**
-     * variation 2:
-     * ------------
-     *
-     * Add a variable in folder. This variable gets its value and source timestamps from the provided function.
-     * The value and source timestamps are held in a external object.
-     * The value and source timestamps are updated on a regular basis using a timer function.
-     */
-    var external_value_with_sourceTimestamp = new opcua.DataValue({
-        value: new Variant({dataType: DataType.Double, value: 10.0}),
-        sourceTimestamp: null,
-        sourcePicoseconds: 0
-    });
-    setInterval(function () {
-        external_value_with_sourceTimestamp.value.value = Math.random();
-        external_value_with_sourceTimestamp.sourceTimestamp = new Date();
+        if (zyklus.istWert == zyklus.referenzWert) {
+            auftrag.gutteile++
+            console.log("Gutteile: " + auftrag.gutteile)
+            zyklus.istWert = 1;
+
+        } else {
+            console.log("s: " + zyklus.istWert)
+
+            if(schlechtteil == true)  {
+                zyklus.istWert = 1;
+                auftrag.schlechtteile++;
+                console.log("Schlechtteile: " + auftrag.schlechtteile)
+            } else {
+                zyklus.istWert++
+            }
+
+
+        }
     }, 1000);
 
+
+
+    /*
+     OPC Variable: AUFTRAGSSUECKZAHL
+     */
     addressSpace.addVariable({
+
         organizedBy: myDevices,
-        browseName: "Pressure",
-        nodeId: "ns=2;s=Pressure",
+        browseName: "Auftragsstueckzahl",
+        nodeId: "ns=2;s=f076", // a string nodeID
         dataType: "Double",
         value: {
-            timestamped_get: function () {
-                return external_value_with_sourceTimestamp;
+            get: function () {
+                return new Variant({dataType: opcua.DataType.Double, value: 1000});
             }
         }
     });
+
+
+    /*
+     OPC Variable: GUTTEILE
+     */
+    addressSpace.addVariable({
+        organizedBy: myDevices,
+        browseName: "Gutteile",
+        nodeId: "ns=2;s=f077",
+        dataType: "Double",
+
+        value: {
+            get: function () {
+                return new Variant({dataType: opcua.DataType.Double, value: auftrag.gutteile});
+
+            }
+        }
+    });
+
+    /**
+     * OPC Variable: SCHLECHTTEILE
+     */
+    addressSpace.addVariable({
+        organizedBy: myDevices,
+        browseName: "Schlechtteile",
+        nodeId: "ns=2;s=f087",
+        dataType: "Double",
+
+        value: {
+            get: function () {
+                return new Variant({dataType: opcua.DataType.Double, value: auftrag.schlechtteile});
+            }
+        }
+    });
+
+
+
+
 
 
     /**
-     * variation 3:
-     * ------------
-     *
-     * Add a variable in a folder. This variable gets its value  and source timestamps from the provided
-     * asynchronous function.
-     * The asynchronous function is called only when needed by the opcua Server read services and monitored item services
-     *
+     * OPC Variable: Zykluszeit Referenzwert
      */
-
     addressSpace.addVariable({
         organizedBy: myDevices,
-        browseName: "Temperature",
-        nodeId: "ns=2;s=Temperature",
+        browseName: "Zykluszeit Referenzwert",
+        nodeId: "ns=2;s=t4011",
         dataType: "Double",
 
         value: {
-            refreshFunc: function (callback) {
-
-                var temperature = 20 + 10 * Math.sin(Date.now() / 10000);
-                var value = new Variant({dataType: DataType.Double, value: temperature});
-                var sourceTimestamp = new Date();
-
-                // simulate a asynchronous behaviour
-                setTimeout(function () {
-                    callback(null, new DataValue({value: value, sourceTimestamp: sourceTimestamp}));
-                }, 100);
+            get: function () {
+                return new Variant({dataType: opcua.DataType.Double, value: zyklus.referenzWert});
             }
         }
     });
+
+    /**
+     * OPC Variable: Zykluszeit Istwert
+     */
+    addressSpace.addVariable({
+        organizedBy: myDevices,
+        browseName: "Zykluszeit IstWert",
+        nodeId: "ns=2;s=t4012",
+        dataType: "Double",
+
+        value: {
+            get: function () {
+                return new Variant({dataType: opcua.DataType.Double, value: zyklus.istWert});
+            }
+        }
+    });
+
+    /**
+     * OPC Variable: Zykluszeit Toleranzwert
+     */
+    addressSpace.addVariable({
+        organizedBy: myDevices,
+        browseName: "Zykluszeit Toleranzwert",
+        nodeId: "ns=2;s=t4013",
+        dataType: "Double",
+
+        value: {
+            get: function () {
+                return new Variant({dataType: opcua.DataType.Double, value: zyklus.toleranzWert});
+            }
+        }
+    });
+
+
+    let umschaltvolumen = {
+        'referenzWert': 3899,
+        'toleranzWert': 0.2,
+        'istWert': function () {
+            return this.referenzWert + (this.toleranzWert * 0.9 + this.toleranzWert * Math.sin(Date.now() / 10000))
+        },
+    }
+
+    /**
+     * OPC Variable: umschaltvolumen referenzwert
+     */
+    addressSpace.addVariable({
+        organizedBy: myDevices,
+        browseName: "Umschaltvolumen Referenzwert",
+        nodeId: "ns=2;s=V4064",
+        dataType: "Double",
+
+        value: {
+            get: function () {
+                return new Variant({dataType: opcua.DataType.Double, value: umschaltvolumen.referenzWert});
+            }
+        }
+    });
+
+
+
+    /**
+     * OPC Variable: Umschaltvolumen istWert
+     */
+    addressSpace.addVariable({
+        organizedBy: myDevices,
+        browseName: "Umschaltvolumen Istwert",
+        nodeId: "ns=2;s=V4065",
+        dataType: "Double",
+
+        value: {
+            get: function () {
+                return new Variant({dataType: opcua.DataType.Double, value: umschaltvolumen.istWert()});
+            }
+        }
+    });
+
+    /**
+     * OPC Variable: Umschaltvolumen Toleranzwert
+     */
+    addressSpace.addVariable({
+        organizedBy: myDevices,
+        browseName: "Umschaltvolumen Toleranzwert",
+        nodeId: "ns=2;s=V4066",
+        dataType: "Double",
+
+        value: {
+            get: function () {
+                return new Variant({dataType: opcua.DataType.Double, value: umschaltvolumen.toleranzWert});
+            }
+        }
+    });
+
+
+    let maximalerSpritzdruck = {
+        'referenzWert': 744,
+        'toleranzWert': 40,
+        'istWert': function () {
+            return this.referenzWert + (this.toleranzWert * 0.3 + this.toleranzWert * Math.sin(Date.now() / 1000))
+        },
+    }
+
+    /**
+     * OPC Variable: maximalerSpritzdruck referenzwert
+     */
+    addressSpace.addVariable({
+        organizedBy: myDevices,
+        browseName: "maximalerSpritzdruck Referenzwert",
+        nodeId: "ns=2;s=p4054",
+        dataType: "Double",
+
+        value: {
+            get: function () {
+                return new Variant({dataType: opcua.DataType.Double, value: maximalerSpritzdruck.referenzWert});
+            }
+        }
+    });
+
+    /**
+     * OPC Variable: maximalerSpritzdruck istWert
+     */
+    addressSpace.addVariable({
+        organizedBy: myDevices,
+        browseName: "maximalerSpritzdruck Istwert",
+        nodeId: "ns=2;s=p4055",
+        dataType: "Double",
+
+        value: {
+            get: function () {
+                return new Variant({dataType: opcua.DataType.Double, value: maximalerSpritzdruck.istWert()});
+            }
+        }
+    });
+
+    /**
+     * OPC Variable: maximalerSpritzdruck Toleranzwert
+     */
+    addressSpace.addVariable({
+        organizedBy: myDevices,
+        browseName: "maximalerSpritzdruck Toleranzwert",
+        nodeId: "ns=2;s=p4056",
+        dataType: "Double",
+
+        value: {
+            get: function () {
+                return new Variant({dataType: opcua.DataType.Double, value: maximalerSpritzdruck.toleranzWert});
+            }
+        }
+    });
+
+
+    let umschaltspritzdruck = {
+        'referenzWert': 744,
+        'toleranzWert': 40,
+        'istWert': function () {
+            return this.referenzWert + (this.toleranzWert * 0.5 + this.toleranzWert * Math.sin(Date.now() / 10000))
+        },
+    }
+
+    /**
+     * OPC Variable: Umschaltspritzdruck referenzwert
+     */
+    addressSpace.addVariable({
+        organizedBy: myDevices,
+        browseName: "umschaltspritzdruck referenzwert",
+        nodeId: "ns=2;s=p4071",
+        dataType: "Double",
+
+        value: {
+            get: function () {
+                return new Variant({dataType: opcua.DataType.Double, value: umschaltspritzdruck.referenzWert});
+            }
+        }
+    });
+
+    /**
+     * OPC Variable: Umschaltspritzdruck istWert
+     */
+    addressSpace.addVariable({
+        organizedBy: myDevices,
+        browseName: "umschaltspritzdruck Istwert",
+        nodeId: "ns=2;s=p4072",
+        dataType: "Double",
+
+        value: {
+            get: function () {
+                return new Variant({dataType: opcua.DataType.Double, value: umschaltspritzdruck.istWert()});
+            }
+        }
+    });
+
+    /**
+     * OPC Variable: Umschaltspritzdruck Toleranzwert
+     */
+    addressSpace.addVariable({
+        organizedBy: myDevices,
+        browseName: "umschaltspritzdruck Toleranzwert",
+        nodeId: "ns=2;s=p4073",
+        dataType: "Double",
+
+        value: {
+            get: function () {
+                return new Variant({dataType: opcua.DataType.Double, value: umschaltspritzdruck.toleranzWert});
+            }
+        }
+    });
+
+
+
+
+    ///END ARBURG VARIABLES
+
 
     // UAAnalogItem
     // add a UAAnalogItem
@@ -284,20 +495,20 @@ server.on("post_initialize", function () {
         }
     });
 
-/*
-    //------------------------------------------------------------------------------
-    // Add a view
-    //------------------------------------------------------------------------------
-    var view = addressSpace.addView({
-        organizedBy: rootFolder.views,
-        browseName: "MyView"
-    });
+    /*
+     //------------------------------------------------------------------------------
+     // Add a view
+     //------------------------------------------------------------------------------
+     var view = addressSpace.addView({
+     organizedBy: rootFolder.views,
+     browseName: "MyView"
+     });
 
-    view.addReference({
-        referenceType:"Organizes",
-        nodeId: node.nodeId
-        });
-        */
+     view.addReference({
+     referenceType:"Organizes",
+     nodeId: node.nodeId
+     });
+     */
 });
 
 
@@ -332,7 +543,8 @@ server.start(function (err) {
 
     if (argv.silent) {
         console.log(" silent");
-        console.log = function() {}
+        console.log = function () {
+        }
     }
     //  console.log = function(){};
 
@@ -364,7 +576,10 @@ function t(d) {
 
 server.on("response", function (response) {
 
-    if (argv.silent) { return};
+    if (argv.silent) {
+        return
+    }
+    ;
 
     console.log(t(response.responseHeader.timeStamp), response.responseHeader.requestHandle,
         response._schema.name.cyan, " status = ", response.responseHeader.serviceResult.toString().cyan);
@@ -385,7 +600,7 @@ server.on("response", function (response) {
             break;
         case "xxPublishResponse":
             console.log(response.toString());
-            console.log("PublishResponse.subscriptionId = ",response.subscriptionId.toString());
+            console.log("PublishResponse.subscriptionId = ", response.subscriptionId.toString());
             break;
     }
 
@@ -399,7 +614,10 @@ function indent(str, nb) {
 }
 server.on("request", function (request, channel) {
 
-    if (argv.silent) { return};
+    if (argv.silent) {
+        return
+    }
+    ;
 
     console.log(t(request.requestHeader.timeStamp), request.requestHeader.requestHandle,
         request._schema.name.yellow, " ID =", channel.secureChannelId.toString().cyan);
@@ -474,10 +692,10 @@ server.registerServer(discovery_server_endpointUrl, function (err) {
 });
 
 
-server.on("newChannel",function(channel) {
-    console.log("Client connected with address = ".bgYellow,channel.remoteAddress," port = ",channel.remotePort);
+server.on("newChannel", function (channel) {
+    console.log("Client connected with address = ".bgYellow, channel.remoteAddress, " port = ", channel.remotePort);
 });
 
-server.on("closeChannel",function(channel) {
-    console.log("Client disconnected with address = ".bgCyan,channel.remoteAddress," port = ",channel.remotePort);
+server.on("closeChannel", function (channel) {
+    console.log("Client disconnected with address = ".bgCyan, channel.remoteAddress, " port = ", channel.remotePort);
 });
