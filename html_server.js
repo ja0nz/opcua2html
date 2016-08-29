@@ -104,13 +104,13 @@ function getData(monitoring) {
     });
   });
 
-// print data to console and/or emit data via WebSocket
+  // print data to console and/or emit data via WebSocket
   printData();
   emitData();
 
   function printData() {
     setInterval(() => {
-      console.log(cachedData); // emit filtered data object
+      console.log(cachedData);
     }, 3000);
   }
 
