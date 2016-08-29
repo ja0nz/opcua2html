@@ -9,6 +9,7 @@ const hostname = require('os').hostname().toLowerCase();
 const endpointUrl = 'opc.tcp://' + hostname + ':26543';
 
 const NODES = ['Pressure', 'Temperature', 'SomeDate', 'PumpSpeed'];
+const INTERVAL = 3000;
 
 // TODO:
 var userIdentity = null;
@@ -19,7 +20,8 @@ connect(endpointUrl)
   .then(client => createSession(client))
   .then(session => subscribe(session))
   .then(subscription => monitor(subscription))
-  .then(monitoring => getData(monitoring))
+  .then(monitoring => buildData(monitoring))
+  .then(cachedData => returnData(cachedData))
   .catch(err => console.log('Error: ' + err));
 
 function connect(endpointUrl) {
@@ -90,48 +92,56 @@ function monitor(subscription) {
   });
 }
 
-function getData(monitoring) {
+function buildData(monitoring) {
+  return new Promise((resolve) => {
+    const cachedData = [];
 
-  const cachedData = [];
-
-  monitoring.forEach((item, i) => { // iterate over monitored OPC nodes
-    item.on('changed', (dataValue) => { // on change receive new dataValue Object
-      cachedData[i] = { // deconstruct the dataValue Object into the cachedData
-        value: dataValue.value.value,
-        timestamp: dataValue.serverTimestamp,
-        nodeId: item.itemToMonitor.nodeId.value
-      };
+    monitoring.forEach((item, i) => { // iterate over monitored OPC nodes
+      item.on('changed', (dataValue) => { // on change receive new dataValue Object
+        cachedData[i] = { // deconstruct the dataValue Object into the cachedData
+          value: dataValue.value.value,
+          timestamp: dataValue.serverTimestamp,
+          nodeId: item.itemToMonitor.nodeId.value
+        };
+      });
     });
+
+    resolve(cachedData);
+  });
+}
+
+
+function returnData(cachedData) {
+  const interval = INTERVAL; //INTERVAL at head of this file
+  const data = cachedData;
+
+  // print data to console and/or emit it via WebSocket
+  emitData(data, interval);
+  printData(data, interval);
+}
+
+function emitData(data, interval) {
+  const port = 3700;
+  let connected = 0;
+  app.use(express.static(__dirname + '/'));
+
+  io.on('connection', (socket) => { // open a connection
+    connected++;
+    socket.on('disconnect', () => connected--);
   });
 
-  // print data to console and/or emit data via WebSocket
-  printData();
-  emitData();
+  setInterval(() => {
+    if (connected)
+      io.sockets.emit('data', data); // emit data object
+  }, interval);
 
-  function printData() {
-    setInterval(() => {
-      console.log(cachedData);
-    }, 3000);
-  }
+  http.listen(port, () =>
+    console.log('Listening on port ' + port)
+  );
+}
 
-  function emitData() {
-
-    const port = 3700;
-    let connected = 0;
-    app.use(express.static(__dirname + '/'));
-
-    io.on('connection', (socket) => { // open a connection
-      connected++;
-      socket.on('disconnect', () => connected--);
-    });
-
-    setInterval(() => {
-      if (connected)
-        io.sockets.emit('data', cachedData); // emit data object
-    }, 3000);
-
-    http.listen(port, () =>
-      console.log('Listening on port ' + port)
-    );
-  }
+function printData(data, interval) {
+  setInterval(() => {
+    console.log(data);
+  }, interval);
 }
