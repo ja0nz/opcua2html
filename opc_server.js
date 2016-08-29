@@ -140,22 +140,23 @@ server.on("post_initialize", function () {
     });
 
 
+
+
+
     ///START ARBURG VARIABLES
 
 
     let auftrag = {
-        'auftragsstueckzahl': 200,
-        'gutteile': 0,
-        'schlechtteile': 0
+        'auftragsstueckzahl': 200, //f067
+        'gutteile': 0, //f077
+        'schlechtteile': 0 //f087
     }
 
     let zyklus = {
-        'referenzWert': 30,
-        'toleranzWert': 20,
-        'istWert': 0,
+        'referenzWert': 30, //t4011
+        'toleranzWert': 20, //t4013
+        'istWert': 0, //t4012
     }
-
-
 
 
     var zyklusCounter = setInterval(function () {
@@ -178,7 +179,6 @@ server.on("post_initialize", function () {
             zyklus.istWert = 1;
 
         } else {
-            console.log("s: " + zyklus.istWert)
 
             if (schlechtteil == true) {
                 zyklus.istWert = 1;
@@ -193,18 +193,55 @@ server.on("post_initialize", function () {
     }, 1000);
 
 
+
     let auftragsEnde = {
         "remainingMinutes": function () {
-            return ((auftrag.auftragsstueckzahl - auftrag.gutteile) * zyklus.referenzWert)/60
+            return ((auftrag.auftragsstueckzahl - auftrag.gutteile) * zyklus.referenzWert) / 60
         },
         "HH": function () {
             return Math.floor(this.remainingMinutes() / 60);
         },
         "MM": function () {
             return parseInt((this.remainingMinutes() / 60 - this.HH()) * 60)
+        },
+        //t081
+        "HHMM": function () {
+            return this.HH() + ":" + this.MM()
         }
 
+    }
 
+
+
+    let umschaltvolumen = {
+        'referenzWert': 3899, //V4064
+        'toleranzWert': 0.2, //V4066
+        //V4065
+        'istWert': function () {
+            return this.referenzWert + (this.toleranzWert * 0.9 + this.toleranzWert * Math.sin(Date.now() / 10000))
+        },
+    }
+
+
+
+
+    let maximalerSpritzdruck = {
+        'referenzWert': 744, //p4054
+        'toleranzWert': 40, //p4056
+        //p4055
+        'istWert': function () {
+            return this.referenzWert + (this.toleranzWert * 0.3 + this.toleranzWert * Math.sin(Date.now() / 1000))
+        },
+    }
+
+
+    let umschaltspritzdruck = {
+        'referenzWert': 744, //p4071
+        'toleranzWert': 40, //p4073
+        //p4072
+        'istWert': function () {
+            return this.referenzWert + (this.toleranzWert * 0.5 + this.toleranzWert * Math.sin(Date.now() / 10000))
+        },
     }
 
     /*
@@ -218,7 +255,10 @@ server.on("post_initialize", function () {
         dataType: "String",
         value: {
             get: function () {
-                return new Variant({dataType: opcua.DataType.String, value: (auftragsEnde.HH() + ":" + auftragsEnde.MM())});
+                return new Variant({
+                    dataType: opcua.DataType.String,
+                    value: auftragsEnde.HHMM()
+                });
             }
         }
     });
@@ -324,14 +364,6 @@ server.on("post_initialize", function () {
     });
 
 
-    let umschaltvolumen = {
-        'referenzWert': 3899,
-        'toleranzWert': 0.2,
-        'istWert': function () {
-            return this.referenzWert + (this.toleranzWert * 0.9 + this.toleranzWert * Math.sin(Date.now() / 10000))
-        },
-    }
-
     /**
      * OPC Variable: umschaltvolumen referenzwert
      */
@@ -382,14 +414,6 @@ server.on("post_initialize", function () {
     });
 
 
-    let maximalerSpritzdruck = {
-        'referenzWert': 744,
-        'toleranzWert': 40,
-        'istWert': function () {
-            return this.referenzWert + (this.toleranzWert * 0.3 + this.toleranzWert * Math.sin(Date.now() / 1000))
-        },
-    }
-
     /**
      * OPC Variable: maximalerSpritzdruck referenzwert
      */
@@ -438,14 +462,6 @@ server.on("post_initialize", function () {
         }
     });
 
-
-    let umschaltspritzdruck = {
-        'referenzWert': 744,
-        'toleranzWert': 40,
-        'istWert': function () {
-            return this.referenzWert + (this.toleranzWert * 0.5 + this.toleranzWert * Math.sin(Date.now() / 10000))
-        },
-    }
 
     /**
      * OPC Variable: Umschaltspritzdruck referenzwert
@@ -498,27 +514,6 @@ server.on("post_initialize", function () {
 
     ///END ARBURG VARIABLES
 
-
-    // UAAnalogItem
-    // add a UAAnalogItem
-    var node = addressSpace.addAnalogDataItem({
-
-        organizedBy: myDevices,
-
-        nodeId: "ns=2;s=TemperatureAnalogItem",
-        browseName: "TemperatureAnalogItem",
-        definition: "(tempA -25) + tempB",
-        valuePrecision: 0.5,
-        engineeringUnitsRange: {low: 100, high: 200},
-        instrumentRange: {low: -100, high: +200},
-        engineeringUnits: opcua.standardUnits.degree_celsius,
-        dataType: "Double",
-        value: {
-            get: function () {
-                return new Variant({dataType: DataType.Double, value: Math.random() + 19.0});
-            }
-        }
-    });
 
     /*
      //------------------------------------------------------------------------------
