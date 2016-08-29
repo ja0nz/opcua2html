@@ -10,7 +10,6 @@ const endpointUrl = 'opc.tcp://' + hostname + ':26543';
 
 const NODES = ['Pressure', 'Temperature', 'SomeDate', 'PumpSpeed'];
 
-
 // TODO:
 var userIdentity = null;
 //xx var  userIdentity = { userName: 'opcuauser', password: 'opcuauser' };
@@ -105,13 +104,13 @@ function getData(monitoring) {
     });
   });
 
-// print to console and/or emit data via Socket
-  printData()
+  // print data to console and/or emit data via WebSocket
+  printData();
   emitData();
 
   function printData() {
     setInterval(() => {
-      console.log(cachedData); // emit filtered data object
+      console.log(cachedData);
     }, 3000);
   }
 
