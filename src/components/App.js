@@ -15,11 +15,11 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    io(opcEndpoint).on('data', data => this.setState({ opcData: data}));
+    io(opcEndpoint).on('data', data => this.setState({ opcData: data }));
   }
 
   render() {
-    const {opcData} = this.state;
+    const { opcData } = this.state;
     if (opcData.length > 0) {
       return (
         <section>
@@ -31,6 +31,6 @@ export default class App extends Component {
           <QualityControl opcData={opcData} />
         </section>
       );
-    } else return null;  
+    } else return null;
   }
 }

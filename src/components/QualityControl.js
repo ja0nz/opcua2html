@@ -9,18 +9,16 @@ export default class QualityControl extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      qualityControl: [
-        {
-          reactId: uuid.v4(),
-          nodeId: 'PumpSpeed'
-        }
-      ]
+      qualityControl: [{
+        reactId: uuid.v4(),
+        nodeId: 'PumpSpeed'
+      }]
     };
   }
 
   render() {
-    const {opcData} = this.props;
-    const {qualityControl} = this.state;
+    const { opcData } = this.props;
+    const { qualityControl } = this.state;
     return (
       <section>
         <h3>Quality Control Parameters</h3>
@@ -37,13 +35,12 @@ export default class QualityControl extends Component {
 
   addQualityNode = () => {
     this.setState({
-      qualityControl:
-        [...this.state.qualityControl,
-          {
-            reactId: uuid.v4(),
-            nodeId: 'Temperature'
-          }
-        ]
+      qualityControl: [...this.state.qualityControl,
+        {
+          reactId: uuid.v4(),
+          nodeId: 'Temperature'
+        }
+      ]
     });
   }
 

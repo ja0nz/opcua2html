@@ -1,9 +1,9 @@
 import React from 'react';
 import JobGauge from './JobGauge';
 
-export default function({opcData}) {
+export default function({ opcData }) {
 
-  const config  = {
+  const config = {
     min: 0,
     max: 100,
     value: 40,
@@ -27,7 +27,7 @@ export default function({opcData}) {
     const Xi = config.width / 2 + dx + Ri * Math.cos(alpha);
     const Yi = config.height - (config.height - Cy) - Ri * Math.sin(alpha);
 
-    return {  Ro, Ri, Cx, Cy, Xo, Yo, Xi, Yi };
+    return { Ro, Ri, Cx, Cy, Xo, Yo, Xi, Yi };
   };
 
   function _getPath(value) {
@@ -36,7 +36,7 @@ export default function({opcData}) {
     return `M ${Cx - Ri}, ${Cy} L ${Cx - Ro}, ${Cy} A ${Ro}, ${Ro} 0 0 1 ${Xo}, ${Yo} L ${Xi}, ${Yi} A ${Ri}, ${Ri} 0 0 0 ${Cx - Ri}, ${Cy} Z`;
   };
 
- // const { Xo, Cy, Xi } = _getPathValues(config.max);
+  // const { Xo, Cy, Xi } = _getPathValues(config.max);
 
   return (
     <section>

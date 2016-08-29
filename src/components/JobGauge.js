@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles/Gauge.css';
 
-export default({config, pathbg, pathval}) => (
+export default ({ config, pathbg, pathval }) => (
 
   <svg viewBox={`0 0 ${config.width} ${config.height}`} className="gauge">
     <defs>
@@ -24,4 +24,3 @@ export default({config, pathbg, pathval}) => (
   }
   </svg>
 );
-
