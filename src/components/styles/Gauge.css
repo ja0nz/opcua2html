@@ -18,6 +18,11 @@
   font-weight: bold;
   font-Size: 30px;
 }
+
+.fortschritt {
+text-anchor: middle;
+
+}
 /*
 .stueckzahl {
 text-anchor: middle;
