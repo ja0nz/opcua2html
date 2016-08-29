@@ -8,7 +8,7 @@ const client = new opcua.OPCUAClient();
 const hostname = require('os').hostname().toLowerCase();
 const endpointUrl = 'opc.tcp://' + hostname + ':26543';
 
-const NODES = ['PumpSpeed', 'Pressure', 'Temperature', 'SomeDate'];
+const NODES = ['Pressure', 'Temperature', 'SomeDate', 'PumpSpeed'];
 
 
 // TODO:
@@ -73,7 +73,7 @@ function monitor(subscription) {
             nodeId: 'ns=2;s=' + node,
             attributeId: opcua.AttributeIds.Value
           }, {
-            samplingInterval: 3000, // number of packages send to browser
+            samplingInterval: 3000, // number of on changed requests
             discardOldest: true,
             queueSize: 100
           },
@@ -93,15 +93,7 @@ function monitor(subscription) {
 
 function getData(monitoring) {
 
-  const port = 3700;
   const cachedData = [];
-  let connected = 0;
-  app.use(express.static(__dirname + '/'));
-
-  io.on('connection', (socket) => { // open a connection
-    connected++;
-    socket.on('disconnect', () => connected--);
-  });
 
   monitoring.forEach((item, i) => { // iterate over monitored OPC nodes
     item.on('changed', (dataValue) => { // on change receive new dataValue Object
@@ -110,15 +102,37 @@ function getData(monitoring) {
         timestamp: dataValue.serverTimestamp,
         nodeId: item.itemToMonitor.nodeId.value
       };
-      // check if cachedData is filled
-      if (cachedData.filter(el => el !== undefined).length === monitoring.length) {
-        if (connected) io.sockets.emit('data', cachedData); // emit full data object
-        cachedData.pop(); // remove head from cachedData; avoid IO emit leaks
-      }
     });
   });
 
-  http.listen(port, () =>
-    console.log('Listening on port ' + port)
-  );
+// print to console and/or emit data via Socket
+  printData()
+  emitData();
+
+  function printData() {
+    setInterval(() => {
+      console.log(cachedData); // emit filtered data object
+    }, 3000);
+  }
+
+  function emitData() {
+
+    const port = 3700;
+    let connected = 0;
+    app.use(express.static(__dirname + '/'));
+
+    io.on('connection', (socket) => { // open a connection
+      connected++;
+      socket.on('disconnect', () => connected--);
+    });
+
+    setInterval(() => {
+      if (connected)
+        io.sockets.emit('data', cachedData); // emit data object
+    }, 3000);
+
+    http.listen(port, () =>
+      console.log('Listening on port ' + port)
+    );
+  }
 }
