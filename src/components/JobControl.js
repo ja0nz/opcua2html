@@ -36,7 +36,7 @@ export default function({ opcData }) {
     return `M ${Cx - Ri}, ${Cy} L ${Cx - Ro}, ${Cy} A ${Ro}, ${Ro} 0 0 1 ${Xo}, ${Yo} L ${Xi}, ${Yi} A ${Ri}, ${Ri} 0 0 0 ${Cx - Ri}, ${Cy} Z`;
   };
 
-  // const { Xo, Cy, Xi } = _getPathValues(config.max);
+  // const { Xo, Cy, Xi } = ;
 
   return (
     <section>
@@ -44,6 +44,7 @@ export default function({ opcData }) {
     <h4 className="badge" data-badge="999 Schlechtteile">$Programmname / $Stueckzahl</h4>
     <JobGauge
       config={config}
+      fortschrittlabel={_getPathValues(config.max)}
       pathbg={_getPath(config.max)}
       pathval={_getPath(config.value)}
     />

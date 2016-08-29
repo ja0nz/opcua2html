@@ -9,10 +9,7 @@ export default class QualityControl extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      qualityControl: [{
-        reactId: uuid.v4(),
-        nodeId: 'PumpSpeed'
-      }]
+      qualityControl: []
     };
   }
 

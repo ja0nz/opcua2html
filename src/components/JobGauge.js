@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles/Gauge.css';
 
-export default ({ config, pathbg, pathval }) => (
+export default ({ config, fortschrittlabel, pathbg, pathval }) => (
 
   <svg viewBox={`0 0 ${config.width} ${config.height}`} className="gauge">
     <defs>
@@ -20,7 +20,6 @@ export default ({ config, pathbg, pathval }) => (
       <tspan x={config.width / 2} y={config.height / 1.6}>{ config.value }</tspan>
       <tspan x={config.width / 2} dy={30}>Gutteile</tspan>
     </text>
-  {//<text x={(Xo + Xi)/2} y={Cy + 25} style={config.minMaxLabelStyle}>{ config.max }</text>
-  }
+  <text x={(fortschrittlabel.Xo + fortschrittlabel.Xi)/2} y={fortschrittlabel.Cy + 25} className="fortschritt" >Fortschritt</text>
   </svg>
 );
