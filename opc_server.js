@@ -144,13 +144,13 @@ server.on("post_initialize", function () {
 
 
     let auftrag = {
-        'auftragsstueckzahl': 30,
+        'auftragsstueckzahl': 200,
         'gutteile': 0,
         'schlechtteile': 0
     }
 
     let zyklus = {
-        'referenzWert': 6,
+        'referenzWert': 30,
         'toleranzWert': 20,
         'istWert': 0,
     }
@@ -194,14 +194,14 @@ server.on("post_initialize", function () {
 
 
     let auftragsEnde = {
-        'remainingSeconds': function () {
-            return (auftrag.auftragsstueckzahl - auftrag.gutteile) * zyklus.referenzWert;
+        "remainingMinutes": function () {
+            return ((auftrag.auftragsstueckzahl - auftrag.gutteile) * zyklus.referenzWert)/60
         },
-        'MM': function () {
-            return Math.floor(this.remainingSeconds() / 60);
+        "HH": function () {
+            return Math.floor(this.remainingMinutes() / 60);
         },
-        'SS': function () {
-            return parseInt((this.remainingSeconds() / 60 - this.MM()) * 60)
+        "MM": function () {
+            return parseInt((this.remainingMinutes() / 60 - this.HH()) * 60)
         }
 
 
@@ -218,7 +218,7 @@ server.on("post_initialize", function () {
         dataType: "String",
         value: {
             get: function () {
-                return new Variant({dataType: opcua.DataType.String, value: (auftragsEnde.MM() + ":" + auftragsEnde.SS())});
+                return new Variant({dataType: opcua.DataType.String, value: (auftragsEnde.HH() + ":" + auftragsEnde.MM())});
             }
         }
     });
