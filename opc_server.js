@@ -140,12 +140,11 @@ server.on("post_initialize", function () {
     });
 
 
-
     ///START ARBURG VARIABLES
 
 
     let auftrag = {
-        'auftragsstueckzahl': 1000,
+        'auftragsstueckzahl': 30,
         'gutteile': 0,
         'schlechtteile': 0
     }
@@ -156,16 +155,19 @@ server.on("post_initialize", function () {
         'istWert': 0,
     }
 
+
+
+
     var zyklusCounter = setInterval(function () {
 
-        if(auftrag.gutteile == auftrag.auftragsstueckzahl) {
-            auftrag.gutteile=0;
-            auftrag.schlechtteile=0;
+        if (auftrag.gutteile == auftrag.auftragsstueckzahl) {
+            auftrag.gutteile = 0;
+            auftrag.schlechtteile = 0;
         }
 
         //some are  schlechtteil but not more than 4
         var schlechtteil = false;
-        if(Math.floor(Math.random()*10) == 5 && auftrag.schlechtteile<=3) {
+        if (Math.floor(Math.random() * 10) == 5 && auftrag.schlechtteile <= 3) {
             schlechtteil = true;
         }
 
@@ -178,7 +180,7 @@ server.on("post_initialize", function () {
         } else {
             console.log("s: " + zyklus.istWert)
 
-            if(schlechtteil == true)  {
+            if (schlechtteil == true) {
                 zyklus.istWert = 1;
                 auftrag.schlechtteile++;
                 console.log("Schlechtteile: " + auftrag.schlechtteile)
@@ -190,6 +192,36 @@ server.on("post_initialize", function () {
         }
     }, 1000);
 
+
+    let auftragsEnde = {
+        'remainingSeconds': function () {
+            return (auftrag.auftragsstueckzahl - auftrag.gutteile) * zyklus.referenzWert;
+        },
+        'MM': function () {
+            return Math.floor(this.remainingSeconds() / 60);
+        },
+        'SS': function () {
+            return parseInt((this.remainingSeconds() / 60 - this.MM()) * 60)
+        }
+
+
+    }
+
+    /*
+     OPC Variable: ZeitBisAuftragende
+     */
+    addressSpace.addVariable({
+
+        organizedBy: myDevices,
+        browseName: "Zeit bis Auftragende",
+        nodeId: "ns=2;s=t081", // a string nodeID
+        dataType: "String",
+        value: {
+            get: function () {
+                return new Variant({dataType: opcua.DataType.String, value: (auftragsEnde.MM() + ":" + auftragsEnde.SS())});
+            }
+        }
+    });
 
 
     /*
@@ -241,10 +273,6 @@ server.on("post_initialize", function () {
             }
         }
     });
-
-
-
-
 
 
     /**
@@ -319,7 +347,6 @@ server.on("post_initialize", function () {
             }
         }
     });
-
 
 
     /**
@@ -467,8 +494,6 @@ server.on("post_initialize", function () {
             }
         }
     });
-
-
 
 
     ///END ARBURG VARIABLES
