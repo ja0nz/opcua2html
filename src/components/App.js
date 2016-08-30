@@ -12,6 +12,8 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = { opcData: [] };
+
+    this.qualityControlNodes = ['t4011', 't4012', 't4013', 'V4064', 'V4065', 'V4066', 'p4054', 'p4055', 'p4056', 'p4071', 'p4072', 'p4073'];
   }
 
   componentDidMount() {
@@ -27,8 +29,12 @@ export default class App extends Component {
           <section className="navbar-section">insert connect bar here</section>
         </header>
           <h2>Arburg OPCUA App</h2>
-          <JobControl opcData={opcData} />
-          <QualityControl opcData={opcData} />
+          <JobControl 
+            opcData={opcData.filter(el => this.qualityControlNodes.indexOf(el.nodeId) === -1)}
+          />
+          <QualityControl 
+            opcData={opcData.filter(el => this.qualityControlNodes.indexOf(el.nodeId) >= 0)}
+          />
         </section>
       );
     } else return null;

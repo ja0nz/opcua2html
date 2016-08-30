@@ -202,15 +202,12 @@ server.on("post_initialize", function() {
     duration() {
       return moment.duration(this.remainingSeconds(), 'seconds');
     },
-    HH() {
-      return this.duration().hours();
-    },
-    MM() {
-      return this.duration().minutes();
-    },
     // t081
-    HHMM() {
-      return this.HH() + ":" + this.MM();
+    getCountdown() {
+      return {
+        hours: this.duration().hours(),
+        minutes: this.duration().minutes()
+      };
     }
 
   }
@@ -254,14 +251,14 @@ server.on("post_initialize", function() {
   addressSpace.addVariable({
 
     organizedBy: myDevices,
-    browseName: "Zeit Auftragende",
+    browseName: "Zeit bis Auftragsende",
     nodeId: "ns=2;s=t081", // a string nodeID
     dataType: "String",
     value: {
       get: function() {
         return new Variant({
           dataType: opcua.DataType.String,
-          value: auftragsEnde.HHMM()
+          value: JSON.stringify(auftragsEnde.getCountdown())
         });
       }
     }
