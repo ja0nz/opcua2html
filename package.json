@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "express": "~4.14.0",
+    "moment": "^2.14.1",
     "node-opcua": "~0.0.55",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
