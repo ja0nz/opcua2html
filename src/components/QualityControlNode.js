@@ -30,11 +30,10 @@ export default function({ renderNodes, opcData, onDelete }) {
         <tbody>{
         getRenderObjects(renderNodes, opcData)
           .filter(item => item.nodeId !== undefined)
-          .map(({value, timestamp, nodeId, reactId}) =>
+          .map(({value, nodeId, reactId}) =>
             <tr className="selected" key={reactId}>
               <td>{nodeId}</td>
-              <td>{Math.round(value)}</td>
-              <td>{timestamp}</td>
+              <td>{value}</td>
               <td><button className="btn" onClick={onDelete.bind(null, reactId)}>x</button></td>
             </tr>)}
         </tbody>
