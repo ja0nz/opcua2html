@@ -275,7 +275,7 @@ server.on("post_initialize", function () {
         dataType: "Double",
         value: {
             get: function () {
-                return new Variant({dataType: opcua.DataType.Double, value: 1000});
+                return new Variant({dataType: opcua.DataType.Double, value: auftrag.auftragsstueckzahl});
             }
         }
     });
