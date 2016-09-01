@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import QualityControl from './QualityControl';
 //import JobControl from './JobControl';
 //import './styles/Navbar.css';
-import States from './Multiselect';
 
 //const hostname = require('os').hostname().toLowerCase();
 //const opcEndpoint = `http://${hostname}:3700`;
@@ -24,7 +23,7 @@ export default class App extends Component {
       { nodeId: "p4056", value: "53" }
     ] };
 
-    this.qualityControlNodes = ['t4011', 't4012', 't4013', 'V4064', 'V4065', 'V4066', 'p4054', 'p4055', 'p4056', 'p4071', 'p4072', 'p4073'];
+    this.qcNodes = require('../api')['qualityControlNodes'];
   }
 
 //componentDidMount() {
@@ -36,9 +35,8 @@ export default class App extends Component {
       return (
         <section>
           <QualityControl 
-            opcData={opcData.filter(el => this.qualityControlNodes.includes(el.nodeId))}
+            opcData={opcData.filter(el => this.qcNodes.includes(el.nodeId))}
           />
-       <States /> 
         </section>
       );
   }
