@@ -15,14 +15,12 @@ const INTERVAL = 1000;
 var userIdentity = null;
 //xx var  userIdentity = { userName: 'opcuauser', password: 'opcuauser' };
 
-// Starter chain
+// Start subscription chain
 connect(endpointUrl)
   .then(client => createSession(client))
   .then(session => subscribe(session))
   .then(subscription => monitor(subscription))
-  .then(monitoring => buildData(monitoring))
-  .then(cachedData => returnData(cachedData))
-  .catch(err => console.log('Error: ' + err));
+  .catch(err => console.log(err));
 
 function connect(endpointUrl) {
   return new Promise((resolve, reject) =>
@@ -59,63 +57,57 @@ function subscribe(session) {
         resolve(subscription);
       })
       .on('keepalive', () => console.log('keepalive'))
-      .on('terminated', () => reject(Error('terminated')));
+      .on('terminated', () => reject(Error('Subscription terminated')));
   });
 }
 
-function monitor(subscription) {
-  return new Promise((resolve, reject) => {
-    const monitoring = [];
-    const nodes = NODES; //NODES at head of this file
 
-    nodes.forEach((node) => // iterate over nodesName array
-      monitoring.push( // push each subscription object into the monitoring array
-        subscription.monitor({
-            nodeId: 'ns=2;s=' + node,
-            attributeId: opcua.AttributeIds.Value
-          }, {
-            samplingInterval: 500, // timer for on changed requests
-            discardOldest: true,
-            queueSize: 100
-          },
-          opcua.read_service.TimestampsToReturn.Both, (err) => {
-            if (err) {
-              console.log('Monitor ns=2;s= ' + node + ' failed');
-              reject(Error(err));
-            }
+
+function monitor(subscription) {
+  const nodes = NODES; //NODES at head of this file
+
+  const monitoring =
+    nodes.map((node) => // map over nodesName array and transform it to a subscription array
+      subscription.monitor({
+          nodeId: 'ns=2;s=' + node,
+          attributeId: opcua.AttributeIds.Value
+        }, {
+          samplingInterval: 500, // timer for on changed requests
+          discardOldest: true,
+          queueSize: 100
+        },
+        opcua.read_service.TimestampsToReturn.Both, (err) => {
+          if (err) {
+            console.log('Monitor ns=2;s= ' + node + ' failed because of ' + err);
           }
-        )
+        }
       )
     );
-
-    resolve(monitoring);
-  });
+// return
+  buildData(monitoring);
 }
 
 function buildData(monitoring) {
-  return new Promise((resolve) => {
-    const cachedData = [];
+  const cachedData = [];
 
-    monitoring.forEach((item, i) => { // iterate over monitored OPC nodes
-      item.on('changed', (dataValue) => { // on change receive new dataValue Object
-        cachedData[i] = { // deconstruct the dataValue Object into the cachedData
-          value: dataValue.value.value,
-          timestamp: dataValue.serverTimestamp,
-          nodeId: item.itemToMonitor.nodeId.value
-        };
-      });
+  monitoring.forEach((item, i) => { // iterate over monitored OPC nodes
+    item.on('changed', (dataValue) => { // on change receive new dataValue Object
+      cachedData[i] = { // deconstruct the dataValue Object into the cachedData
+        value: dataValue.value.value,
+        timestamp: dataValue.serverTimestamp,
+        nodeId: item.itemToMonitor.nodeId.value
+      };
     });
-
-    resolve(cachedData);
   });
+// return
+  returnData(cachedData);
 }
-
 
 function returnData(cachedData) {
   const interval = INTERVAL; //INTERVAL at head of this file
   const data = cachedData;
 
-  // print data to console and/or emit it via WebSocket
+  // return
   emitData(data, interval);
   printData(data, interval);
 }
