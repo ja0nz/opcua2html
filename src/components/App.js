@@ -11,33 +11,32 @@ export default class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { opcData: []};
- //     { nodeId: "t4011", value: "33" },
- //     { nodeId: "t4012", value: "33" },
- //     { nodeId: "t4013", value: "33" },
- //     { nodeId: "V4064", value: "43" },
- //     { nodeId: "V4065", value: "43" },
- //     { nodeId: "V4066", value: "43" },
- //     { nodeId: "p4054", value: "53" },
- //     { nodeId: "p4055", value: "53" },
- //     { nodeId: "p4056", value: "53" }
- //   ] };
+    this.state = { opcData: [] };
 
-    this.qcNodes = require('../api')['qualityControlNodes'];
+    this.qualityControlNodes = ['t4011', 't4012', 't4013', 'V4064', 'V4065', 'V4066', 'p4054', 'p4055', 'p4056', 'p4071', 'p4072', 'p4073'];
   }
 
-componentDidMount() {
+  componentDidMount() {
     io(opcEndpoint).on('data', data => this.setState({ opcData: data }));
   }
 
   render() {
     const { opcData } = this.state;
+    if (opcData.length > 0) {
       return (
         <section>
+        <header className="navbar bg-grey">
+          <section className="navbar-section">insert connect bar here</section>
+        </header>
+          <h2>Arburg OPCUA App</h2>
+          <JobControl 
+            opcData={opcData.filter(el => this.qualityControlNodes.indexOf(el.nodeId) === -1)}
+          />
           <QualityControl 
-            opcData={opcData.filter(el => this.qcNodes.includes(el.nodeId))}
+            opcData={opcData.filter(el => this.qualityControlNodes.indexOf(el.nodeId) >= 0)}
           />
         </section>
       );
+    } else return null;
   }
 }
