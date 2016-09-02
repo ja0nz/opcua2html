@@ -6,47 +6,48 @@ import 'react-select/dist/react-select.css';
 
 export default class QualityControl extends Component {
 
-
   constructor(props) {
     //props: opcData
     super(props);
-    const { opcData } = this.props;
-    this.qcCombined = require('../api')['qualityControlCombined'];
-    this.qcSelectables = require('../api')['qualityControlSelectables'];
-
+    this.qcAPI = require('../api')['qualityControlAPI'];
     this.utils = {
-      mapData(value) {
-        return opcData.map(node => node[value]);
-      },
-      cleanValue(object) {
-        if (object !== undefined)
-          return object.value;
-      },
+      filterUndefined(props, object, propName) {
+        const r = props.find(node => node.nodeId === object[propName]);
+        return (r) ? r.value : null;
+      }
     }
 
     this.state = {
-      /* beautify preserve:start */
-      qcobjects: this.qcCombined
-        .map(object => Object.assign({},
-              { name: object.name },
-              { ref: this.utils.cleanValue(opcData.find(node => node.nodeId === object.ref)) },
-              { ist: this.utils.cleanValue(opcData.find(node => node.nodeId === object.ist)) },
-              { tol: this.utils.cleanValue(opcData.find(node => node.nodeId === object.tol)) },
-             )
-            ),
-      /* beautify preserve:end */
+      qcobjects: [],
       value: [],
-      options: this.qcSelectables
-        .filter(option => this.utils.mapData("nodeId")
-          .includes(option.test))
-
+      options: []
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { opcData } = nextProps;
+
+    this.setState({
+      qcobjects: this.qcAPI
+        .map((object) =>
+          Object.assign({},
+            /* beautify preserve:start */
+              { name: object.label },
+              { ref: this.utils.filterUndefined(opcData, object, "ref") },
+              { ist: this.utils.filterUndefined(opcData, object, "ist") },
+              { tol: this.utils.filterUndefined(opcData, object, "tol") }
+            /* beautify preserve:end */
+          )
+        ),
+      options: this.qcAPI
+        .filter(option => opcData.map(node => node.nodeId).includes(option.ist))
+    });
+  }
+
   render() {
-    const { qcobjects, value } = this.state;
-    return (
-      <section>
+    const { value, qcobjects } = this.state;
+      return (
+        <section>
         <h3>Quality Control Parameters</h3>
 			  <div className="section">
 				  <h3 className="section-heading">{this.props.label}</h3>
@@ -63,7 +64,7 @@ export default class QualityControl extends Component {
               onDelete={this.deleteQualityNode}
           />
       </section>
-    );
+      );
   }
 
   setQualityNodeState = (value) => {
