@@ -18,24 +18,29 @@ export default class QualityControl extends Component {
     }
 
     this.state = {
-      qcobjects: [],
+      qcobjects: this.qcAPI
+        .map((object) =>
+          Object.assign({}, { name: object.label }, { isOpen: false })
+        ),
       value: [],
-      options: []
+      options: [],
     };
   }
 
   componentWillReceiveProps(nextProps) {
     const { opcData } = nextProps;
+    const { qcobjects } = this.state;
 
     this.setState({
       qcobjects: this.qcAPI
-        .map((object) =>
+        .map((object, i) =>
           Object.assign({},
             /* beautify preserve:start */
-              { name: object.label },
+              { name: qcobjects[i].name },
               { ref: this.utils.filterUndefined(opcData, object, "ref") },
               { ist: this.utils.filterUndefined(opcData, object, "ist") },
-              { tol: this.utils.filterUndefined(opcData, object, "tol") }
+              { tol: this.utils.filterUndefined(opcData, object, "tol") },
+              { isOpen: qcobjects[i].isOpen }
             /* beautify preserve:end */
           )
         ),
@@ -46,8 +51,8 @@ export default class QualityControl extends Component {
 
   render() {
     const { value, qcobjects } = this.state;
-      return (
-        <section>
+    return (
+      <section>
         <h3>Quality Control Parameters</h3>
 			  <div className="section">
 				  <h3 className="section-heading">{this.props.label}</h3>
@@ -62,9 +67,22 @@ export default class QualityControl extends Component {
               selected={value}
               data={qcobjects}
               onDelete={this.deleteQualityNode}
+              onCollapse={this.collapseNode}
           />
       </section>
-      );
+    );
+  }
+
+  collapseNode = (id, e) => {
+    e.stopPropagation();
+    this.setState({
+      qcobjects: this.state.qcobjects
+        .map((object) =>
+          (object.name === id)
+            ? Object.assign(object, { isOpen: !object.isOpen })
+            : object
+        )
+    });
   }
 
   setQualityNodeState = (value) => {

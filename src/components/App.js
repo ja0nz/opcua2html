@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 import QualityControl from './QualityControl';
-import JobControl from './JobControl';
+// import JobControl from './JobControl';
 import './styles/Navbar.css';
 
 const hostname = require('os').hostname().toLowerCase();
@@ -27,10 +27,13 @@ export default class App extends Component {
         <header className="navbar bg-grey">
           <section className="navbar-section">insert connect bar here</section>
         </header>
-          <h2>Arburg OPCUA App</h2>
-          <JobControl 
-            opcData={opcData.filter(el => !this.qcNodes.includes(el.nodeId))}
-          />
+          {
+        // <h2>Arburg OPCUA App</h2>
+          
+        // <JobControl 
+        //   opcData={opcData.filter(el => !this.qcNodes.includes(el.nodeId))}
+        // />
+          }
           <QualityControl 
             opcData={opcData.filter(el => this.qcNodes.includes(el.nodeId))}
           />

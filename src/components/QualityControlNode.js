@@ -1,42 +1,44 @@
 import React from 'react';
-import './styles/Table.css';
+import Collapse from './Collapse';
+import './styles/Grid.css';
 import './styles/Button.css';
 
-export default function({ selected, data, onDelete }) {
+export default function({ selected, data, onDelete, onCollapse }) {
 
   function getRenderObjects(selected, data) {
     return selected.map(item => data.find(node => node.name === item))
-
-//    renderNodes.forEach((item, i) => {
-//      rendering.push(
-//        Object.assign({},
-//          opcData.find(node => node.nodeId === item.nodeId),
-//          { reactId: renderNodes[i].reactId }
-//        )
-//      );
-//    });
-//    return rendering;
   }
 
     return (
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Referenzwerte</th>
-            <th>Istwerte</th>
-          </tr>
-        </thead>
-        <tbody>{
+      <section>
+        <article className="container">
+          <div className="columns">
+            <div className="column col-4">Name</div>
+            <div className="column col-4">Istwert</div>
+          </div>
+        </article>
+        {
         getRenderObjects(selected, data)
-          .map(({name, ref, ist}) =>
-            <tr className="selected" key={name}>
-              <td>{name}</td>
-              <td>{ref}</td>
-              <td>{ist}</td>
-              <td><button className="btn" onClick={onDelete.bind(null, name)}>x</button></td>
-            </tr>)}
-        </tbody>
-      </table>
+          .map(({name, ref, ist, tol, isOpen}) =>
+          <article className="container" key={name}>
+            <div className="columns">
+              <div className="column col-4">{name}</div>
+              <div className="column col-4">{ist}</div>
+              <div className="column col-4">
+                <button className="btn" onClick={onCollapse.bind(null, name)}>^</button>
+                <button className="btn" onClick={onDelete.bind(null, name)}>x</button>
+              </div>
+            </div>
+            <Collapse isOpened={isOpen}>
+              <div className="columns">
+                <div className="column col-4">More Data:</div>
+                <div className="column col-4">Referenzwert: {ref}</div>
+                <div className="column col-4">Toleranzwert: {tol}</div>
+              </div>
+            </Collapse>
+          </article>
+          )
+        }
+      </section>
     );
 }
