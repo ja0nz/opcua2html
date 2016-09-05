@@ -10,6 +10,7 @@ export default class QualityControl extends Component {
     super(props);
     const { opcData } = this.props;
     this.qcAPI = require('../api')['qualityControlAPI'];
+
     this.utils = {
       filterUndefined(props, object, propName) {
         const r = props.find((node) => node.nodeId === object[propName]);
@@ -20,10 +21,10 @@ export default class QualityControl extends Component {
     this.state = {
       qcobjects: this.qcAPI
         .map((object) => ({ name: object.name, isOpen: false })),
-      value: [],
       options: this.qcAPI
-        .filter((option) => opcData.find(node => node.nodeId === option.ist))
-        .map((object) => ({ label: object.name, value: object.name }))
+        .filter((option) => opcData.find((node) => node.nodeId === option.ist))
+        .map((object) => ({ label: object.name, value: object.name })),
+      value: []
     };
   }
 
