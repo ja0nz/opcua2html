@@ -6,9 +6,9 @@ import 'react-select/dist/react-select.css';
 
 export default class QualityControl extends Component {
 
-  constructor(props) {
-    //props: opcData
+  constructor(props) { 
     super(props);
+    const { opcData } = this.props;
     this.qcAPI = require('../api')['qualityControlAPI'];
     this.utils = {
       filterUndefined(props, object, propName) {
@@ -20,10 +20,14 @@ export default class QualityControl extends Component {
     this.state = {
       qcobjects: this.qcAPI
         .map((object) =>
-          Object.assign({}, { name: object.label }, { isOpen: false })
+          Object.assign({}, { name: object.name, isOpen: false })
         ),
       value: [],
-      options: [],
+      options: this.qcAPI
+        .filter(option => opcData.map(node => node.nodeId).includes(option.ist))
+        .map((object) =>
+          Object.assign({}, { label: object.name, value: object.name })
+        )
     };
   }
 
@@ -34,18 +38,14 @@ export default class QualityControl extends Component {
     this.setState({
       qcobjects: this.qcAPI
         .map((object, i) =>
-          Object.assign({},
-            /* beautify preserve:start */
-              { name: qcobjects[i].name },
-              { ref: this.utils.filterUndefined(opcData, object, "ref") },
-              { ist: this.utils.filterUndefined(opcData, object, "ist") },
-              { tol: this.utils.filterUndefined(opcData, object, "tol") },
-              { isOpen: qcobjects[i].isOpen }
-            /* beautify preserve:end */
-          )
-        ),
-      options: this.qcAPI
-        .filter(option => opcData.map(node => node.nodeId).includes(option.ist))
+          Object.assign({}, {
+            name: qcobjects[i].name,
+            ref: this.utils.filterUndefined(opcData, object, "ref"),
+            ist: this.utils.filterUndefined(opcData, object, "ist"),
+            tol: this.utils.filterUndefined(opcData, object, "tol"),
+            isOpen: qcobjects[i].isOpen
+          })
+        )
     });
   }
 
@@ -78,9 +78,9 @@ export default class QualityControl extends Component {
     this.setState({
       qcobjects: this.state.qcobjects
         .map((object) =>
-          (object.name === id)
-            ? Object.assign(object, { isOpen: !object.isOpen })
-            : object
+          (object.name === id) ?
+          Object.assign(object, { isOpen: !object.isOpen }) :
+          object
         )
     });
   }
