@@ -327,7 +327,7 @@ server.on("post_initialize", function() {
 
     value: {
       get: function() {
-        return new Variant({ dataType: opcua.DataType.Double, value: zyklus.referenzWert });
+        return new Variant({ dataType: opcua.DataType.Double, value: zyklus.referenzWert.toFixed(2) });
       }
     }
   });
@@ -343,7 +343,7 @@ server.on("post_initialize", function() {
 
     value: {
       get: function() {
-        return new Variant({ dataType: opcua.DataType.Double, value: zyklus.istWert });
+        return new Variant({ dataType: opcua.DataType.Double, value: zyklus.istWert.toFixed(2) });
       }
     }
   });
@@ -359,7 +359,7 @@ server.on("post_initialize", function() {
 
     value: {
       get: function() {
-        return new Variant({ dataType: opcua.DataType.Double, value: zyklus.toleranzWert });
+        return new Variant({ dataType: opcua.DataType.Double, value: zyklus.toleranzWert.toFixed(2) });
       }
     }
   });
@@ -376,7 +376,7 @@ server.on("post_initialize", function() {
 
     value: {
       get: function() {
-        return new Variant({ dataType: opcua.DataType.Double, value: umschaltvolumen.referenzWert });
+        return new Variant({ dataType: opcua.DataType.Double, value: umschaltvolumen.referenzWert.toFixed(2) });
       }
     }
   });
@@ -393,7 +393,7 @@ server.on("post_initialize", function() {
 
     value: {
       get: function() {
-        return new Variant({ dataType: opcua.DataType.Double, value: umschaltvolumen.istWert() });
+        return new Variant({ dataType: opcua.DataType.Double, value: umschaltvolumen.istWert().toFixed(2) });
       }
     }
   });
@@ -409,7 +409,7 @@ server.on("post_initialize", function() {
 
     value: {
       get: function() {
-        return new Variant({ dataType: opcua.DataType.Double, value: umschaltvolumen.toleranzWert });
+        return new Variant({ dataType: opcua.DataType.Double, value: umschaltvolumen.toleranzWert.toFixed(2) });
       }
     }
   });
@@ -426,7 +426,7 @@ server.on("post_initialize", function() {
 
     value: {
       get: function() {
-        return new Variant({ dataType: opcua.DataType.Double, value: maximalerSpritzdruck.referenzWert });
+        return new Variant({ dataType: opcua.DataType.Double, value: maximalerSpritzdruck.referenzWert.toFixed(2) });
       }
     }
   });
@@ -442,7 +442,7 @@ server.on("post_initialize", function() {
 
     value: {
       get: function() {
-        return new Variant({ dataType: opcua.DataType.Double, value: maximalerSpritzdruck.istWert() });
+        return new Variant({ dataType: opcua.DataType.Double, value: maximalerSpritzdruck.istWert().toFixed(2) });
       }
     }
   });
@@ -458,7 +458,7 @@ server.on("post_initialize", function() {
 
     value: {
       get: function() {
-        return new Variant({ dataType: opcua.DataType.Double, value: maximalerSpritzdruck.toleranzWert });
+        return new Variant({ dataType: opcua.DataType.Double, value: maximalerSpritzdruck.toleranzWert.toFixed(2) });
       }
     }
   });
@@ -475,7 +475,7 @@ server.on("post_initialize", function() {
 
     value: {
       get: function() {
-        return new Variant({ dataType: opcua.DataType.Double, value: umschaltspritzdruck.referenzWert });
+        return new Variant({ dataType: opcua.DataType.Double, value: umschaltspritzdruck.referenzWert.toFixed(2) });
       }
     }
   });
@@ -491,7 +491,7 @@ server.on("post_initialize", function() {
 
     value: {
       get: function() {
-        return new Variant({ dataType: opcua.DataType.Double, value: umschaltspritzdruck.istWert() });
+        return new Variant({ dataType: opcua.DataType.Double, value: umschaltspritzdruck.istWert().toFixed(2) });
       }
     }
   });
@@ -507,7 +507,7 @@ server.on("post_initialize", function() {
 
     value: {
       get: function() {
-        return new Variant({ dataType: opcua.DataType.Double, value: umschaltspritzdruck.toleranzWert });
+        return new Variant({ dataType: opcua.DataType.Double, value: umschaltspritzdruck.toleranzWert.toFixed(2) });
       }
     }
   });
