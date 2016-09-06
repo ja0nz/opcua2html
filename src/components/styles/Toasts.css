@@ -3,8 +3,9 @@
   border: .1rem solid #eaeaea;
   border-radius: .3rem;
   color: #666;
+  /*
   padding: 1.4rem;
-/*  display: block;
+  display: block;
   width: 100%; */
 }
 .toast.toast-danger {

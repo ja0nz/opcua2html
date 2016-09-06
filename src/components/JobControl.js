@@ -1,53 +1,90 @@
-import React from 'react';
+import React, { Component } from 'react';
 import JobGauge from './JobGauge';
+import ReactSwipe from 'react-swipe';
 
-export default function({ opcData }) {
+export default class JobControl extends Component {
 
-  const config = {
-    min: 0,
-    max: 100,
-    value: 40,
-    width: 400,
-    height: 220,
-  };
+  constructor(props) {
+    super(props);
+    this.jobAPI = require('../api')['jobControlAPI'];
 
-  function _getPathValues(value) {
-    const dx = 0;
-    const dy = 0;
+    this.utils = {
+      getPath: (max, value) => {
+        //  width: 350,
+        //  height: 200,
+        const dx = 0;
+        const dy = 0;
 
-    const alpha = (1 - (value - config.min) / (config.max - config.min)) * Math.PI;
-    const Ro = config.width / 2 - config.width / 10;
-    const Ri = Ro - config.width / 6.666666666666667;
+        const alpha = (1 - value / max) * Math.PI;
+        const Ro = 350 / 2 - 350 / 10;
+        const Ri = Ro - 350 / 6.666666666666667;
 
-    const Cx = config.width / 2 + dx;
-    const Cy = config.height / 1.25 + dy;
+        const Cx = 350 / 2 + dx;
+        const Cy = 200 / 1.25 + dy;
 
-    const Xo = config.width / 2 + dx + Ro * Math.cos(alpha);
-    const Yo = config.height - (config.height - Cy) - Ro * Math.sin(alpha);
-    const Xi = config.width / 2 + dx + Ri * Math.cos(alpha);
-    const Yi = config.height - (config.height - Cy) - Ri * Math.sin(alpha);
+        const Xo = 350 / 2 + dx + Ro * Math.cos(alpha);
+        const Yo = 200 - (200 - Cy) - Ro * Math.sin(alpha);
+        const Xi = 350 / 2 + dx + Ri * Math.cos(alpha);
+        const Yi = 200 - (200 - Cy) - Ri * Math.sin(alpha);
 
-    return { Ro, Ri, Cx, Cy, Xo, Yo, Xi, Yi };
-  };
+        return `M ${Cx - Ri}, ${Cy} L ${Cx - Ro}, ${Cy} A ${Ro}, ${Ro} 0 0 1 ${Xo}, ${Yo} L ${Xi}, ${Yi} A ${Ri}, ${Ri} 0 0 0 ${Cx - Ri}, ${Cy} Z`;
+      },
+      getOPCValue: (data, apiNodeId) => {
+        const r = data.find((opc) => opc.nodeId === apiNodeId);
+        return (r) ? r.value : null;
+      },
+      findAPINodeId: (api, stateName) => {
+        const r = api.find((entry) => entry.name === stateName);
+        return (r) ? r.nodeId : null;
+      }
+    }
 
-  function _getPath(value) {
-    const { Ro, Ri, Cx, Cy, Xo, Yo, Xi, Yi } = _getPathValues(value);
+    const { opcData } = this.props;
+    const { getOPCValue, findAPINodeId } = this.utils;
+    this.state = {
+      auftragsstueckzahl: getOPCValue(opcData, findAPINodeId(this.jobAPI, 'Auftragsstueckzahl')),
+      gutteile: [],
+      schlechtteile: [],
+      restdauer: []
+    }
+  }
 
-    return `M ${Cx - Ri}, ${Cy} L ${Cx - Ro}, ${Cy} A ${Ro}, ${Ro} 0 0 1 ${Xo}, ${Yo} L ${Xi}, ${Yi} A ${Ri}, ${Ri} 0 0 0 ${Cx - Ri}, ${Cy} Z`;
-  };
+  componentWillReceiveProps(nextProps) {
+    const { opcData } = nextProps;
+    const api = this.jobAPI;
+    const { getOPCValue, findAPINodeId } = this.utils;
 
-  // const { Xo, Cy, Xi } = ;
+    this.setState({
+      gutteile: getOPCValue(opcData, findAPINodeId(api, 'Gutteile')),
+      schlechtteile: getOPCValue(opcData, findAPINodeId(api, 'Schlechtteile')),
+      restdauer: JSON.parse(getOPCValue(opcData, findAPINodeId(api, 'Restdauer')))
+    });
+  }
 
-  return (
+  render() {
+    const { auftragsstueckzahl, gutteile, schlechtteile, restdauer} = this.state;
+    const { getPath } = this.utils;
+    return (
     <section>
-    <h3>Produktionauftrag</h3>
-    <h4 className="badge" data-badge="999 Schlechtteile">$Programmname / $Stueckzahl</h4>
-    <JobGauge
-      config={config}
-      fortschrittlabel={_getPathValues(config.max)}
-      pathbg={_getPath(config.max)}
-      pathval={_getPath(config.value)}
-    />
+    <h3>Manufacturing Order</h3>
+    <ReactSwipe className="carousel" swipeOptions={{continuous: false}}>
+      <div>
+        <h4>Progress</h4>
+          <JobGauge
+            gutteile={gutteile}
+            pathbg={getPath(auftragsstueckzahl, auftragsstueckzahl)}
+            pathval={getPath(auftragsstueckzahl, gutteile)}
+          />
+      </div>
+      <div>
+      <h4>Order control</h4>
+        <p>Number of pieces: {auftragsstueckzahl}</p>
+        <p>Good parts: {gutteile}</p>
+        <p>Bad parts: {schlechtteile}</p>
+        <p>Remaining time: {`${restdauer.hours}:${restdauer.minutes}`}</p>
+      </div>
+    </ReactSwipe>
     </section>
-  );
+    );
+  }
 }

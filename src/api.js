@@ -6,4 +6,11 @@ exports.qualityControlAPI = [
   { name: 'Max. Einspritzdruck', ref: 'p4054', ist: 'p4055', tol: 'p4056' },
   { name: 'Umschaltspritzdruck', ref: 'p4071', ist: 'p4072', tol: 'p4073' }
 ];
+
+exports.jobControlAPI = [
+  { name: 'Auftragsstueckzahl', nodeId: 'f076' },
+  { name: 'Gutteile', nodeId: 'f077' },
+  { name: 'Schlechtteile', nodeId: 'f087' },
+  { name: 'Restdauer', nodeId: 't081' }
+];
 //     this.qcNodes = require('../api')['qualityControlNodes'];
