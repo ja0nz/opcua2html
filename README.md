@@ -7,11 +7,11 @@ opcua2html
     $ cd opcua2html
     $ npm i
     $
-    $ # start test OPC server in background
-    $ node opc_server
+    $ # start virtual OPC server in background
+    $ node opcua_virtual_arburg_server
     $
-    $ # start middleware OPC to HTML converting server
-    $ node html_server
+    $ # start middleware NodeJS Express server
+    $ node node_express_server
     $
     $ # start the dev engine
     $ npm start
