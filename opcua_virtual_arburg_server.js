@@ -147,6 +147,9 @@ server.on("post_initialize", function() {
   ///START ARBURG VARIABLES
 
 
+  let programname = "Kabine klein"//f902E
+
+
   let auftrag = {
     'auftragsstueckzahl': 200, //f067
     'gutteile': 0, //f077
@@ -154,7 +157,7 @@ server.on("post_initialize", function() {
   }
 
   let zyklus = {
-    'referenzWert': 30, //t4011
+    'referenzWert': 5, //t4011
     'toleranzWert': 30, //t4013
     'istWert': 0, //t4012
   }
@@ -244,6 +247,23 @@ server.on("post_initialize", function() {
       return (this.referenzWert + (this.toleranzWert * 0.5 + this.toleranzWert * Math.sin(Date.now() / 10000))).toFixed(0)
     },
   }
+
+
+  /*
+   OPC Variable: AUFTRAGSSUECKZAHL
+   */
+  addressSpace.addVariable({
+
+    organizedBy: myDevices,
+    browseName: "Programmname",
+    nodeId: "ns=2;s=f902E", // a string nodeID
+    dataType: "String",
+    value: {
+      get: function() {
+        return new Variant({ dataType: opcua.DataType.String, value: programname});
+      }
+    }
+  });
 
   /*
    OPC Variable: ZeitBisAuftragende
