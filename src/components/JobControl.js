@@ -29,20 +29,21 @@ export default class JobControl extends Component {
 
         return `M ${Cx - Ri}, ${Cy} L ${Cx - Ro}, ${Cy} A ${Ro}, ${Ro} 0 0 1 ${Xo}, ${Yo} L ${Xi}, ${Yi} A ${Ri}, ${Ri} 0 0 0 ${Cx - Ri}, ${Cy} Z`;
       },
-      getOPCValue: (data, apiNodeId) => {
-        const r = data.find((opc) => opc.nodeId === apiNodeId);
+      getOPCValue: (opcData, APINodeId) => {
+        const r = opcData.find(e => e.nodeId === APINodeId);
         return (r) ? r.value : null;
       },
-      findAPINodeId: (api, stateName) => {
-        const r = api.find((entry) => entry.name === stateName);
+      findAPINodeId: (API, nodeName) => {
+        const r = API.find(e => e.name === nodeName);
         return (r) ? r.nodeId : null;
       }
     }
 
     const { opcData } = this.props;
+    const API = this.jobAPI;
     const { getOPCValue, findAPINodeId } = this.utils;
     this.state = {
-      auftragsstueckzahl: getOPCValue(opcData, findAPINodeId(this.jobAPI, 'Auftragsstueckzahl')),
+      auftragsstueckzahl: getOPCValue(opcData, findAPINodeId(API, 'Auftragsstueckzahl')),
       gutteile: [],
       schlechtteile: [],
       restdauer: []
@@ -51,13 +52,13 @@ export default class JobControl extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { opcData } = nextProps;
-    const api = this.jobAPI;
+    const API = this.jobAPI;
     const { getOPCValue, findAPINodeId } = this.utils;
 
     this.setState({
-      gutteile: getOPCValue(opcData, findAPINodeId(api, 'Gutteile')),
-      schlechtteile: getOPCValue(opcData, findAPINodeId(api, 'Schlechtteile')),
-      restdauer: JSON.parse(getOPCValue(opcData, findAPINodeId(api, 'Restdauer')))
+      gutteile: getOPCValue(opcData, findAPINodeId(API, 'Gutteile')),
+      schlechtteile: getOPCValue(opcData, findAPINodeId(API, 'Schlechtteile')),
+      restdauer: JSON.parse(getOPCValue(opcData, findAPINodeId(API, 'Restdauer')))
     });
   }
 

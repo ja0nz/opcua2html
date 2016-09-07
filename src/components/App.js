@@ -29,10 +29,10 @@ export default class App extends Component {
         </header>
          <h2>Arburg OPCUA App</h2>
          <JobControl 
-           opcData={opcData.filter(el => !this.qcNodes.includes(el.nodeId))}
+           opcData={opcData.filter(e => !this.qcNodes.includes(e.nodeId))}
          />
           <QualityControl 
-            opcData={opcData.filter(el => this.qcNodes.includes(el.nodeId))}
+            opcData={opcData.filter(e => this.qcNodes.includes(e.nodeId))}
           />
         </section>
       );

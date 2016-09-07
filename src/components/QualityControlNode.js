@@ -7,7 +7,7 @@ import './styles/Toasts.css';
 export default function({ selected, data, onDelete, onCollapse }) {
 
   function getRenderObjects(selected, data) {
-    return selected.map(item => data.find(node => node.name === item))
+    return selected.map(e => data.find(f => f.name === e))
   }
 
   function alertStyling(name, ref, ist, tol) {
