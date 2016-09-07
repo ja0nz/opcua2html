@@ -1,9 +1,9 @@
 import React from 'react';
 import './styles/Gauge.css';
 
-export default ({ config, fortschrittlabel, pathbg, pathval }) => (
+export default ({ gutteile, pathbg, pathval }) => (
 
-  <svg viewBox={`0 0 ${config.width} ${config.height}`} className="gauge">
+  <svg viewBox={`0 0 350 200`} className="gauge">
     <defs>
       <filter id="g3-inner-shadow">
         <feOffset dx="0" dy="3" />
@@ -17,9 +17,11 @@ export default ({ config, fortschrittlabel, pathbg, pathval }) => (
     <path className="gauge-bg" d={pathbg} filter="url(#g3-inner-shadow)" />
     <path className="gauge-val" d={pathval} filter="url(#g3-inner-shadow)" />
     <text className="gutteile">
-      <tspan x={config.width / 2} y={config.height / 1.6}>{ config.value }</tspan>
-      <tspan x={config.width / 2} dy={30}>Gutteile</tspan>
+      <tspan x={350 / 2} y={200 / 5 * 4}>{ gutteile }</tspan>
+      {
+      // <tspan x={350 / 2} y={200 / 1.6}>{ gutteile }</tspan>
+      // <tspan x={350 / 2} dy={30}>Gutteile</tspan>
+      }
     </text>
-  <text x={(fortschrittlabel.Xo + fortschrittlabel.Xi)/2} y={fortschrittlabel.Cy + 25} className="fortschritt" >Fortschritt</text>
   </svg>
 );

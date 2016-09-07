@@ -20,8 +20,8 @@ export default function({ selected, data, onDelete, onCollapse }) {
     <section>
         <article className="container">
           <div className="columns">
-            <div className="column col-5">Name</div>
-            <div className="column col-5">Istwert</div>
+            <div className="column col-6">Parameter</div>
+            <div className="column col-5">Current value</div>
           </div>
         </article>
         {
@@ -29,22 +29,22 @@ export default function({ selected, data, onDelete, onCollapse }) {
           .map(({name, ref, ist, tol, isOpen}) =>
           <article className="container" key={name}>
             <div className="columns">
-              <div className="column col-5">{name}</div>
-              <div className={`column col-5 ${alertStyling(name, ref, ist, tol)}`}>
+              <div className="column col-6">{name}</div>
+              <div className={`column col-2 ${alertStyling(name, ref, ist, tol)}`}>
                 <span>{ist}</span>
               </div>
-              <div className="column col-1">
+              <div className="column col-2">
                 <button className="btn" onClick={onCollapse.bind(null, name)}>^</button>
               </div>
-              <div className="column col-1">
+              <div className="column col-2">
                 <button className="btn btn-primary" onClick={onDelete.bind(null, name)}>x</button>
               </div>
             </div>
             <Collapse isOpened={isOpen}>
               <div onClick={onCollapse.bind(null, name)} className="columns bg-grey">
-                <div className="column col-4">More Data:</div>
-                <div className="column col-4">Referenzwert: {ref}</div>
-                <div className="column col-4">Toleranzwert: {tol}</div>
+                <div className="column col-2">⤷</div>
+                <div className="column col-5">Ref: {ref}</div>
+                <div className="column col-5">Tol: {tol}</div>
               </div>
             </Collapse>
           </article>

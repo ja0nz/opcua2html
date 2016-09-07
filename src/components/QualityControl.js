@@ -12,10 +12,7 @@ export default class QualityControl extends Component {
     this.qcAPI = require('../api')['qualityControlAPI'];
 
     this.utils = {
-      filterUndefined(props, object, propName) {
-        const r = props.find((node) => node.nodeId === object[propName]);
-        return (r) ? r.value : null;
-      }
+      noUndef: (val) => (val) ? val.value : null
     }
 
     this.state = {
@@ -31,13 +28,14 @@ export default class QualityControl extends Component {
   componentWillReceiveProps(nextProps) {
     const { opcData } = nextProps;
     const { qcobjects } = this.state;
+    const { noUndef } = this.utils;
 
     this.setState({
       qcobjects: this.qcAPI
         .map((object, i) => Object.assign(qcobjects[i], {
-          ref: this.utils.filterUndefined(opcData, object, "ref"),
-          ist: this.utils.filterUndefined(opcData, object, "ist"),
-          tol: this.utils.filterUndefined(opcData, object, "tol")
+          ref: noUndef(opcData.find(node => node.nodeId === object.ref)),
+          ist: noUndef(opcData.find(node => node.nodeId === object.ist)),
+          tol: noUndef(opcData.find(node => node.nodeId === object.tol))
         }))
     });
   }
@@ -46,7 +44,7 @@ export default class QualityControl extends Component {
     const { value, qcobjects } = this.state;
     return (
       <section>
-        <h3>Quality Control Parameters</h3>
+        <h3>Quality Control</h3>
 			  <div className="section">
 				  <h3 className="section-heading">{this.props.label}</h3>
 				  <Select multi simpleValue 
