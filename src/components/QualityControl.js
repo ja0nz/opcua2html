@@ -12,15 +12,15 @@ export default class QualityControl extends Component {
     this.qcAPI = require('../api')['qualityControlAPI'];
 
     this.utils = {
-      noUndef: (val) => (val) ? val.value : null
+      noUndef: (r) => (r) ? r.value : null
     }
 
     this.state = {
       qcobjects: this.qcAPI
-        .map((object) => ({ name: object.name, isOpen: false })),
+        .map(e => ({ name: e.name, isOpen: false })),
       options: this.qcAPI
-        .filter((option) => opcData.find((node) => node.nodeId === option.ist))
-        .map((object) => ({ label: object.name, value: object.name })),
+        .filter(e => opcData.find(f => f.nodeId === e.ist))
+        .map(e => ({ label: e.name, value: e.name })),
       value: []
     };
   }
@@ -32,10 +32,10 @@ export default class QualityControl extends Component {
 
     this.setState({
       qcobjects: this.qcAPI
-        .map((object, i) => Object.assign(qcobjects[i], {
-          ref: noUndef(opcData.find(node => node.nodeId === object.ref)),
-          ist: noUndef(opcData.find(node => node.nodeId === object.ist)),
-          tol: noUndef(opcData.find(node => node.nodeId === object.tol))
+        .map((e, i) => Object.assign(qcobjects[i], {
+          ref: noUndef(opcData.find(f => f.nodeId === e.ref)),
+          ist: noUndef(opcData.find(f => f.nodeId === e.ist)),
+          tol: noUndef(opcData.find(f => f.nodeId === e.tol))
         }))
     });
   }
@@ -68,11 +68,7 @@ export default class QualityControl extends Component {
     e.stopPropagation();
     this.setState({
       qcobjects: this.state.qcobjects
-        .map((object) =>
-          (object.name === id) ?
-          Object.assign(object, { isOpen: !object.isOpen }) :
-          object
-        )
+        .map(e => (e.name === id) ? Object.assign(e, { isOpen: !e.isOpen }) : e)
     });
   }
 
@@ -85,7 +81,7 @@ export default class QualityControl extends Component {
   deleteQualityNode = (id, e) => {
     e.stopPropagation();
     this.setState({
-      value: this.state.value.filter(val => val !== id)
+      value: this.state.value.filter(f => f !== id)
     });
   }
 }
