@@ -2,19 +2,19 @@
   "name": "opcua2html",
   "version": "0.0.1",
   "devDependencies": {
-    "react-scripts": "0.2.3"
+    "react-scripts": "0.4.1"
   },
   "dependencies": {
     "express": "~4.14.0",
-    "moment": "^2.14.1",
-    "node-opcua": "~0.0.55",
-    "react": "^15.3.0",
-    "react-dom": "^15.3.0",
+    "moment": "^2.15.0",
+    "node-opcua": "~0.0.57",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
     "react-height": "^2.1.1",
     "react-motion": "^0.4.4",
-    "react-select": "^1.0.0-beta14",
+    "react-select": "^1.0.0-rc.1",
     "react-swipe": "^5.0.3",
-    "socket.io": "~1.4.5",
+    "socket.io": "~1.4.8",
     "socket.io-client": "^1.4.8",
     "swipe-js-iso": "^2.0.3",
     "underscore": "^1.8.3",
