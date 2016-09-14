@@ -1,3 +1,4 @@
+"use strict";
 const opcua = require('node-opcua');
 const express = require('express');
 const app = express();
