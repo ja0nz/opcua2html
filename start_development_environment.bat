@@ -1,2 +1,2 @@
 @echo off
-START npm start
+npm start

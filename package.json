@@ -22,6 +22,5 @@
   },
   "eslintConfig": {
     "extends": "./node_modules/react-scripts/config/eslint.js"
-  },
-  "homepage": "http://ja-nz.github.io/opcua2html"
+  }
 }
