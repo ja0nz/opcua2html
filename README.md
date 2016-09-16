@@ -6,7 +6,7 @@ opcua2html
     $ git clone https://github.com/ja-nz/opcua2html
     $ cd opcua2html/ReactJsApp
     $ npm i
-    $ cd ..
+    $ cd -
     $ cd opcua2html/OPCExpressServer
     $ npm i
     $
