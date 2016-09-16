@@ -7,7 +7,6 @@
     "url": "https://github.com/ja-nz/opcua2html"
   },
   "devDependencies": {
-    "pushstate-server": "^2.0.0",
     "react-scripts": "0.4.1"
   },
   "dependencies": {
@@ -27,6 +26,5 @@
   },
   "eslintConfig": {
     "extends": "./node_modules/react-scripts/config/eslint.js"
-  },
-  "homepage": "http://opcua.stream"
+  }
 }
