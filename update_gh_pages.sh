@@ -1,3 +1,6 @@
+cd ReactJsApp
+npm run build
+cd -
 git commit -am "Save local changes"
 git checkout -B gh-pages
 git add -f ReactJsApp/build
