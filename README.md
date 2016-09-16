@@ -10,8 +10,13 @@ opcua2html
     $ cd opcua2html/OPCExpressServer
     $ npm i
     $
-    $ # start virtual OPC server and express server from repo
-    $ # # ja-nz/opcuaServerSide 
+    $ # start virtual OPC server and express server
+    $ cd OPCExpressServer
+    $ node node_express_server.js
+    $ node opcua_virtual_arburg_server.js
+    $ # # OR
+    $ start_OPCExpr_server.bat
     $
     $ # start the dev engine
+    $ cd ReactJSApp
     $ npm start
