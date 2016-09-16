@@ -8,7 +8,7 @@ opcua2html - ReactJs App
     $ npm i
     $
     $ # start virtual OPC server and express server from repo
-    $ opcuaServerSide
+    $ # # ja-nz/opcuaServerSide 
     $
     $ # start the dev engine
     $ npm start
