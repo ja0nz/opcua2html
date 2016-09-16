@@ -1,4 +1,4 @@
-opcua2html
+opcua2html - ReactJs App
 ====================
 
 ##### install 
@@ -7,11 +7,8 @@ opcua2html
     $ cd opcua2html
     $ npm i
     $
-    $ # start virtual OPC server in background
-    $ node opcua_virtual_arburg_server
-    $
-    $ # start middleware NodeJS Express server
-    $ node node_express_server
+    $ # start virtual OPC server and express server from repo
+    https://github.com/ja-nz/opcuaServerSide
     $
     $ # start the dev engine
     $ npm start
