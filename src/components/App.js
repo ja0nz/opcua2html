@@ -5,7 +5,7 @@ import JobControl from './JobControl';
 import './styles/Navbar.css';
 
 const hostname = require('os').hostname().toLowerCase();
-const opcEndpoint = `http://${hostname}:3700`;
+const opcEndpoint = `http://37.200.98.133:3700`;
 
 export default class App extends Component {
 
