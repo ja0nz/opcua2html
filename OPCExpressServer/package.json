@@ -1,6 +1,11 @@
 {
-  "name": "opcuaServerSide",
-  "version": "0.0.1",
+  "name": "opcua2html-OPCExpress",
+  "license": "MIT",
+  "description": "OPC and Express Combo emitting OPC Data",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ja-nz/opcua2html"
+  },
   "dependencies": {
     "express": "~4.14.0",
     "moment": "^2.15.0",

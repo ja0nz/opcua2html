@@ -1,6 +1,11 @@
 {
-  "name": "opcua2html",
-  "version": "0.0.1",
+  "name": "opcua2html-ReactJs",
+  "license": "MIT",
+  "description": "ReactJs App plotting OPCUA Data",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ja-nz/opcua2html"
+  },
   "devDependencies": {
     "pushstate-server": "^2.0.0",
     "react-scripts": "0.4.1"
