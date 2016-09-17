@@ -10,7 +10,7 @@ const hostname = require('os').hostname().toLowerCase();
 const endpointUrl = 'opc.tcp://' + hostname + ':26543';
 
 const NODES = ['f076', 'f077', 't081', 'f087', 't4011', 't4012', 't4013', 'V4064', 'V4065', 'V4066', 'p4054', 'p4055', 'p4056', 'p4071', 'p4072', 'p4073', 'f902E'];
-const INTERVAL = 1000;
+const INTERVAL = 3000;
 
 // TODO:
 var userIdentity = null;

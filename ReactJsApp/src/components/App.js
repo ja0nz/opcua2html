@@ -2,31 +2,37 @@ import React, { Component } from 'react';
 import io from 'socket.io-client';
 import QualityControl from './QualityControl';
 import JobControl from './JobControl';
+import './styles/Indicators.css';
 import './styles/Navbar.css';
 
+//const opcEndpoint = `http://${require('os').hostname().toLowerCase()}:3700`;
 const opcEndpoint = `http://opc.bamoo.de:3700`;
 
 export default class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { opcData: [] };
+    this.socket = io.connect(opcEndpoint);
+    this.state = { opcData: [], connected: false };
+    this.utils = { prevTimestamp: [] };
     this.qcNodes = require('../api')['qualityControlNodes'];
   }
 
   componentDidMount() {
-    io(opcEndpoint).on('data', data => this.setState({ opcData: data }));
+    this.socket.on('data', data => this.setState({ opcData: data }));
+    this.socket.on('connect', () => this.setState({ connected: true}));
+    this.socket.on('disconnect', () => this.setState({ connected: false }));
   }
 
   render() {
-    const { opcData } = this.state;
+    const { opcData, connected } = this.state;
     if (opcData.length > 0) {
       return (
         <section>
         <header className="navbar bg-grey">
-          <section className="navbar-section">insert connect bar here</section>
+            <h4>Virtual Arburg 270S</h4>
+            <div className={((connected) ? "in green" : "in red")}></div>
         </header>
-         <h2>Arburg OPCUA App</h2>
          <JobControl 
            opcData={opcData.filter(e => !this.qcNodes.includes(e.nodeId))}
          />
@@ -37,4 +43,8 @@ export default class App extends Component {
       );
     } else return null;
   }
+
+  isConnected = (msg, url, lineNo, colNo, error) =>
+    console.log(msg + url + lineNo + colNo + error)
+
 }

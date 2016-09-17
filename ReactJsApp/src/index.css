@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'digital-7regular';
+    src: url('assets/digital-7-webfont.woff2') format('woff2'),
+         url('assets/digital-7-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 /*! normalize.css v4.2.0 | MIT License | github.com/necolas/normalize.css */
 /**
  * 1. Change the default font family in all browsers (opinionated).
@@ -226,6 +233,11 @@ textarea {
   /* 1 */
   margin: 0;
   /* 2 */
+}
+
+time {
+    font-size: 10rem;
+    font-family: 'digital-7regular';
 }
 /**
  * Restore the font weight unset by the previous rule.

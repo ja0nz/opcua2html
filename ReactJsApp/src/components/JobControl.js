@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import JobGauge from './JobGauge';
 import ReactSwipe from 'react-swipe';
+import './styles/Table.css';
 
 export default class JobControl extends Component {
 
@@ -46,7 +47,8 @@ export default class JobControl extends Component {
       auftragsstueckzahl: getOPCValue(opcData, findAPINodeId(API, 'Auftragsstueckzahl')),
       gutteile: [],
       schlechtteile: [],
-      restdauer: []
+      restdauer: [],
+      programmname: []
     }
   }
 
@@ -58,34 +60,69 @@ export default class JobControl extends Component {
     this.setState({
       gutteile: getOPCValue(opcData, findAPINodeId(API, 'Gutteile')),
       schlechtteile: getOPCValue(opcData, findAPINodeId(API, 'Schlechtteile')),
-      restdauer: JSON.parse(getOPCValue(opcData, findAPINodeId(API, 'Restdauer')))
+      restdauer: JSON.parse(getOPCValue(opcData, findAPINodeId(API, 'Restdauer'))),
+      programmname: getOPCValue(opcData, findAPINodeId(API, 'Programmname'))
     });
   }
 
   render() {
-    const { auftragsstueckzahl, gutteile, schlechtteile, restdauer} = this.state;
+    const { auftragsstueckzahl, gutteile, schlechtteile, restdauer, programmname } = this.state;
     const { getPath } = this.utils;
+    const time = this.timeToFinish();
     return (
-    <section>
-    <h3>Manufacturing Order</h3>
-    <ReactSwipe className="carousel" swipeOptions={{continuous: false}}>
+      <section>
+    <ReactSwipe className="carousel" swipeOptions={{continuous: false, startSlide: 1}}>
+
       <div>
-        <h4>Progress</h4>
+        <h5>Fortschritt</h5>
           <JobGauge
             gutteile={gutteile}
             pathbg={getPath(auftragsstueckzahl, auftragsstueckzahl)}
             pathval={getPath(auftragsstueckzahl, gutteile)}
           />
       </div>
+
       <div>
-      <h4>Order control</h4>
-        <p>Number of pieces: {auftragsstueckzahl}</p>
-        <p>Good parts: {gutteile}</p>
-        <p>Bad parts: {schlechtteile}</p>
-        <p>Remaining time: {`${restdauer.hours}:${restdauer.minutes}`}</p>
+        <h5>Produktionsauftrag</h5>
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Programm:</th>
+              <th>{programmname}</th>
+            </tr>
+          </thead>
+          <tbody> 
+            <tr>
+              <td>Anzahl:</td>
+              <td>{auftragsstueckzahl}</td>
+            </tr>
+            <tr>
+              <td>Gutteile:</td>
+              <td>{gutteile}</td>
+            </tr>
+            <tr>
+              <td>Schlechtteile:</td>
+              <td>{schlechtteile}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+
+      <div>
+        <h5>Zeit bis Ende</h5>
+        <p>
+          {`${restdauer.hours}:${restdauer.minutes}`}
+        </p>
+        <time dateTime={time.toString()}>{time.toLocaleTimeString('de-DE', { hour12: false, hour: 'numeric', minute: 'numeric' })}</time>
+      </div>
+
     </ReactSwipe>
     </section>
     );
+  }
+
+  timeToFinish = () => {
+    const { restdauer } = this.state;
+    return new Date(Date.now() + (restdauer.hours * 3600000) + (restdauer.minutes * 60000));
   }
 }

@@ -11,6 +11,7 @@ exports.jobControlAPI = [
   { name: 'Auftragsstueckzahl', nodeId: 'f076' },
   { name: 'Gutteile', nodeId: 'f077' },
   { name: 'Schlechtteile', nodeId: 'f087' },
-  { name: 'Restdauer', nodeId: 't081' }
+  { name: 'Restdauer', nodeId: 't081' },
+  { name: 'Programmname', nodeId: 'f902E' }
 ];
 //     this.qcNodes = require('../api')['qualityControlNodes'];
