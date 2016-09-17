@@ -144,9 +144,9 @@ export default class JobControl extends Component {
     const { numberSlides } = this.utils;
     const { sliderPosition } = this.state;
     if (pos === 'prev')
-      return (sliderPosition === 0) ? { filter: 'invert(100%)' } : {}
+      return (sliderPosition === 0) ? { background: 'none' } : {}
     else
-      return (sliderPosition+1 === numberSlides) ? { filter: 'invert(100%)' } : {}
+      return (sliderPosition+1 === numberSlides) ? { background: 'none' } : {}
   }
 
   timeToFinish = () => {
