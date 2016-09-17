@@ -80,7 +80,7 @@ export default class JobControl extends Component {
     const time = this.timeToFinish();
     return (
       <section className="carousel">
-    <button style={this.arrowVisibility('prev')} className="chevronLeft" onClick={this.prev}></button>
+    <button style={this.arrowVisibility('prev')} className="chevron left" onClick={this.prev}></button>
     <ReactSwipe ref="swipe" swipeOptions={{continuous: false, startSlide: 1, callback: (i) => this.setState({ sliderPosition: i }) }}>
 
       <div>
@@ -132,7 +132,7 @@ export default class JobControl extends Component {
       </div>
 
     </ReactSwipe>
-    <button style={this.arrowVisibility('next')} className="chevronRight" onClick={this.next}></button>
+    <button style={this.arrowVisibility('next')} className="chevron right" onClick={this.next}></button>
     </section>
     );
   }
@@ -146,7 +146,7 @@ export default class JobControl extends Component {
     if (pos === 'prev')
       return (sliderPosition === 0) ? { background: 'none' } : {}
     else
-      return (sliderPosition+1 === numberSlides) ? { background: 'none' } : {}
+      return (sliderPosition + 1 === numberSlides) ? { background: 'none' } : {}
   }
 
   timeToFinish = () => {

@@ -3,16 +3,17 @@
   align-items: center;
 }
 
-.chevronLeft {
-  background: url('../../assets/glyphicons-225-chevron-left.png') no-repeat;
+.chevron {
   border: none;
-  width: 36px;
-  height: 25px;
-}
-
-.chevronRight {
-  background: url('../../assets/glyphicons-224-chevron-right.png') no-repeat;
-  border: none;
+  outline: none;
   width: 36px;
   height: 22px;
+}
+
+.left {
+  background: url('../../assets/glyphicons-225-chevron-left.png') no-repeat;
+}
+
+.right {
+  background: url('../../assets/glyphicons-224-chevron-right.png') no-repeat;
 }
