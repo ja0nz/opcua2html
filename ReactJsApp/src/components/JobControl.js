@@ -39,7 +39,8 @@ export default class JobControl extends Component {
       findAPINodeId: (API, nodeName) => {
         const r = API.find(e => e.name === nodeName);
         return (r) ? r.nodeId : null;
-      }
+      },
+      numberSlides: []
     }
 
     const { opcData } = this.props;
@@ -50,8 +51,14 @@ export default class JobControl extends Component {
       gutteile: [],
       schlechtteile: [],
       restdauer: [],
-      programmname: []
+      programmname: [],
+      sliderPosition: []
     }
+  }
+
+  componentDidMount() {
+    this.utils.numberSlides = this.refs.swipe.getNumSlides();
+    this.setState({ sliderPosition: this.refs.swipe.getPos() });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,7 +70,7 @@ export default class JobControl extends Component {
       gutteile: getOPCValue(opcData, findAPINodeId(API, 'Gutteile')),
       schlechtteile: getOPCValue(opcData, findAPINodeId(API, 'Schlechtteile')),
       restdauer: JSON.parse(getOPCValue(opcData, findAPINodeId(API, 'Restdauer'))),
-      programmname: getOPCValue(opcData, findAPINodeId(API, 'Programmname'))
+      programmname: getOPCValue(opcData, findAPINodeId(API, 'Programmname')),
     });
   }
 
@@ -73,8 +80,8 @@ export default class JobControl extends Component {
     const time = this.timeToFinish();
     return (
       <section className="carousel">
-    <button className="chevronLeft"></button>
-    <ReactSwipe swipeOptions={{continuous: false, startSlide: 1}}>
+    <button style={this.arrowVisibility('prev')} className="chevronLeft" onClick={this.prev}></button>
+    <ReactSwipe ref="swipe" swipeOptions={{continuous: false, startSlide: 1, callback: (i) => this.setState({ sliderPosition: i }) }}>
 
       <div>
         <h5>Fortschritt</h5>
@@ -125,9 +132,21 @@ export default class JobControl extends Component {
       </div>
 
     </ReactSwipe>
-    <button className="chevronRight"></button>
+    <button style={this.arrowVisibility('next')} className="chevronRight" onClick={this.next}></button>
     </section>
     );
+  }
+
+  prev = () => this.refs.swipe.prev()
+  next = () => this.refs.swipe.next()
+
+  arrowVisibility = (pos) => {
+    const { numberSlides } = this.utils;
+    const { sliderPosition } = this.state;
+    if (pos === 'prev')
+      return (sliderPosition === 0) ? { display: 'none' } : {}
+    else
+      return (sliderPosition+1 === numberSlides) ? { display: 'none' } : {}
   }
 
   timeToFinish = () => {
