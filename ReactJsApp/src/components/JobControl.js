@@ -119,7 +119,7 @@ export default class JobControl extends Component {
       </div>
 
       <div>
-        <h5>Auftragsende</h5>
+        <h5>Uhrzeit Auftragsende</h5>
         <div className="flex">
           <time dateTime={time}>
             {time.toLocaleTimeString('de-DE', {
