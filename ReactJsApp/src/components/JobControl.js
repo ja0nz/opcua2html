@@ -78,10 +78,16 @@ export default class JobControl extends Component {
     const { auftragsstueckzahl, gutteile, schlechtteile, programmname } = this.state;
     const { getPath } = this.utils;
     const time = this.timeToFinish();
+    const swipeOptions = {
+      continuous: false,
+      startSlide: 1,
+      callback: (i) => this.setState({ sliderPosition: i })
+    }
+
     return (
       <section className="carousel">
     <button style={this.arrowVisibility('prev')} className="chevron left" onClick={this.prev}></button>
-    <ReactSwipe ref="swipe" swipeOptions={{continuous: false, startSlide: 1, callback: (i) => this.setState({ sliderPosition: i }) }}>
+    <ReactSwipe ref="swipe" swipeOptions={swipeOptions}>
 
       <div>
         <h5>Fortschritt</h5>
