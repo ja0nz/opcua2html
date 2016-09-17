@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import JobGauge from './JobGauge';
 import ReactSwipe from 'react-swipe';
 import './styles/Table.css';
+import './styles/Time.css';
+import './styles/Carousel.css';
 
 export default class JobControl extends Component {
 
@@ -66,12 +68,13 @@ export default class JobControl extends Component {
   }
 
   render() {
-    const { auftragsstueckzahl, gutteile, schlechtteile, restdauer, programmname } = this.state;
+    const { auftragsstueckzahl, gutteile, schlechtteile, programmname } = this.state;
     const { getPath } = this.utils;
     const time = this.timeToFinish();
     return (
-      <section>
-    <ReactSwipe className="carousel" swipeOptions={{continuous: false, startSlide: 1}}>
+      <section className="carousel">
+    <button className="chevronLeft"></button>
+    <ReactSwipe swipeOptions={{continuous: false, startSlide: 1}}>
 
       <div>
         <h5>Fortschritt</h5>
@@ -87,21 +90,21 @@ export default class JobControl extends Component {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th>Programm:</th>
+              <th>Programm</th>
               <th>{programmname}</th>
             </tr>
           </thead>
           <tbody> 
             <tr>
-              <td>Anzahl:</td>
+              <td>Anzahl</td>
               <td>{auftragsstueckzahl}</td>
             </tr>
             <tr>
-              <td>Gutteile:</td>
+              <td>Gutteile</td>
               <td>{gutteile}</td>
             </tr>
             <tr>
-              <td>Schlechtteile:</td>
+              <td>Schlechtteile</td>
               <td>{schlechtteile}</td>
             </tr>
           </tbody>
@@ -109,14 +112,20 @@ export default class JobControl extends Component {
       </div>
 
       <div>
-        <h5>Zeit bis Ende</h5>
-        <p>
-          {`${restdauer.hours}:${restdauer.minutes}`}
-        </p>
-        <time dateTime={time.toString()}>{time.toLocaleTimeString('de-DE', { hour12: false, hour: 'numeric', minute: 'numeric' })}</time>
+        <h5>Auftragsende</h5>
+        <div className="flex">
+          <time dateTime={time}>
+            {time.toLocaleTimeString('de-DE', {
+                hour12: false,
+                hour: 'numeric',
+                minute: 'numeric'
+            })}
+          </time>
+        </div>
       </div>
 
     </ReactSwipe>
+    <button className="chevronRight"></button>
     </section>
     );
   }
