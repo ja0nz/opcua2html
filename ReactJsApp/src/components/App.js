@@ -13,8 +13,6 @@ export default class App extends Component {
     super(props);
     this.socket = io.connect(opcEndpoint);
     this.state = { opcData: [], connected: false };
-    this.utils = { prevTimestamp: [] };
-    this.qcNodes = require('../api')['qualityControlNodes'];
   }
 
   componentDidMount() {
@@ -28,25 +26,17 @@ export default class App extends Component {
     if (opcData.length > 0) {
       return (
         <section>
-        <header className="navbar bg-grey">
-          <h4>Virtual Arburg 270S</h4>
-          <div className={((connected) ? "in green" : "in red")}></div>
-        </header>
-        <JobControl 
-          opcData={opcData.filter(e => !this.qcNodes.includes(e.nodeId))}
-        />
-        <QualityControl 
-          opcData={opcData.filter(e => this.qcNodes.includes(e.nodeId))}
-        />
-        <footer>
-          <div></div>
-        </footer>
+          <header className="navbar bg-grey">
+            <h4>Virtual Arburg 270S</h4>
+            <div className={((connected) ? "in green" : "in red")}></div>
+          </header>
+          <JobControl opcData={opcData} />
+          <QualityControl opcData={opcData} />
+          <footer>
+            <div></div>
+          </footer>
         </section>
       );
     } else return null;
   }
-
-  isConnected = (msg, url, lineNo, colNo, error) =>
-    console.log(msg + url + lineNo + colNo + error)
-
 }

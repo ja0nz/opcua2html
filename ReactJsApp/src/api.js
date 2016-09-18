@@ -1,5 +1,3 @@
-exports.qualityControlNodes = ['t4011', 't4012', 't4013', 'V4064', 'V4065', 'V4066', 'p4054', 'p4055', 'p4056', 'p4071', 'p4072', 'p4073'];
-
 exports.qualityControlAPI = [
   { name: 'Zykluszeit', ref: 't4011', ist: 't4012', tol: 't4013' },
   { name: 'Umschaltvolumen', ref: 'V4064', ist: 'V4065', tol: 'V4066' },

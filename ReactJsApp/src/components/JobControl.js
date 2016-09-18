@@ -90,15 +90,6 @@ export default class JobControl extends Component {
       <ReactSwipe ref="swipe" swipeOptions={swipeConfig}>
 
         <div>
-          <h5>Fortschritt</h5>
-            <Gauge
-              gutteile={gutteile}
-              pathbg={getPath(auftragsstueckzahl, auftragsstueckzahl)}
-              pathval={getPath(auftragsstueckzahl, gutteile)}
-            />
-        </div>
-
-        <div>
           <h5>Produktionsauftrag</h5>
           <table className="table table-striped">
             <thead>
@@ -122,6 +113,15 @@ export default class JobControl extends Component {
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <div>
+          <h5>Fortschritt</h5>
+            <Gauge
+              gutteile={gutteile}
+              pathbg={getPath(auftragsstueckzahl, auftragsstueckzahl)}
+              pathval={getPath(auftragsstueckzahl, gutteile)}
+            />
         </div>
 
         <div>
