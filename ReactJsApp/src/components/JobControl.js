@@ -85,60 +85,60 @@ export default class JobControl extends Component {
     }
 
     return (
-      <section className="carousel">
-    <button style={this.toggleVisibility('prev')} className="chevron left" onClick={this.prev}></button>
-    <ReactSwipe ref="swipe" swipeOptions={swipeConfig}>
+    <section className="carousel">
+      <button style={this.toggleVisibility('prev')} className="chevron left" onClick={this.prev}></button>
+      <ReactSwipe ref="swipe" swipeOptions={swipeConfig}>
 
-      <div>
-        <h5>Fortschritt</h5>
-          <Gauge
-            gutteile={gutteile}
-            pathbg={getPath(auftragsstueckzahl, auftragsstueckzahl)}
-            pathval={getPath(auftragsstueckzahl, gutteile)}
-          />
-      </div>
-
-      <div>
-        <h5>Produktionsauftrag</h5>
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Programm</th>
-              <th>{programmname}</th>
-            </tr>
-          </thead>
-          <tbody> 
-            <tr>
-              <td>Anzahl</td>
-              <td>{auftragsstueckzahl}</td>
-            </tr>
-            <tr>
-              <td>Gutteile</td>
-              <td>{gutteile}</td>
-            </tr>
-            <tr>
-              <td>Schlechtteile</td>
-              <td>{schlechtteile}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div>
-        <h5>Uhrzeit Auftragsende</h5>
-        <div className="flex_center">
-          <time dateTime={time}>
-            {time.toLocaleTimeString('de-DE', {
-                hour12: false,
-                hour: 'numeric',
-                minute: 'numeric'
-            })}
-          </time>
+        <div>
+          <h5>Fortschritt</h5>
+            <Gauge
+              gutteile={gutteile}
+              pathbg={getPath(auftragsstueckzahl, auftragsstueckzahl)}
+              pathval={getPath(auftragsstueckzahl, gutteile)}
+            />
         </div>
-      </div>
 
-    </ReactSwipe>
-    <button style={this.toggleVisibility('next')} className="chevron right" onClick={this.next}></button>
+        <div>
+          <h5>Produktionsauftrag</h5>
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>Programm</th>
+                <th>{programmname}</th>
+              </tr>
+            </thead>
+            <tbody> 
+              <tr>
+                <td>Anzahl</td>
+                <td>{auftragsstueckzahl}</td>
+              </tr>
+              <tr>
+                <td>Gutteile</td>
+                <td>{gutteile}</td>
+              </tr>
+              <tr>
+                <td>Schlechtteile</td>
+                <td>{schlechtteile}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <h5>Uhrzeit Auftragsende</h5>
+          <div className="flex_center">
+            <time dateTime={time}>
+              {time.toLocaleTimeString('de-DE', {
+                  hour12: false,
+                  hour: 'numeric',
+                 minute: 'numeric'
+              })}
+            </time>
+          </div>
+        </div>
+
+      </ReactSwipe>
+      <button style={this.toggleVisibility('next')} className="chevron right" onClick={this.next}></button>
     </section>
     );
   }

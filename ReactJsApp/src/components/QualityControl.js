@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import QualityControlNode from './QualityControlNode';
-import './styles/spectre/Button.css';
 import Select from 'react-select';
+import './styles/spectre/Button.css';
 import 'react-select/dist/react-select.css';
+import './styles/QualityControl.css';
 
 export default class QualityControl extends Component {
 
@@ -42,14 +43,17 @@ export default class QualityControl extends Component {
 
   render() {
     const { value, qcobjects } = this.state;
+
     return (
-      <section>
-        <h3>Quality Control</h3>
+      <section className="qc">
+        <h5>Qualitätskontrolle</h5>
 			  <div className="section">
 				  <h3 className="section-heading">{this.props.label}</h3>
 				  <Select multi simpleValue 
+            clearable={false}
+            searchable={false}
             value={this.state.value} 
-            placeholder="Select your nodes" 
+            placeholder="Istwerte" 
             options={this.state.options} 
             onChange={this.setQualityNodeState}
           />

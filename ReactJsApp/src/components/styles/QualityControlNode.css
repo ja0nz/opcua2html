@@ -1,0 +1,30 @@
+.dropdown {
+  border-color: #999 transparent transparent;
+  border-style: solid;
+  border-width: 5px 5px 2.5px;
+  display: inline-block;
+  height: 0;
+  width: 0;
+}
+
+.dropdown.open {
+  border-top-color: #666;
+}
+
+.alert {
+  color: #e85600;
+  font-weight: bold;
+}
+
+.alert::after {
+  position: absolute;
+  display: inline-block;
+  left: 72%;
+  background-image: url('../../assets/glyphicons-505-alert.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 0.7rem;
+  content: '';
+  height: 2.7rem;
+  min-width: 3rem;
+}

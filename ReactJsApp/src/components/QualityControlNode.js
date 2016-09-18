@@ -2,7 +2,7 @@ import React from 'react';
 import Collapse from './Collapse';
 import './styles/spectre/Grid.css';
 import './styles/spectre/Button.css';
-import './styles/spectre/Toasts.css';
+import './styles/QualityControlNode.css';
 
 export default function({ selected, data, onDelete, onCollapse }) {
 
@@ -11,40 +11,46 @@ export default function({ selected, data, onDelete, onCollapse }) {
   }
 
   function alertStyling(name, ref, ist, tol) {
-  //  if (name !== "Zykluszeit")
       if (ref + tol < ist || ref - tol > ist)
-        return 'toast toast-danger';
+        return 'alert';
   }
 
   return (
     <section>
-        <article className="container">
-          <div className="columns">
-            <div className="column col-6">Parameter</div>
-            <div className="column col-5">Current value</div>
-          </div>
-        </article>
         {
         getRenderObjects(selected, data)
           .map(({name, ref, ist, tol, isOpen}) =>
-          <article className="container" key={name}>
+          <article className="addedheight container" key={name}>
             <div className="columns">
-              <div className="column col-6">{name}</div>
-              <div className={`column col-2 ${alertStyling(name, ref, ist, tol)}`}>
-                <span>{ist}</span>
+
+              <div className="column col-1">
+                <span className={`dropdown ${(isOpen) ? 'open' : ''}`}
+                      onClick={onCollapse.bind(null, name)}>
+                </span>
               </div>
-              <div className="column col-2">
-                <button className="btn" onClick={onCollapse.bind(null, name)}>^</button>
+
+              <div className="column col-6">
+              <p>{name}</p>
               </div>
+
+              <div className="column col-3">
+                <span className={alertStyling(name, ref, ist, tol)}>{ist}</span>
+              </div>
+              
               <div className="column col-2">
                 <button className="btn btn-primary" onClick={onDelete.bind(null, name)}>x</button>
               </div>
             </div>
             <Collapse isOpened={isOpen}>
               <div onClick={onCollapse.bind(null, name)} className="columns bg-grey">
-                <div className="column col-2">⤷</div>
-                <div className="column col-5">Ref: {ref}</div>
-                <div className="column col-5">Tol: {tol}</div>
+                <div className="column col-2"></div>
+                <div className="column col-5">Referenzwert</div>
+                <div className="column col-5">{ref}</div>
+              </div>
+              <div onClick={onCollapse.bind(null, name)} className="columns bg-grey">
+                <div className="column col-2"></div>
+                <div className="column col-5">Toleranzwert</div>
+                <div className="column col-5">{tol}</div>
               </div>
             </Collapse>
           </article>

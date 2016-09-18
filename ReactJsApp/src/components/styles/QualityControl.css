@@ -1,0 +1,7 @@
+.qc {
+  padding: 0 9px;
+}
+
+.Select--multi .Select-value-icon {
+  display: none;
+}
