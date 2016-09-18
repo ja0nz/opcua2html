@@ -1,6 +1,7 @@
 cd ReactJsApp
 npm run build
 echo opcua.stream > build/CNAME
+cp favicon.ico build/
 cd -
 git commit -am "Save local changes"
 git checkout -B gh-pages

@@ -1,3 +1,12 @@
+time {
+  font-size: 10rem;
+}
+
+.flex_center {
+  display: flex;
+  justify-content: center;
+}
+
 .carousel {
   display: flex;
   align-items: center;
@@ -6,8 +15,8 @@
 .chevron {
   border: none;
   outline: none;
-  padding: 0 12px;
-  height: 22px;
+  padding: 0 15px;
+  height: 40px;
 }
 
 .left {

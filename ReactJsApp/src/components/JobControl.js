@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import JobGauge from './JobGauge';
 import ReactSwipe from 'react-swipe';
 import './styles/Table.css';
-import './styles/Time.css';
-import './styles/Carousel.css';
+import './styles/JobControl.css';
 
 export default class JobControl extends Component {
 
@@ -78,16 +77,17 @@ export default class JobControl extends Component {
     const { auftragsstueckzahl, gutteile, schlechtteile, programmname } = this.state;
     const { getPath } = this.utils;
     const time = this.timeToFinish();
-    const swipeOptions = {
+    const swipeConfig = {
       continuous: false,
       startSlide: 1,
+      stopPropagation: true,
       callback: (i) => this.setState({ sliderPosition: i })
     }
 
     return (
       <section className="carousel">
-    <button style={this.arrowVisibility('prev')} className="chevron left" onClick={this.prev}></button>
-    <ReactSwipe ref="swipe" swipeOptions={swipeOptions}>
+    <button style={this.toggleVisibility('prev')} className="chevron left" onClick={this.prev}></button>
+    <ReactSwipe ref="swipe" swipeOptions={swipeConfig}>
 
       <div>
         <h5>Fortschritt</h5>
@@ -126,7 +126,7 @@ export default class JobControl extends Component {
 
       <div>
         <h5>Uhrzeit Auftragsende</h5>
-        <div className="flex">
+        <div className="flex_center">
           <time dateTime={time}>
             {time.toLocaleTimeString('de-DE', {
                 hour12: false,
@@ -138,7 +138,7 @@ export default class JobControl extends Component {
       </div>
 
     </ReactSwipe>
-    <button style={this.arrowVisibility('next')} className="chevron right" onClick={this.next}></button>
+    <button style={this.toggleVisibility('next')} className="chevron right" onClick={this.next}></button>
     </section>
     );
   }
@@ -146,7 +146,7 @@ export default class JobControl extends Component {
   prev = () => this.refs.swipe.prev()
   next = () => this.refs.swipe.next()
 
-  arrowVisibility = (pos) => {
+  toggleVisibility = (pos) => {
     const { numberSlides } = this.utils;
     const { sliderPosition } = this.state;
     if (pos === 'prev')
