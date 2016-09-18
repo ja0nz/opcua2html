@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import JobGauge from './JobGauge';
+import Gauge from './Gauge';
 import ReactSwipe from 'react-swipe';
-import './styles/Table.css';
+import './styles/spectre/Table.css';
 import './styles/JobControl.css';
 
 export default class JobControl extends Component {
@@ -91,7 +91,7 @@ export default class JobControl extends Component {
 
       <div>
         <h5>Fortschritt</h5>
-          <JobGauge
+          <Gauge
             gutteile={gutteile}
             pathbg={getPath(auftragsstueckzahl, auftragsstueckzahl)}
             pathval={getPath(auftragsstueckzahl, gutteile)}

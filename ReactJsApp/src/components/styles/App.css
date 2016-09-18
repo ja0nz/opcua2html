@@ -1,3 +1,16 @@
+.navbar {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.bg-grey {
+  background-color: #ededeb;
+  padding: 1rem;
+  border-radius: 0.3rem;
+}
+
 .in {
   margin-top: 5px;
   width: 22px;

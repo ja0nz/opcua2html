@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import QualityControlNode from './QualityControlNode';
-import './styles/Button.css';
+import './styles/spectre/Button.css';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 

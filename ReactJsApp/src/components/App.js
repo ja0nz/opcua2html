@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import io from 'socket.io-client';
 import QualityControl from './QualityControl';
 import JobControl from './JobControl';
-import './styles/Indicators.css';
-import './styles/Navbar.css';
+import './styles/App.css';
 
 //const opcEndpoint = `http://${require('os').hostname().toLowerCase()}:3700`;
 const opcEndpoint = `http://opc.bamoo.de:3700`;

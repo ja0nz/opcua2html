@@ -1,8 +1,8 @@
 import React from 'react';
 import Collapse from './Collapse';
-import './styles/Grid.css';
-import './styles/Button.css';
-import './styles/Toasts.css';
+import './styles/spectre/Grid.css';
+import './styles/spectre/Button.css';
+import './styles/spectre/Toasts.css';
 
 export default function({ selected, data, onDelete, onCollapse }) {
 
