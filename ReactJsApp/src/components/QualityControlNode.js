@@ -20,34 +20,28 @@ export default function({ selected, data, onDelete, onCollapse }) {
         {
         getRenderObjects(selected, data)
           .map(({name, ref, ist, tol, isOpen}) =>
-          <article className="addedheight container" key={name}>
+          <article onClick={onCollapse.bind(null, name)} className="addedheight container" key={name}>
             <div className="columns">
-
               <div className="column col-1">
-                <span className={`dropdown ${(isOpen) ? 'open' : ''}`}
-                      onClick={onCollapse.bind(null, name)}>
-                </span>
+                <span className={`dropdown ${(isOpen) ? 'open' : ''}`}></span>
               </div>
-
               <div className="column col-6">
-              <p>{name}</p>
+                <p>{name}</p>
               </div>
-
               <div className="column col-3">
                 <span className={alertStyling(name, ref, ist, tol)}>{ist}</span>
               </div>
-              
               <div className="column col-2">
                 <button className="btn btn-primary" onClick={onDelete.bind(null, name)}>x</button>
               </div>
             </div>
             <Collapse isOpened={isOpen}>
-              <div onClick={onCollapse.bind(null, name)} className="columns bg-grey">
+              <div  className="columns bg-grey">
                 <div className="column col-2"></div>
                 <div className="column col-5">Referenzwert</div>
                 <div className="column col-5">{ref}</div>
               </div>
-              <div onClick={onCollapse.bind(null, name)} className="columns bg-grey">
+              <div className="columns bg-grey">
                 <div className="column col-2"></div>
                 <div className="column col-5">Toleranzwert</div>
                 <div className="column col-5">{tol}</div>
