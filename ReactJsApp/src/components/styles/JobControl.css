@@ -11,18 +11,11 @@ time {
   display: flex;
   align-items: center;
 }
-
 .chevron {
   border: none;
   outline: none;
   padding: 0 15px;
-  height: 40px;
-}
-
-.left {
-  background: url('../../assets/glyphicons-225-chevron-left.png') no-repeat center;
-}
-
-.right {
-  background: url('../../assets/glyphicons-224-chevron-right.png') no-repeat center;
+  background: none;
+  font-size: 50px;
+  color: #dcdcdc;
 }

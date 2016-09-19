@@ -3,7 +3,7 @@ import Collapse from './Collapse';
 import './styles/spectre/Grid.css';
 import './styles/spectre/Button.css';
 import './styles/QualityControlNode.css';
-import FaMinus from 'react-icons/lib/fa/minus';
+import MdClose from 'react-icons/lib/md/close';
 
 
 export default function({ selected, data, onDelete, onCollapse }) {
@@ -37,7 +37,7 @@ export default function({ selected, data, onDelete, onCollapse }) {
                 <div className={`alertsymbol ${alertStyling(ref, ist, tol)}`}></div>
               </div>
               <div className="column col-2">
-                <button className="btn btn-primary" onClick={onDelete.bind(null, name)}>            <FaMinus />
+                <button className="btn btn-primary" onClick={onDelete.bind(null, name)}>            <MdClose />
                 </button>
               </div>
             </div>
