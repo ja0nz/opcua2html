@@ -32,6 +32,9 @@
   -ms-flex: 1;
   flex: 1;
   padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .column.col-12,
 .column.col-11,

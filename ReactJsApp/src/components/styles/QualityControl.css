@@ -2,6 +2,10 @@
   padding: 0 9px;
 }
 
+.qcheading {
+  padding-left: 2rem;
+}
+
 .Select--multi .Select-value-icon {
   display: none;
 }

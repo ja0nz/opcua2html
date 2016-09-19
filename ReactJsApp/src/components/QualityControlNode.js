@@ -14,12 +14,12 @@ export default function({ selected, data, onDelete, onCollapse }) {
   }
 
   function alertStyling(ref, ist, tol) {
-      if (ref + tol < ist || ref - tol > ist)
-        return 'alert';
+    if (ref + tol < ist || ref - tol > ist)
+      return 'alert';
   }
 
   return (
-    <section className="addedmargin">
+    <section className="qcn">
         {
         getRenderObjects(selected, data)
           .map(({name, ref, ist, tol, isOpen}) =>
@@ -33,10 +33,11 @@ export default function({ selected, data, onDelete, onCollapse }) {
               </div>
               <div className="column col-3">
                 <span className={alertStyling(ref, ist, tol)}>{ist}</span>
-                <Warning className={`floatright warning ${alertStyling(ref, ist, tol)}`}></Warning>
+                <Warning className={`warning ${alertStyling(ref, ist, tol)}`}></Warning>
               </div>
               <div className="column col-2">
-                <button className="floatright btn btn-primary" onClick={onDelete.bind(null, name)}>
+                <div></div>
+                <button className="btn btn-primary" onClick={onDelete.bind(null, name)}>
                   <Close />
                 </button>
               </div>

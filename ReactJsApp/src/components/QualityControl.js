@@ -46,7 +46,7 @@ export default class QualityControl extends Component {
 
     return (
       <section className="qc">
-        <h5>Qualitätskontrolle</h5>
+        <h5 className="qcheading">Qualitätskontrolle</h5>
 			  <div className="section">
 				  <h3 className="section-heading">{this.props.label}</h3>
 				  <Select multi simpleValue 

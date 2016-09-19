@@ -1,3 +1,11 @@
+.qcn {
+  margin-top: 1rem;
+}
+
+.qcn p {
+  margin: 0
+}
+
 .dropdown {
   transition: 0.5s;
 }
@@ -7,26 +15,18 @@
   transition: transform 0.5s;
 }
 
+.warning {
+  display: none;
+}
+
 .alert {
   color: #e85600;
   font-weight: bold;
 }
 
-.addedmargin {
-  margin-top: 2rem;
-}
-
-.floatright {
-  float: right;
-}
-
-.warning {
-  display: none;
-}
-
 .warning.alert {
   display: inline;
-  font-size: 3rem;
+  font-size: 2rem;
   animation-name: shake-horizontal;
   animation-duration: 200ms;
   animation-timing-function: ease-in-out;
