@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Gauge from './Gauge';
 import ReactSwipe from 'react-swipe';
-import './styles/spectre/Table.css';
-import './styles/JobControl.css';
 import ChevronLeft from 'react-icons/lib/md/chevron-left';
 import ChevronRight from 'react-icons/lib/md/chevron-right';
+import './styles/spectre/Table.css';
+import './styles/JobControl.css';
 
 export default class JobControl extends Component {
 
