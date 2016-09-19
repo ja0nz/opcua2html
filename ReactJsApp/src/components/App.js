@@ -26,13 +26,15 @@ export default class App extends Component {
     const { opcData, connected } = this.state;
     if (opcData.length > 0) {
       return (
-        <section>
-          <header className="navbar bg-grey">
+        <section className="app">
+          <header className="header bg-grey">
             <h4>Virtual Arburg 270S</h4>
             <div className={((connected) ? "in green" : "in red")}></div>
           </header>
-          <JobControl opcData={opcData} />
-          <QualityControl opcData={opcData} />
+          <div className="content">
+            <JobControl opcData={opcData} />
+            <QualityControl opcData={opcData} />
+          </div>
           <Footer />
         </section>
       );

@@ -1,4 +1,14 @@
-.navbar {
+.app {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+}
+
+.header {
   align-items: center;
   display: flex;
   justify-content: space-between;
