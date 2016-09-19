@@ -19,9 +19,6 @@ html {
   -webkit-text-size-adjust: 100%;
   /* 2 */
   -ms-text-size-adjust: 100%;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-between;
   /* 3 */
 }
 /**
@@ -29,6 +26,10 @@ html {
  */
 body {
   margin: 0;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
 }
 /* HTML5 display definitions
    ========================================================================== */
