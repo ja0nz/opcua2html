@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import io from 'socket.io-client';
 import QualityControl from './QualityControl';
 import JobControl from './JobControl';
+import Footer from './Footer';
 import './styles/App.css';
 
 //const opcEndpoint = `http://${require('os').hostname().toLowerCase()}:3700`;
@@ -32,9 +33,7 @@ export default class App extends Component {
           </header>
           <JobControl opcData={opcData} />
           <QualityControl opcData={opcData} />
-          <footer>
-            <div></div>
-          </footer>
+          <Footer />
         </section>
       );
     } else return null;

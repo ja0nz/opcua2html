@@ -116,7 +116,7 @@ export default class JobControl extends Component {
         </div>
 
         <div>
-          <h5>Fortschritt</h5>
+          <h5>Auftragsfortschritt</h5>
             <Gauge
               gutteile={gutteile}
               pathbg={getPath(auftragsstueckzahl, auftragsstueckzahl)}
@@ -125,7 +125,7 @@ export default class JobControl extends Component {
         </div>
 
         <div>
-          <h5>Uhrzeit Auftragsende</h5>
+          <h5>Auftragsende</h5>
           <div className="flex_center">
             <time dateTime={time}>
               {time.toLocaleTimeString('de-DE', {

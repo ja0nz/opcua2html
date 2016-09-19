@@ -10,7 +10,7 @@ export default function({ selected, data, onDelete, onCollapse }) {
     return selected.map(e => data.find(f => f.name === e))
   }
 
-  function alertStyling(name, ref, ist, tol) {
+  function alertStyling(ref, ist, tol) {
       if (ref + tol < ist || ref - tol > ist)
         return 'alert';
   }
@@ -28,8 +28,11 @@ export default function({ selected, data, onDelete, onCollapse }) {
               <div className="column col-6">
                 <p>{name}</p>
               </div>
-              <div className="column col-3">
-                <span className={alertStyling(name, ref, ist, tol)}>{ist}</span>
+              <div className="column col-1">
+                <span className={alertStyling(ref, ist, tol)}>{ist}</span>
+              </div>
+              <div className="column col-2">
+                <div className={`alertsymbol ${alertStyling(ref, ist, tol)}`}></div>
               </div>
               <div className="column col-2">
                 <button className="btn btn-primary" onClick={onDelete.bind(null, name)}>x</button>

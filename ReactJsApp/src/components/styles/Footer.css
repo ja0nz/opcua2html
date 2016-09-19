@@ -1,0 +1,64 @@
+footer {
+padding: 0.5rem 1rem;
+margin-top: 2rem;
+text-align: right;
+letter-spacing: 0.05rem;
+}
+
+footer a {
+text-decoration: none;
+}
+
+.svgfooter {
+  max-height: 20px;
+  max-width: 20px;
+  transform: translate(0, 9px);
+}
+
+circle {
+  fill: transparent;
+  stroke-width: 4;
+}
+
+#one {
+  stroke: #000;
+  stroke-dasharray: 150 101;
+  stroke-dashoffset: -101;
+  animation: one 10s infinite linear;
+}
+
+@keyframes one {
+  to {
+    stroke-dashoffset: 150;
+  }
+}
+
+#two {
+  stroke: #FF6633;
+  stroke-dasharray: 60 128.5;
+  stroke-dashoffset: -128.5;
+  animation: two 5s infinite linear;
+}
+
+@keyframes two {
+  to {
+    stroke-dashoffset: 60;
+  }
+}
+
+#three {
+  stroke: #000;
+  stroke-dasharray: 75 51;
+  stroke-dashoffset: -51;
+  animation: three 3s infinite linear;
+}
+
+@keyframes three {
+  to {
+    stroke-dashoffset: 75;
+  }
+}
+
+#four {
+  fill: #FF6633;
+}

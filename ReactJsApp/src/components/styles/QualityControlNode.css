@@ -16,15 +16,23 @@
   font-weight: bold;
 }
 
-.alert::after {
-  position: absolute;
-  display: inline-block;
-  left: 72%;
+.alertsymbol.alert {
   background-image: url('../../assets/glyphicons-505-alert.png');
   background-repeat: no-repeat;
   background-position: center;
-  border-radius: 0.7rem;
-  content: '';
-  height: 2.7rem;
-  min-width: 3rem;
+  min-height: 22px;
+  min-width: 22px;
+  animation-name: shake-horizontal;
+  animation-duration: 200ms;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 2;
+}
+
+@keyframes shake-horizontal {
+  25% {
+    transform: translate(2px, 0);
+  }
+  75% {
+    transform: translate(-2px, 0);
+  }
 }
