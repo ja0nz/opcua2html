@@ -14,22 +14,17 @@ export default class JobControl extends Component {
 
     this.utils = {
       getPath: (max, value) => {
-        //  width: 350,
-        //  height: 200,
-        const dx = 0;
-        const dy = 0;
-
-        const alpha = (1 - value / max) * Math.PI;
-        const Ro = 350 / 2 - 350 / 10;
-        const Ri = Ro - 350 / 6.666666666666667;
-
-        const Cx = 350 / 2 + dx;
-        const Cy = 200 / 1.25 + dy;
-
-        const Xo = 350 / 2 + dx + Ro * Math.cos(alpha);
-        const Yo = 200 - (200 - Cy) - Ro * Math.sin(alpha);
-        const Xi = 350 / 2 + dx + Ri * Math.cos(alpha);
-        const Yi = 200 - (200 - Cy) - Ri * Math.sin(alpha);
+        const dx = 0,
+          dy = 0,
+          alpha = (max > 0) ? (1 - value / max) * Math.PI : Math.PI,
+          Ro = 350 / 2 - 350 / 10,
+          Ri = Ro - 350 / 6.666666666666667,
+          Cx = 350 / 2 + dx,
+          Cy = 200 / 1.25 + dy,
+          Xo = 350 / 2 + dx + Ro * Math.cos(alpha),
+          Yo = 200 - (200 - Cy) - Ro * Math.sin(alpha),
+          Xi = 350 / 2 + dx + Ri * Math.cos(alpha),
+          Yi = 200 - (200 - Cy) - Ri * Math.sin(alpha);
 
         return `M ${Cx - Ri}, ${Cy} L ${Cx - Ro}, ${Cy} A ${Ro}, ${Ro} 0 0 1 ${Xo}, ${Yo} L ${Xi}, ${Yi} A ${Ri}, ${Ri} 0 0 0 ${Cx - Ri}, ${Cy} Z`;
       },
@@ -44,11 +39,8 @@ export default class JobControl extends Component {
       numberSlides: []
     }
 
-    const { opcData } = this.props;
-    const API = this.jobAPI;
-    const { getOPCValue, findAPINodeId } = this.utils;
     this.state = {
-      auftragsstueckzahl: getOPCValue(opcData, findAPINodeId(API, 'Auftragsstueckzahl')),
+      auftragsstueckzahl: [],
       gutteile: [],
       schlechtteile: [],
       restdauer: { hours: 0, minutes: 0 },
@@ -68,6 +60,7 @@ export default class JobControl extends Component {
     const { getOPCValue, findAPINodeId } = this.utils;
 
     this.setState({
+      auftragsstueckzahl: getOPCValue(opcData, findAPINodeId(API, 'Auftragsstueckzahl')),
       gutteile: getOPCValue(opcData, findAPINodeId(API, 'Gutteile')),
       schlechtteile: getOPCValue(opcData, findAPINodeId(API, 'Schlechtteile')),
       restdauer: JSON.parse(getOPCValue(opcData, findAPINodeId(API, 'Restdauer'))),
@@ -87,9 +80,20 @@ export default class JobControl extends Component {
     }
 
     return (
-    <section className="carousel">
+      <section className="carousel">
       <div className="chevron" onClick={this.prev}><ChevronLeft style={this.toggleVisibility('prev')} /></div>
       <ReactSwipe ref="swipe" swipeOptions={swipeConfig}>
+
+        <div>
+          <h5>Auftragsfortschritt</h5>
+            <div className="flex_center">
+              <Gauge
+                gutteile={gutteile}
+                pathbg={getPath(auftragsstueckzahl, auftragsstueckzahl)}
+                pathval={getPath(auftragsstueckzahl, gutteile)}
+              />
+            </div>
+        </div>
 
         <div>
           <h5>Produktionsauftrag</h5>
@@ -113,17 +117,6 @@ export default class JobControl extends Component {
               </tr>
             </tbody>
           </table>
-        </div>
-
-        <div>
-          <h5>Auftragsfortschritt</h5>
-            <div className="flex_center">
-              <Gauge
-                gutteile={gutteile}
-                pathbg={getPath(auftragsstueckzahl, auftragsstueckzahl)}
-                pathval={getPath(auftragsstueckzahl, gutteile)}
-              />
-            </div>
         </div>
 
         <div>
