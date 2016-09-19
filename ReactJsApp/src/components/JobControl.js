@@ -3,6 +3,8 @@ import Gauge from './Gauge';
 import ReactSwipe from 'react-swipe';
 import './styles/spectre/Table.css';
 import './styles/JobControl.css';
+import ChevronLeft from 'react-icons/lib/md/chevron-left';
+import ChevronRight from 'react-icons/lib/md/chevron-right';
 
 export default class JobControl extends Component {
 
@@ -49,7 +51,7 @@ export default class JobControl extends Component {
       auftragsstueckzahl: getOPCValue(opcData, findAPINodeId(API, 'Auftragsstueckzahl')),
       gutteile: [],
       schlechtteile: [],
-      restdauer: [],
+      restdauer: { hours: 0, minutes: 0 },
       programmname: [],
       sliderPosition: []
     }
@@ -86,19 +88,17 @@ export default class JobControl extends Component {
 
     return (
     <section className="carousel">
-      <button style={this.toggleVisibility('prev')} className="chevron left" onClick={this.prev}></button>
+      <div className="chevron" onClick={this.prev}><ChevronLeft style={this.toggleVisibility('prev')} /></div>
       <ReactSwipe ref="swipe" swipeOptions={swipeConfig}>
 
         <div>
           <h5>Produktionsauftrag</h5>
           <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>Programm</th>
-                <th>{programmname}</th>
-              </tr>
-            </thead>
             <tbody> 
+              <tr>
+                <td>Programm</td>
+                <td>{programmname}</td>
+              </tr>
               <tr>
                 <td>Anzahl</td>
                 <td>{auftragsstueckzahl}</td>
@@ -138,7 +138,7 @@ export default class JobControl extends Component {
         </div>
 
       </ReactSwipe>
-      <button style={this.toggleVisibility('next')} className="chevron right" onClick={this.next}></button>
+      <div className="chevron" onClick={this.next}><ChevronRight style={this.toggleVisibility('next')} /></div>
     </section>
     );
   }
@@ -150,9 +150,9 @@ export default class JobControl extends Component {
     const { numberSlides } = this.utils;
     const { sliderPosition } = this.state;
     if (pos === 'prev')
-      return (sliderPosition === 0) ? { background: 'none' } : {}
+      return (sliderPosition === 0) ? { display: 'none' } : {}
     else
-      return (sliderPosition + 1 === numberSlides) ? { background: 'none' } : {}
+      return (sliderPosition + 1 === numberSlides) ? { display: 'none' } : {}
   }
 
   timeToFinish = () => {

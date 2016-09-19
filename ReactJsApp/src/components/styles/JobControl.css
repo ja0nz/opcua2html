@@ -13,16 +13,7 @@ time {
 }
 
 .chevron {
-  border: none;
-  outline: none;
-  padding: 0 15px;
-  height: 40px;
-}
-
-.left {
-  background: url('../../assets/glyphicons-225-chevron-left.png') no-repeat center;
-}
-
-.right {
-  background: url('../../assets/glyphicons-224-chevron-right.png') no-repeat center;
+ font-size: 3rem; 
+ color: #dcdcdc;
+ min-width: 30px;
 }
