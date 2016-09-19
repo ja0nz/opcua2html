@@ -117,11 +117,13 @@ export default class JobControl extends Component {
 
         <div>
           <h5>Auftragsfortschritt</h5>
-            <Gauge
-              gutteile={gutteile}
-              pathbg={getPath(auftragsstueckzahl, auftragsstueckzahl)}
-              pathval={getPath(auftragsstueckzahl, gutteile)}
-            />
+            <div className="flex_center">
+              <Gauge
+                gutteile={gutteile}
+                pathbg={getPath(auftragsstueckzahl, auftragsstueckzahl)}
+                pathval={getPath(auftragsstueckzahl, gutteile)}
+              />
+            </div>
         </div>
 
         <div>

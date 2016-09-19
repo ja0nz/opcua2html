@@ -1,5 +1,6 @@
 .gauge {
-  max-width: 500px;
+  height: 99vw;
+  max-height: 200px;
 }
 
 .gauge-bg {
