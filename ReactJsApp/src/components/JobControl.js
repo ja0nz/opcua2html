@@ -3,6 +3,10 @@ import Gauge from './Gauge';
 import ReactSwipe from 'react-swipe';
 import './styles/spectre/Table.css';
 import './styles/JobControl.css';
+import MdChevronLeft from 'react-icons/lib/md/chevron-left';
+import MdChevronRight from 'react-icons/lib/md/chevron-right';
+
+
 
 export default class JobControl extends Component {
 
@@ -86,7 +90,8 @@ export default class JobControl extends Component {
 
     return (
     <section className="carousel">
-      <button style={this.toggleVisibility('prev')} className="chevron left" onClick={this.prev}></button>
+      <button style={this.toggleVisibility('prev')} className="chevron" onClick={this.prev}><MdChevronLeft/></button>
+
       <ReactSwipe ref="swipe" swipeOptions={swipeConfig}>
 
         <div>
@@ -138,7 +143,7 @@ export default class JobControl extends Component {
         </div>
 
       </ReactSwipe>
-      <button style={this.toggleVisibility('next')} className="chevron right" onClick={this.next}></button>
+      <button style={this.toggleVisibility('next')} className="chevron" onClick={this.next}><MdChevronRight/></button>
     </section>
     );
   }
