@@ -19,6 +19,9 @@ html {
   -webkit-text-size-adjust: 100%;
   /* 2 */
   -ms-text-size-adjust: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
   /* 3 */
 }
 /**
