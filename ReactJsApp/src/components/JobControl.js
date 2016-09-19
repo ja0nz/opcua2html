@@ -94,8 +94,8 @@ export default class JobControl extends Component {
           <table className="table table-striped">
             <thead>
               <tr>
-                <th>Programm</th>
-                <th>{programmname}</th>
+                <td>Programm</td>
+                <td>{programmname}</td>
               </tr>
             </thead>
             <tbody> 
