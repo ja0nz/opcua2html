@@ -11,7 +11,6 @@ export default class JobControl extends Component {
   constructor(props) {
     super(props);
     this.jobAPI = require('../api')['jobControlAPI'];
-
     this.utils = {
       getPath: (max, value) => {
         const dx = 0,
@@ -38,15 +37,7 @@ export default class JobControl extends Component {
       },
       numberSlides: []
     }
-
-    this.state = {
-      auftragsstueckzahl: [],
-      gutteile: [],
-      schlechtteile: [],
-      restdauer: { hours: 0, minutes: 0 },
-      programmname: [],
-      sliderPosition: []
-    }
+    this.state = this.getState(this.props);
   }
 
   componentDidMount() {
@@ -55,17 +46,7 @@ export default class JobControl extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { opcData } = nextProps;
-    const API = this.jobAPI;
-    const { getOPCValue, findAPINodeId } = this.utils;
-
-    this.setState({
-      auftragsstueckzahl: getOPCValue(opcData, findAPINodeId(API, 'Auftragsstueckzahl')),
-      gutteile: getOPCValue(opcData, findAPINodeId(API, 'Gutteile')),
-      schlechtteile: getOPCValue(opcData, findAPINodeId(API, 'Schlechtteile')),
-      restdauer: JSON.parse(getOPCValue(opcData, findAPINodeId(API, 'Restdauer'))),
-      programmname: getOPCValue(opcData, findAPINodeId(API, 'Programmname')),
-    });
+    this.setState(this.getState(nextProps));
   }
 
   render() {
@@ -136,6 +117,20 @@ export default class JobControl extends Component {
       <div className="chevron" onClick={this.next}><ChevronRight style={this.toggleVisibility('next')} /></div>
     </section>
     );
+  }
+
+  getState = (props) => {
+    const { opcData } = props;
+    const API = this.jobAPI;
+    const { getOPCValue, findAPINodeId } = this.utils;
+
+    return {
+      auftragsstueckzahl: getOPCValue(opcData, findAPINodeId(API, 'Auftragsstueckzahl')),
+      gutteile: getOPCValue(opcData, findAPINodeId(API, 'Gutteile')),
+      schlechtteile: getOPCValue(opcData, findAPINodeId(API, 'Schlechtteile')),
+      restdauer: JSON.parse(getOPCValue(opcData, findAPINodeId(API, 'Restdauer'))),
+      programmname: getOPCValue(opcData, findAPINodeId(API, 'Programmname')),
+    }
   }
 
   prev = () => this.refs.swipe.prev()

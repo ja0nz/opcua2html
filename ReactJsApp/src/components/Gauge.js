@@ -18,10 +18,6 @@ export default ({ gutteile, pathbg, pathval }) => (
     <path className="gauge-val" d={pathval} filter="url(#g3-inner-shadow)" />
     <text className="gutteile">
       <tspan x={350 / 2} y={200 / 5 * 4}>{ gutteile }</tspan>
-      {
-      // <tspan x={350 / 2} y={200 / 1.6}>{ gutteile }</tspan>
-      // <tspan x={350 / 2} dy={30}>Gutteile</tspan>
-      }
     </text>
   </svg>
 );
