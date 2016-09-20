@@ -15,7 +15,6 @@ export default class QualityControl extends Component {
     this.utils = {
       noUndef: (r) => (r) ? r.value : null
     }
-
     this.state = {
       qcobjects: this.qcAPI
         .map(e => ({ name: e.name, isOpen: false })),
@@ -30,7 +29,6 @@ export default class QualityControl extends Component {
     const { opcData } = nextProps;
     const { qcobjects } = this.state;
     const { noUndef } = this.utils;
-
     this.setState({
       qcobjects: this.qcAPI
         .map((e, i) => Object.assign(qcobjects[i], {

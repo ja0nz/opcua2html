@@ -24,7 +24,6 @@ export default class JobControl extends Component {
           Yo = 200 - (200 - Cy) - Ro * Math.sin(alpha),
           Xi = 350 / 2 + dx + Ri * Math.cos(alpha),
           Yi = 200 - (200 - Cy) - Ri * Math.sin(alpha);
-
         return `M ${Cx - Ri}, ${Cy} L ${Cx - Ro}, ${Cy} A ${Ro}, ${Ro} 0 0 1 ${Xo}, ${Yo} L ${Xi}, ${Yi} A ${Ri}, ${Ri} 0 0 0 ${Cx - Ri}, ${Cy} Z`;
       },
       getOPCValue: (opcData, APINodeId) => {
@@ -123,7 +122,6 @@ export default class JobControl extends Component {
     const { opcData } = props;
     const API = this.jobAPI;
     const { getOPCValue, findAPINodeId } = this.utils;
-
     return {
       auftragsstueckzahl: getOPCValue(opcData, findAPINodeId(API, 'Auftragsstueckzahl')),
       gutteile: getOPCValue(opcData, findAPINodeId(API, 'Gutteile')),
