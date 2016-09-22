@@ -10,9 +10,9 @@ export default class JobControl extends Component {
 
   constructor(props) {
     super(props);
-    this.jobAPI = require('../api')['jobControlAPI'];
+    this.jobAPI = require('../api')['jobControlAPI']; // jobAPI describes the key value binding: {name: , nodeId: }
     this.utils = {
-      getPath: (max, value) => {
+      getPath: (max, value) => { // returns the SVG path
         const dx = 0,
           dy = 0,
           alpha = (max > 0) ? (1 - value / max) * Math.PI : Math.PI,
@@ -26,11 +26,11 @@ export default class JobControl extends Component {
           Yi = 200 - (200 - Cy) - Ri * Math.sin(alpha);
         return `M ${Cx - Ri}, ${Cy} L ${Cx - Ro}, ${Cy} A ${Ro}, ${Ro} 0 0 1 ${Xo}, ${Yo} L ${Xi}, ${Yi} A ${Ri}, ${Ri} 0 0 0 ${Cx - Ri}, ${Cy} Z`;
       },
-      getOPCValue: (opcData, APINodeId) => {
+      getOPCValue: (opcData, APINodeId) => { // search the OPCData for nodeIds mentioned in the jobAPI and returns the value of the nodeId
         const r = opcData.find(e => e.nodeId === APINodeId);
         return (r) ? r.value : null;
       },
-      findAPINodeId: (API, nodeName) => {
+      findAPINodeId: (API, nodeName) => { // search the jobAPI for a given nodeName String and return the corresponding nodeId
         const r = API.find(e => e.name === nodeName);
         return (r) ? r.nodeId : null;
       },
@@ -39,7 +39,7 @@ export default class JobControl extends Component {
     this.state = this.getState(this.props);
   }
 
-  componentDidMount() {
+  componentDidMount() { // lookup after the first rendering occurs, state of the slider
     this.utils.numberSlides = this.refs.swipe.getNumSlides();
     this.setState({ sliderPosition: this.refs.swipe.getPos() });
   }
@@ -131,10 +131,10 @@ export default class JobControl extends Component {
     }
   }
 
-  prev = () => this.refs.swipe.prev()
+  prev = () => this.refs.swipe.prev() // Slider movement
   next = () => this.refs.swipe.next()
 
-  toggleVisibility = (pos) => {
+  toggleVisibility = (pos) => { // chevron visibility
     const { numberSlides } = this.utils;
     const { sliderPosition } = this.state;
     if (pos === 'prev')
@@ -143,7 +143,7 @@ export default class JobControl extends Component {
       return (sliderPosition + 1 === numberSlides) ? { display: 'none' } : {}
   }
 
-  timeToFinish = () => {
+  timeToFinish = () => { // returns a Date object with the time the current job finishes
     const { restdauer } = this.state;
     return new Date(Date.now() + (restdauer.hours * 3600000) + (restdauer.minutes * 60000));
   }

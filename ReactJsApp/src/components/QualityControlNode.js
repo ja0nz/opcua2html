@@ -9,7 +9,7 @@ import './styles/QualityControlNode.css';
 
 export default function({ selected, data, onDelete, onCollapse }) {
 
-  function getRenderObjects(selected, data) {
+  function getRenderObjects(selected, data) { // filter the objects which are selected by the user in the select component
     return selected.map(e => data.find(f => f.name === e))
   }
 

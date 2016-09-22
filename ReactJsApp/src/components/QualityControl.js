@@ -10,18 +10,18 @@ export default class QualityControl extends Component {
   constructor(props) {
     super(props);
     const { opcData } = this.props;
-    this.qcAPI = require('../api')['qualityControlAPI'];
+    this.qcAPI = require('../api')['qualityControlAPI']; // qcAPI describes the connection between the Quality Control values
 
     this.utils = {
       noUndef: (r) => (r) ? r.value : null
     }
     this.state = {
       qcobjects: this.qcAPI
-        .map(e => ({ name: e.name, isOpen: false })),
+        .map(e => ({ name: e.name, isOpen: false })), // for each qcApi element create a new object {name: , isOpen: false }
       options: this.qcAPI
-        .filter(e => opcData.find(f => f.nodeId === e.ist))
-        .map(e => ({ label: e.name, value: e.name })),
-      value: []
+        .filter(e => opcData.find(f => f.nodeId === e.ist)) // filter only the needed QC nodes from the opcData
+        .map(e => ({ label: e.name, value: e.name })), // for each QC node create a new object {label: , value}
+      value: [] // defines which values are selected by the user in the select component
     };
   }
 
@@ -31,7 +31,7 @@ export default class QualityControl extends Component {
     const { noUndef } = this.utils;
     this.setState({
       qcobjects: this.qcAPI
-        .map((e, i) => Object.assign(qcobjects[i], {
+        .map((e, i) => Object.assign(qcobjects[i], { // assign to each QC object the values from the opcData
           ref: noUndef(opcData.find(f => f.nodeId === e.ref)),
           ist: noUndef(opcData.find(f => f.nodeId === e.ist)),
           tol: noUndef(opcData.find(f => f.nodeId === e.tol))
@@ -66,7 +66,7 @@ export default class QualityControl extends Component {
     );
   }
 
-  collapseNode = (id, e) => {
+  collapseNode = (id, e) => { // open or close the nodes for extra values
     e.stopPropagation();
     this.setState({
       qcobjects: this.state.qcobjects
@@ -74,13 +74,13 @@ export default class QualityControl extends Component {
     });
   }
 
-  setQualityNodeState = (value) => {
+  setQualityNodeState = (value) => { // runs each time a user selects a value in the select component 
     this.setState({
       value: (value) ? value.split(',') : []
     });
   }
 
-  deleteQualityNode = (id, e) => {
+  deleteQualityNode = (id, e) => { // delete the QC node
     e.stopPropagation();
     this.setState({
       value: this.state.value.filter(f => f !== id)
