@@ -17,5 +17,5 @@ Plotting data from a virtual OPCUA Machine via ReactJS to the browser.
     $ opcua2html/OPCExpressServer	-> node node_express_server.js
     $ opcua2html/OPCExpressServer	-> node opcua_virtual_arburg_server.js
     $
-    $ # start the dev engine
+    $ # start the ReactJs dev server
     $ opcua2html/ReactJsApp			-> npm start
