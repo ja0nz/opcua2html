@@ -1,7 +1,7 @@
 opcua2html
 ====================
 
-![alt text](docs/Screenshot.png)
+<img src="/docs/Screenshot.png" alt="Screenshot" width="270" height="480">
 
 ##### install 
 
