@@ -3,7 +3,7 @@ opcua2html
 
 Plotting data from a virtual OPCUA Machine via ReactJS to the browser.
 
-<img src="/docs/Screenshot.png" alt="Screenshot">
+<img src="/docs/Screenshot.png" alt="Screenshot" width="270">
 
 ##### install 
 
