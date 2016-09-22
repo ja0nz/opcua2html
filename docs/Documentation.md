@@ -19,13 +19,13 @@ This repo contains....
 
 ## ReactJS App
 
-ReactJS is very suitable for printing OPCUA data in the browser as it can handle even big chunks of incoming data and updates the UI pretty fast.
+ReactJS is a good fit for displaying OPCUA data as it handles even big chunks of incoming data with ease and updates the UI in a snap.
 
-During the process I used the official [Create-React-App](https://github.com/facebookincubator/create-react-app) dev environment. It is very well documented and provides valuable insights about the architecture of a react app.
+For development I used the official [Create-React-App](https://github.com/facebookincubator/create-react-app) dev environment. It is very well documented and provides valuable insights about the architecture of a react app.
 - `npm start` let you start the dev server
 - `npm run build` let you produce a optimized production build
 
-Furthermore I found it very helpful to develope with the official [React Development Tools Extension](https://facebook.github.io/react/blog/2015/09/02/new-react-developer-tools.html) for Chrome/Firefox as you can catch the underlying data in a glimpse.
+Furthermore I found it very helpful to develope with the official [React Development Tools Extension](https://facebook.github.io/react/blog/2015/09/02/new-react-developer-tools.html) for Chrome/Firefox as you can catch the processes under the hood.
 
 
 ### React Components
@@ -34,11 +34,11 @@ Furthermore I found it very helpful to develope with the official [React Develop
 
 **Short explanation about the [components](https://github.com/ja-nz/opcua2html/tree/master/ReactJsApp/src/components) used in this project:**
 
-- [`App.js`](https://github.com/ja-nz/opcua2html/blob/master/ReactJsApp/src/components/App.js) is the Root Component of the ReactJS App. It's controlling the WebSocket Connection and the distribution of the opcData to the other Components. Furthermore it renders the Header and Footer.
+- [`App.js`](https://github.com/ja-nz/opcua2html/blob/master/ReactJsApp/src/components/App.js) is the root component of the ReactJS app. It's controlling the WebSocket connection and the distribution of the opcData to the other components. Furthermore it renders the Header and Footer.
 
-- [`JobControl.js`](https://github.com/ja-nz/opcua2html/blob/master/ReactJsApp/src/components/JobControl.js) is another stateful component which is responsible for the correct rendering of the job control section. It is passing the SVG Path to the stateless SVG Gauge component, calculating the end of the current job and rendering the passed OPC data itself too.
+- [`JobControl.js`](https://github.com/ja-nz/opcua2html/blob/master/ReactJsApp/src/components/JobControl.js) is another stateful component which is responsible for the correct rendering of the job control section. It is passing the SVG Path to the stateless SVG Gauge component, calculating the end of the current job and rendering the passed OPC data related to the [jobAPI](https://github.com/ja-nz/opcua2html/blob/master/ReactJsApp/src/api.js).
 
-- [`QualityControl.js`](https://github.com/ja-nz/opcua2html/blob/master/ReactJsApp/src/components/QualityControl.js) is a stateful component too. It is responsible for rendering the Selection Component and passing data to the [QualityControlNode.js](https://github.com/ja-nz/opcua2html/blob/master/ReactJsApp/src/components/QualityControlNode.js) and handling click Events from this component.
+- [`QualityControl.js`](https://github.com/ja-nz/opcua2html/blob/master/ReactJsApp/src/components/QualityControl.js) is a stateful component too. It is responsible for rendering the selection component and passing the data related to the [qualityControlAPI](https://github.com/ja-nz/opcua2html/blob/master/ReactJsApp/src/api.js) to the [QualityControlNode](https://github.com/ja-nz/opcua2html/blob/master/ReactJsApp/src/components/QualityControlNode.js) component and handling click events from this component.
 
 ### Styling
 
