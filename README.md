@@ -1,16 +1,17 @@
 opcua2html
 ====================
 
+Plotting data from a virtual OPCUA Machine via ReactJS to the browser.
+
 <img src="/docs/Screenshot.png" alt="Screenshot">
 
 ##### install 
 
     $ git clone https://github.com/ja-nz/opcua2html
-    $ cd opcua2html/ReactJsApp
-    $ npm i
-    $ cd -
-    $ cd opcua2html/OPCExpressServer
-    $ npm i
+    $
+    $ # install dependencies for Front- & Backend
+    $ opcua2html/ReactJsApp 		-> npm i
+    $ opcua2html/OPCExpressServer 	-> npm i
     $
     $ # start virtual OPC server and express server
     $ cd OPCExpressServer
