@@ -13,3 +13,23 @@ This repo contains....
 
 
 - a [ReactJS](https://facebook.github.io/react/) Frontend for fetching and printing the OPCUA Data in the browser. Link to the ReactJS Frontend: [ReactJsApp](https://github.com/ja-nz/opcua2html/tree/master/ReactJsApp)
+
+
+
+
+## ReactJS App
+
+ReactJS is very suitable for printing OPCUA data in the browser as it can handle even big chunks of incoming data and updates the UI pretty fast.
+
+During the process I used the official [Create-React-App](https://github.com/facebookincubator/create-react-app) dev environment. It is very well documented and provides valuable insights about the architecture of a react app.
+- `npm start` let you start the dev server
+- `npm run build` let you produce a optimized production build
+
+Furthermore I found it very helpful to develope with the official [React Development Tools Extension](https://facebook.github.io/react/blog/2015/09/02/new-react-developer-tools.html) for Chrome/Firefox as you can catch the underlying data in a glimpse.
+
+
+### React Components
+
+[What is a component?](https://facebook.github.io/react/docs/thinking-in-react.html) 
+
+**Short explanation about the [components](https://github.com/ja-nz/opcua2html/tree/master/ReactJsApp/src/components) used in this project:**
