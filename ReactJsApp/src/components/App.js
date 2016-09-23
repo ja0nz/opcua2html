@@ -5,7 +5,8 @@ import JobControl from './JobControl';
 import Footer from './Footer';
 import './styles/App.css';
 
-const opcEndpoint = `http://${require('os').hostname().toLowerCase()}:3700`;
+const opcEndpoint = 'http://opc.bamoo.de:3700';
+//const opcEndpoint = `http://${require('os').hostname().toLowerCase()}:3700`;
 
 export default class App extends Component {
 
