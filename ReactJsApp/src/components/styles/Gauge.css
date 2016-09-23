@@ -1,6 +1,5 @@
 .gauge {
-  height: 99vw;
-  max-height: 200px;
+  flex: 0 1 25rem;
 }
 
 .gauge-bg {
