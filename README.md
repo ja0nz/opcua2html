@@ -5,17 +5,9 @@ Plotting data from a virtual OPCUA Machine via ReactJS to the browser.
 
 <img src="/docs/Screenshot.png" alt="Screenshot" width="270">
 
-Demo
-====================
-
-You can find a Demo of this Mobile Webapplication on
-http://opcua.stream (This link will change within next weeks)
-Make sure that you test it on a mobile device. 
 
 
-
-
-##### install 
+## install 
 
     $ git clone https://github.com/ja-nz/opcua2html
     $
