@@ -5,7 +5,7 @@ import JobControl from './JobControl';
 import Footer from './Footer';
 import './styles/App.css';
 
-const opcEndpoint = `http://opcua.fhws.de:8080`;
+const opcEndpoint = `http://${require('os').hostname().toLowerCase()}:3700`;
 
 export default class App extends Component {
 
